@@ -18,12 +18,11 @@ nav {
   */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 200ms linear;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-
 }
 
 .scrolled {
