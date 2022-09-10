@@ -1,4 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+onMounted(() => {
+  console.log("mounted")
+  setPageLayout('test')
+})
+definePageMeta({
+  title: 'About',
+  description: 'This is the about page',
+})
+</script>
 
 <template>
   <div>
@@ -6,4 +15,6 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
