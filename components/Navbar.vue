@@ -17,5 +17,17 @@ nav {
   background-color: #fff;
   */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 200ms linear;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+}
+
+.scrolled {
+  background-color: #fff;
+  color: #050505;
 }
 </style>
