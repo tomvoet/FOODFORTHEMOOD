@@ -11,9 +11,7 @@ definePageMeta({
 </script>
 
 <template>
-    <div class="mainbg">
-        <h1>Welcome</h1>Testss
-    </div>
+    <div>Test</div>
 </template>
 
 <style scoped>
