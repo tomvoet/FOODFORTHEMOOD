@@ -8,7 +8,10 @@ const { data } = await useFetch<{ status: number, user: User }>(`/api/user/${rou
 const status = data.value?.status
 const user = data.value?.user
 
-const { data: posts } = await useFetch<{ status: number, posts: Post[] }>(`/api/post?author=${route.params.username}`)
+const { data: postsData } = await useFetch<{ status: number, posts: Post[] }>(`/api/post?author=${route.params.username}`)
+
+const postsStatus = postsData.value?.status
+const posts = postsData.value?.posts
 </script>
 
 <template>
