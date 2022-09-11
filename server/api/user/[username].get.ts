@@ -9,5 +9,14 @@ export default defineEventHandler(async (event) => {
         }
     })
 
-    return user
+    if(!user) {
+        return {
+            status: 404,
+            body: {
+                user: null
+            }
+        }
+    }
+
+    return {status: 200, user}
 })

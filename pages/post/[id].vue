@@ -1,19 +1,20 @@
 <script lang="ts" setup>
 import { Post } from '.prisma/client';
-
 const route = useRoute()
 
-const { data } = await useAsyncData(() =>
-    $fetch<Post>(`/api/post/${route.params.id}`)
-)
+const { data } = await useFetch<{ status: number, post: Post }>(`/api/post/${route.params.id}`)
 
-const post = data.value
+const status = data.value?.status
+const resBody = data.value?.post
 </script>
     
 <template>
     <div>
-        <div v-if="post">
-            {{ post }}
+        <div v-if="status == 200">
+            {{ resBody }}
+        </div>
+        <div v-else-if="status == 404">
+            404
         </div>
         <div v-else>
             Loading...
@@ -22,6 +23,6 @@ const post = data.value
 </template>
     
 <style scoped>
-dasd
+
 </style>
     
