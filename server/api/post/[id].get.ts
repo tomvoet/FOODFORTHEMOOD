@@ -6,6 +6,20 @@ export default defineEventHandler(async (event) => {
     const post = await prisma.post.findUnique({
         where: {
             id: Number(id)
+        },
+        select: {
+            id: true,
+            authorId: true,
+            title: true,
+            content: true,
+            createdAt: true,
+            published: true,
+            author: {
+                select: {
+                    id: true,
+                    username: true,
+                }
+            }
         }
     })
 

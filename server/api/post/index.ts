@@ -36,7 +36,22 @@ export default defineEventHandler(async (event) => {
 
         return {status: 200, posts}
     } else {
-        const posts = await prisma.post.findMany();
+        const posts = await prisma.post.findMany({
+            select: {
+                id: true,
+                authorId: true,
+                title: true,
+                content: true,
+                createdAt: true,
+                published: true,
+                author: {
+                    select: {
+                        id: true,
+                        username: true,
+                    }
+                }
+            }
+        });
 
         if(!posts) {
             return {

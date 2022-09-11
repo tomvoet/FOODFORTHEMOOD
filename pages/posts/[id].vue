@@ -11,7 +11,20 @@ const resBody = data.value?.post
 <template>
     <div>
         <div v-if="status == 200">
-            {{ resBody }}
+            <div class="post">
+                <div class="postTitle">
+                    {{ resBody?.title }}
+                </div>
+                <div class="postContent">
+                    {{ resBody?.content }}
+                </div>
+                <div class="timeStamp">
+                    {{ resBody?.createdAt.toLocaleString() }}
+                </div>
+                <div>
+                    <NuxtLink :to="'/user/' + resBody?.author.username">Author: {{resBody?.author.username}}</NuxtLink>
+                </div>
+            </div>
         </div>
         <div v-else-if="status == 404">
             404
@@ -23,6 +36,12 @@ const resBody = data.value?.post
 </template>
     
 <style scoped>
-
+.post {
+    width: 50%;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 5px;
+}
 </style>
     

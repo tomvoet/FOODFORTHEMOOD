@@ -10,8 +10,21 @@ const posts = data.value?.posts
 <template>
     <div>
         <div v-if="status == 200">
-            <div v-for="post of posts">
-                <NuxtLink :to="'/posts/' + post.id">{{post}}</NuxtLink>
+            <div class="postsContainer">
+                <div v-for="post of posts" class="post">
+                    <div class="postTitle">
+                        <NuxtLink :to="'/posts/' + post.id">{{post.title}}</NuxtLink>
+                    </div>
+                    <div class="postContent">
+                        {{ post.content }}
+                    </div>
+                    <div class="timeStamp">
+                        {{ post.createdAt.toLocaleString() }}
+                    </div>
+                    <div>
+                        <NuxtLink :to="'/user/' + post.author.username">Author: {{post.author.username}}</NuxtLink>
+                    </div>
+                </div>
             </div>
         </div>
         <div v-else-if="status == 404">
@@ -24,5 +37,17 @@ const posts = data.value?.posts
 </template>
 
 <style scoped>
+.postsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.post {
+    width: 50%;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 5px;
+}
 </style>
