@@ -28,9 +28,7 @@ export default defineEventHandler(async (event) => {
     if(!posts) {
         return {
             status: 404,
-            body: {
-                posts: null
-            }
+            posts: null
         }
     }
 
@@ -38,9 +36,7 @@ export default defineEventHandler(async (event) => {
     } else {
         return {
             status: 404,
-            body: {
-                posts: null
-            }
+            posts: null
         }
     }
 
