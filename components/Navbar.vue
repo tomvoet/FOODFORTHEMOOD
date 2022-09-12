@@ -3,6 +3,7 @@
 <template>
     <nav class="mainbg">
         <NuxtLink id="logo" to="/"><h1>Welcome</h1></NuxtLink>
+        <ModalTest />
         Testss
     </nav>
 </template>
