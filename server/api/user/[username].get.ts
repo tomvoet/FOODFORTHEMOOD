@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
             id: true,
             username: true,
             bio: true,
+            image: true,
         },
     })
 

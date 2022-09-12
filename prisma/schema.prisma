@@ -17,6 +17,7 @@ model User {
   password_hash String
   posts         Post[]
   createdAt     DateTime @default(now())
+  image         String?
   bio           String?
 }
 

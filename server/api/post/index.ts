@@ -17,6 +17,9 @@ export default defineEventHandler(async (event) => {
                 },
             },
         },
+        orderBy: {
+            createdAt: "desc",
+        },
     })
 
     if (!posts) {

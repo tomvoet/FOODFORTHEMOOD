@@ -10,6 +10,8 @@ const { data } = await useFetch<{ status: number; user: User | null }>(
 const status = data.value?.status
 const user = data.value?.user
 
+console.log(user)
+
 const { data: postsData } = await useFetch<{ status: number; posts: Post[] }>(
     `/api/user/${route.params.username}/posts`
 )
@@ -23,6 +25,10 @@ const posts = postsData.value?.posts
 <template>
     <div v-if="status == 200">
         <h1>{{ user?.username }}</h1>
+        <img
+            class="profilePicture"
+            :src="user?.image || '/assets/imgs/blankpicture.png'"
+        />
         <div>
             {{ user?.bio }}
         </div>
@@ -37,7 +43,17 @@ const posts = postsData.value?.posts
                     {{ post.content }}
                 </div>
                 <div class="timeStamp">
-                    {{ post.createdAt.toLocaleString() }}
+                    {{
+                        `${new Date(post.createdAt).toLocaleTimeString(
+                            "de-DE",
+                            {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            }
+                        )} | ${new Date(post.createdAt).toLocaleDateString(
+                            "de-DE"
+                        )}`
+                    }}
                 </div>
             </div>
         </div>
@@ -59,5 +75,28 @@ const posts = postsData.value?.posts
     padding: 1rem;
     border: 1px solid black;
     border-radius: 5px;
+}
+
+.postTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.postContent {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.timeStamp {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: gray;
+}
+
+.profilePicture {
+    width: 6em;
+    height: 6em;
+    border-radius: 50%;
+    object-fit: cover;
 }
 </style>
