@@ -1,8 +1,7 @@
 import prisma from "@/server/services/dbManager"
-import { Post } from "@prisma/client"
 
 export default defineEventHandler(async (event) => {
-    const query = useQuery(event)
+    const query = useQuery(event) // vielleicht für index oder so oder erste 100
 
     const posts = await prisma.post.findMany({
         select: {
@@ -11,7 +10,6 @@ export default defineEventHandler(async (event) => {
             title: true,
             content: true,
             createdAt: true,
-            published: true,
             author: {
                 select: {
                     id: true,

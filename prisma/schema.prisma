@@ -17,13 +17,13 @@ model User {
   password_hash String
   posts         Post[]
   createdAt     DateTime @default(now())
+  bio           String?
 }
 
 model Post {
   id        Int      @id @default(autoincrement())
   title     String
-  content   String?
-  published Boolean  @default(false)
+  content   String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
   createdAt DateTime @default(now())

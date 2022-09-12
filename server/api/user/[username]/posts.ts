@@ -15,7 +15,6 @@ export default defineEventHandler(async (event) => {
                     title: true,
                     content: true,
                     createdAt: true,
-                    published: true,
                 },
             },
         },

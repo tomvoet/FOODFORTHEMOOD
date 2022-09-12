@@ -7,6 +7,11 @@ export default defineEventHandler(async (event) => {
         where: {
             username: username,
         },
+        select: {
+            id: true,
+            username: true,
+            bio: true,
+        },
     })
 
     if (!user) {

@@ -23,6 +23,9 @@ const posts = postsData.value?.posts
 <template>
     <div v-if="status == 200">
         <h1>{{ user?.username }}</h1>
+        <div>
+            {{ user?.bio }}
+        </div>
         <div v-if="postsStatus == 200" class="postsContainer">
             <div v-for="post of posts" :key="post.id" class="post">
                 <div class="postTitle">

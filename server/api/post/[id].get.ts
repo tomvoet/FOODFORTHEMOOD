@@ -13,7 +13,6 @@ export default defineEventHandler(async (event) => {
             title: true,
             content: true,
             createdAt: true,
-            published: true,
             author: {
                 select: {
                     id: true,
