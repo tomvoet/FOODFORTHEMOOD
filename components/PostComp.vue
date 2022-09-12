@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Post } from "@prisma/client"
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     post: Post
     author?: {

@@ -14,8 +14,6 @@ const { data: postsData } = await useFetch<{ status: number; posts: Post[] }>(
     `/api/user/${route.params.username}/posts`
 )
 
-console.log(postsData.value?.posts)
-
 const postsStatus = postsData.value?.status
 const posts = postsData.value?.posts
 </script>

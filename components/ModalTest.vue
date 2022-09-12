@@ -1,24 +1,13 @@
-<script lang="ts">
-const modalOpen = useState("modalOpen", () => false)
+<script lang="ts" setup>
+const modalOpen = ref(false)
 
-function openModal() {
+const openModal = () => {
     modalOpen.value = true
 }
 
-function closeModal() {
+const closeModal = () => {
     modalOpen.value = false
 }
-
-export default defineNuxtComponent({
-    name: "ModalTest",
-    setup() {
-        return {
-            modalOpen,
-            openModal,
-            closeModal,
-        }
-    },
-})
 </script>
 
 <template>
