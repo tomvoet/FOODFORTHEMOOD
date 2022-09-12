@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
             email: event.context.params.username,
             username: event.context.params.username,
             password_hash: event.context.params.username,
-        }
+        },
     })
     return user
 })

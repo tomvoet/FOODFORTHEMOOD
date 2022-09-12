@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 
     const post = await prisma.post.findUnique({
         where: {
-            id: Number(id)
+            id: Number(id),
         },
         select: {
             id: true,
@@ -18,19 +18,19 @@ export default defineEventHandler(async (event) => {
                 select: {
                     id: true,
                     username: true,
-                }
-            }
-        }
+                },
+            },
+        },
     })
 
-    if(!post) {
+    if (!post) {
         return {
             status: 404,
             body: {
-                post: null
-            }
+                post: null,
+            },
         }
     }
 
-    return {status: 200, post}
+    return { status: 200, post }
 })

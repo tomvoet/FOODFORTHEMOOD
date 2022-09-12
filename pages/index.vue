@@ -1,12 +1,11 @@
-
 <script lang="ts" setup>
 useAsyncData(async () => {
-    const response: String = await $fetch('/api/hello')
+    const response: string = await $fetch("/api/hello")
     console.log(response, "test")
 })
 definePageMeta({
-    title: 'Home',
-    description: 'This is the home page',
+    title: "Home",
+    description: "This is the home page",
 })
 </script>
 
@@ -14,6 +13,4 @@ definePageMeta({
     <div>Test</div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

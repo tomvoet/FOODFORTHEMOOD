@@ -2,33 +2,31 @@
 const route = useRoute()
 
 onMounted(() => {
-  document.onscroll = () => {
-    const nav = document.getElementById("nav")
-    if (nav) {
-      if (window.scrollY > 0) {
-        nav.classList.add("scrolled")
-      } else {
-        nav.classList.remove("scrolled")
-      }
+    document.onscroll = () => {
+        const nav = document.getElementById("nav")
+        if (nav) {
+            if (window.scrollY > 0) {
+                nav.classList.add("scrolled")
+            } else {
+                nav.classList.remove("scrolled")
+            }
+        }
     }
-  }
 })
 
 useHead({
-  title: `Testapp - ${route.meta.title}`,
+    title: `Testapp - ${route.meta.title}`,
 })
 </script>
 
 <template>
-  <div id="app">
-    <Navbar id="nav" />
-    Layout: default
-    <NuxtLink to="/">Home</NuxtLink>
-    <NuxtLink to="/about">About</NuxtLink>
-    <slot />
-  </div>
+    <div id="app">
+        <Navbar id="nav" />
+        Layout: default
+        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/about">About</NuxtLink>
+        <slot />
+    </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

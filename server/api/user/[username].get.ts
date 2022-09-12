@@ -5,16 +5,16 @@ export default defineEventHandler(async (event) => {
 
     const user = await prisma.user.findUnique({
         where: {
-            username: username
-        }
+            username: username,
+        },
     })
 
-    if(!user) {
+    if (!user) {
         return {
             status: 404,
-            user: null
+            user: null,
         }
     }
 
-    return {status: 200, user}
+    return { status: 200, user }
 })

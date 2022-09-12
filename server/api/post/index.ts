@@ -4,12 +4,12 @@ import { Post } from "@prisma/client"
 export default defineEventHandler(async (event) => {
     const query = useQuery(event)
 
-    if(query.author!==undefined && query.author!==null) {
+    if (query.author !== undefined && query.author !== null) {
         const username: string = query.author.toString()
 
         const postList = await prisma.user.findUnique({
             where: {
-                username: username
+                username: username,
             },
             select: {
                 posts: {
@@ -20,21 +20,20 @@ export default defineEventHandler(async (event) => {
                         content: true,
                         createdAt: true,
                         published: true,
-                    }
-                }
-            }     
-                
+                    },
+                },
+            },
         })
 
-        if(!postList) {
+        if (!postList) {
             return {
                 status: 404,
-                posts: null
+                posts: null,
             }
         }
         const posts: Post[] = postList?.posts
 
-        return {status: 200, posts}
+        return { status: 200, posts }
     } else {
         const posts = await prisma.post.findMany({
             select: {
@@ -48,19 +47,20 @@ export default defineEventHandler(async (event) => {
                     select: {
                         id: true,
                         username: true,
-                    }
-                }
-            }
-        });
+                    },
+                },
+            },
+        })
 
-        if(!posts) {
+        if (!posts) {
             return {
                 status: 404,
-                posts: null
+                posts: null,
             }
         }
 
-        return {status: 200, posts}
-    }
+        posts[0].author
 
+        return { status: 200, posts: posts }
+    }
 })

@@ -6,7 +6,7 @@ const { data } = await useFetch(`/api/post/${route.params.id}`)
 const status = data.value?.status
 const resBody = data.value?.post
 </script>
-    
+
 <template>
     <div v-if="status == 200">
         <div class="post">
@@ -20,18 +20,16 @@ const resBody = data.value?.post
                 {{ resBody?.createdAt.toLocaleString() }}
             </div>
             <div>
-                <NuxtLink :to="'/user/' + resBody?.author.username">Author: {{resBody?.author.username}}</NuxtLink>
+                <NuxtLink :to="'/user/' + resBody?.author.username"
+                    >Author: {{ resBody?.author.username }}</NuxtLink
+                >
             </div>
         </div>
     </div>
-    <div v-else-if="status == 404">
-        404
-    </div>
-    <div v-else>
-        Loading...
-    </div>
+    <div v-else-if="status == 404">404</div>
+    <div v-else>Loading...</div>
 </template>
-    
+
 <style scoped>
 .post {
     width: 50%;
@@ -41,4 +39,3 @@ const resBody = data.value?.post
     border-radius: 5px;
 }
 </style>
-    

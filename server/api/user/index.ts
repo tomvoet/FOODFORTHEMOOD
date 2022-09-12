@@ -1,14 +1,14 @@
 import prisma from "@/server/services/dbManager"
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
     const users = await prisma.user.findMany()
 
-    if(!users) {
+    if (!users) {
         return {
             status: 404,
-            users: null
+            users: null,
         }
     }
 
-    return {status: 200, users: users}
+    return { status: 200, users: users }
 })
