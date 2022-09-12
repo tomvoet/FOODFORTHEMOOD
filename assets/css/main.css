@@ -25,3 +25,15 @@ h6 {
   background-color: var(--main-bg-color);
   color: #ffffff;
 }
+
+a {
+  color: black;
+}
+
+a:hover {
+  color: blue;
+}
+
+a:active {
+  color: red;
+}

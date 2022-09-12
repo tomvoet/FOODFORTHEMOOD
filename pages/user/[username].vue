@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { User, Post } from ".prisma/client"
+import { User, Post } from "@prisma/client"
 
 const route = useRoute()
 
@@ -9,8 +9,6 @@ const { data } = await useFetch<{ status: number; user: User | null }>(
 
 const status = data.value?.status
 const user = data.value?.user
-
-console.log(user)
 
 const { data: postsData } = await useFetch<{ status: number; posts: Post[] }>(
     `/api/user/${route.params.username}/posts`
@@ -23,7 +21,7 @@ const posts = postsData.value?.posts
 </script>
 
 <template>
-    <div v-if="status == 200">
+    <div v-if="status == 200 && user">
         <h1>{{ user?.username }}</h1>
         <img
             class="profilePicture"
@@ -33,29 +31,12 @@ const posts = postsData.value?.posts
             {{ user?.bio }}
         </div>
         <div v-if="postsStatus == 200" class="postsContainer">
-            <div v-for="post of posts" :key="post.id" class="post">
-                <div class="postTitle">
-                    <NuxtLink :to="'/posts/' + post.id">{{
-                        post.title
-                    }}</NuxtLink>
-                </div>
-                <div class="postContent">
-                    {{ post.content }}
-                </div>
-                <div class="timeStamp">
-                    {{
-                        `${new Date(post.createdAt).toLocaleTimeString(
-                            "de-DE",
-                            {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            }
-                        )} | ${new Date(post.createdAt).toLocaleDateString(
-                            "de-DE"
-                        )}`
-                    }}
-                </div>
-            </div>
+            <PostComp
+                v-for="post in posts"
+                :key="post.id"
+                :post="post"
+                :author="{ username: user?.username, id: user?.id }"
+            />
         </div>
     </div>
     <div v-else-if="status == 404">404</div>
@@ -67,30 +48,6 @@ const posts = postsData.value?.posts
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.post {
-    width: 50%;
-    margin: 1rem;
-    padding: 1rem;
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-.postTitle {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.postContent {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-}
-
-.timeStamp {
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    color: gray;
 }
 
 .profilePicture {
