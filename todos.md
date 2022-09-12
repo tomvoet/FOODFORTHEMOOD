@@ -3,3 +3,7 @@
 
 ### refresh nuxt data
 nach z.b. add new comment oder post 
+
+### move login and register into components
+
+move logincomponent into nav dropdown
