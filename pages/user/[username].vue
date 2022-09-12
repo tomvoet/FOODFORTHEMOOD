@@ -18,29 +18,27 @@ const posts = postsData.value?.posts
 </script>
 
 <template>
-  <div>
-    <div v-if="status == 200">
-      <h1>{{ user?.username }}</h1>
-      <div v-if="postsStatus == 200" class="postsContainer">
-        <div v-for="post of posts" class="post">
-          <div class="postTitle">
-            <NuxtLink :to="'/posts/' + post.id">{{post.title}}</NuxtLink>
-          </div>
-          <div class="postContent">
-            {{ post.content }}
-          </div>
-          <div class="timeStamp">
-            {{ post.createdAt.toLocaleString() }}
-          </div>
+  <div v-if="status == 200">
+    <h1>{{ user?.username }}</h1>
+    <div v-if="postsStatus == 200" class="postsContainer">
+      <div v-for="post of posts" class="post">
+        <div class="postTitle">
+          <NuxtLink :to="'/posts/' + post.id">{{post.title}}</NuxtLink>
+        </div>
+        <div class="postContent">
+          {{ post.content }}
+        </div>
+        <div class="timeStamp">
+          {{ post.createdAt.toLocaleString() }}
         </div>
       </div>
-      <div v-else-if="status == 404">
-        404
-      </div>
-      <div v-else>
-        Loading...
-      </div>
     </div>
+  </div>
+  <div v-else-if="status == 404">
+    404
+  </div>
+  <div v-else>
+    Loading...
   </div>
 </template>
 

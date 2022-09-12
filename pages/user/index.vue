@@ -8,18 +8,16 @@ const users = data.value?.users
 </script>
     
 <template>
-    <div>
-        <div v-if="status == 200">
-            <div v-for="user of users">
-                <NuxtLink :to="'/user/' + user.username">{{user}}</NuxtLink>
-            </div>
+    <div v-if="status == 200">
+        <div v-for="user of users">
+            <NuxtLink :to="'/user/' + user.username">{{user}}</NuxtLink>
         </div>
-        <div v-else-if="status == 404">
-            404
-        </div>
-        <div v-else>
-            Loading...
-        </div>
+    </div>
+    <div v-else-if="status == 404">
+        404
+    </div>
+    <div v-else>
+        Loading...
     </div>
 </template>
     
