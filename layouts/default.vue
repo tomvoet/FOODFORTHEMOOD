@@ -22,10 +22,8 @@ useHead({
 <template>
     <div id="app">
         <Navbar id="nav" />
-        Layout: default
-        <NuxtLink to="/">Home</NuxtLink>
-        <NuxtLink to="/about">About</NuxtLink>
         <slot />
+        <FooterBar />
     </div>
 </template>
 
