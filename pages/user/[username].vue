@@ -22,11 +22,11 @@ const posts = postsData.value?.posts
 
 <template>
     <div v-if="status == 200 && user">
-        <h1>{{ user?.username }}</h1>
         <img
             class="profilePicture"
             :src="user?.image || '/assets/imgs/blankpicture.png'"
         />
+        <h1>{{ user?.username }}</h1>
         <div>
             {{ user?.bio }}
         </div>
@@ -48,6 +48,11 @@ const posts = postsData.value?.posts
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+h1 {
+    font-size: 2rem;
+    display: inline-block;
 }
 
 .profilePicture {

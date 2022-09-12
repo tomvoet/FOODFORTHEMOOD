@@ -11,7 +11,7 @@ definePageMeta({
 </script>
 
 <template>
-    <div v-if="status === 200">
+    <div v-if="status === 200" class="postsContainer">
         <PostComp
             v-for="post in posts"
             :key="post.id"

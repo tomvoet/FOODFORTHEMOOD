@@ -2,7 +2,7 @@
 
 <template>
     <nav class="mainbg">
-        <h1>Welcome</h1>
+        <NuxtLink id="logo" to="/"><h1>Welcome</h1></NuxtLink>
         Testss
     </nav>
 </template>
@@ -29,5 +29,12 @@ nav {
 .scrolled {
     background-color: #fff;
     color: #050505;
+}
+
+#logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
 }
 </style>
