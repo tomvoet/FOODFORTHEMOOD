@@ -11,7 +11,7 @@ const status = data.value?.status
 const user = data.value?.user
 
 const { data: postsData } = await useFetch<{ status: number; posts: Post[] }>(
-    `/api/post?author=${route.params.username}`
+    `/api/user/${route.params.username}/posts`
 )
 
 console.log(postsData.value?.posts)
