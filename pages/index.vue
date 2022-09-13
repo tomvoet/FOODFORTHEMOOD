@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-const { data } = await useFetch("/api/post")
+import { getAllPosts } from "@/composables/getAllPosts"
 
-const status = data.value?.status
-const posts = data.value?.posts
+const { status, posts } = await getAllPosts() // maybe remove await for better performance and non blocking nav
 
 definePageMeta({
     title: "Home",
