@@ -17,4 +17,5 @@ export default defineNuxtConfig({
     nitro: {
         storage: {},
     },
+    ssr: true,
 })
