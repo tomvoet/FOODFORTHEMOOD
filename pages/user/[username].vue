@@ -1,25 +1,39 @@
 <script lang="ts" setup>
 import { User, Post } from "@prisma/client"
+import test from "node:test"
+import type { Ref } from "vue"
 
 const route = useRoute()
 
-const { data } = await useFetch<{ status: number; user: User | null }>(
-    `/api/user/${route.params.username}`
-)
+const username = computed(() => route.params.username as string)
 
-const status = data.value?.status
-const user = data.value?.user
+const { data: userData } = await useFetch<{
+    status: number
+    user: User | null
+}>(`/api/user/${username.value}`, {
+    key: `user/${username.value}`,
+    server: true,
+})
 
-const { data: postsData } = await useFetch<{ status: number; posts: Post[] }>(
-    `/api/user/${route.params.username}/posts`
-)
+const userStatus = userData.value?.status
+const user = userData.value?.user
 
-const postsStatus = postsData.value?.status
-const posts = postsData.value?.posts
+const postsStatus: Ref<number | null | undefined> = ref(null)
+const posts: Ref<Post[] | null | undefined> = ref(null)
+
+useFetch<{ status: number; posts: Post[] }>(
+    `/api/user/${route.params.username}/posts`,
+    {
+        key: `user/${username.value}/posts`,
+    }
+).then((res) => {
+    postsStatus.value = res.data.value?.status
+    posts.value = res.data.value?.posts
+})
 </script>
 
 <template>
-    <div v-if="status == 200 && user">
+    <div v-if="userStatus == 200 && user">
         <img
             class="profilePicture"
             :src="user?.image || '/assets/imgs/blankpicture.png'"
@@ -36,8 +50,14 @@ const posts = postsData.value?.posts
                 :author="{ username: user?.username, id: user?.id }"
             />
         </div>
+        <div v-else-if="postsStatus == 404">
+            <h1>No posts found</h1>
+        </div>
+        <div v-else>
+            <h1>Loading...</h1>
+        </div>
     </div>
-    <div v-else-if="status == 404">404</div>
+    <div v-else-if="userStatus == 404">404</div>
     <div v-else>Loading...</div>
 </template>
 
