@@ -18,6 +18,21 @@ const { data: userData } = await useFetch<{
 const userStatus = userData.value?.status
 const user = userData.value?.user
 
+const img: Ref<string> = ref("/assets/imgs/blankpicture.png")
+
+useFetch<{ status: number; image: string | null }>(
+    `/api/user/${username.value}/profilepicture`,
+    {
+        key: `user/${username.value}/profilepicture`,
+    }
+).then((res) => {
+    if (res.data.value?.status === 200) {
+        if (res.data.value?.image) {
+            img.value = res.data.value?.image
+        }
+    }
+})
+
 const postsStatus: Ref<number | null | undefined> = ref(null)
 const posts: Ref<Post[] | null | undefined> = ref(null)
 
@@ -34,10 +49,7 @@ useFetch<{ status: number; posts: Post[] }>(
 
 <template>
     <div v-if="userStatus == 200 && user">
-        <img
-            class="profilePicture"
-            :src="user?.image || '/assets/imgs/blankpicture.png'"
-        />
+        <img class="profilePicture" :src="img" />
         <h1>{{ user?.username }}</h1>
         <div>
             {{ user?.bio }}

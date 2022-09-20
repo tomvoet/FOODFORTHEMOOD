@@ -8,18 +8,12 @@ export default defineEventHandler(async (event) => {
             username: username,
         },
         select: {
-            id: true,
-            username: true,
-            bio: true,
+            image: true,
         },
     })
 
-    if (!user) {
-        return {
-            status: 404,
-            user: null,
-        }
+    return {
+        status: 200,
+        image: user?.image,
     }
-
-    return { status: 200, user }
 })
