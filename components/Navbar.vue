@@ -1,10 +1,38 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useUserStore } from "@/stores/userStore"
+
+const userStore = useUserStore()
+
+const logout = () => {
+    const router = useRouter()
+    userStore.logout()
+    router.push("/")
+}
+
+const goToLogin = () => {
+    const router = useRouter()
+    router.push("/login")
+}
+
+const userPath = computed(() => {
+    if (userStore.user) {
+        return `/user/${userStore.user.username}`
+    }
+    return "/login"
+})
+</script>
 
 <template>
     <nav class="mainbg">
         <NuxtLink id="logo" to="/"><h1>Welcome</h1></NuxtLink>
         <ModalTest />
         Testss
+        <div v-if="userStore.user && userStore.user.username">
+            {{ userStore.user.username }}
+            <NuxtLink :to="userPath">Profile</NuxtLink>
+        </div>
+        <button v-if="userStore.loggedIn" @click="logout">Logout</button>
+        <button v-else @click="goToLogin">Login</button>
     </nav>
 </template>
 
