@@ -17,12 +17,17 @@ export default defineEventHandler(async (event) => {
             id: true,
             authorId: true,
             title: true,
-            content: true,
+            reviewStars: true,
+            reviewText: true,
             createdAt: true,
             author: {
                 select: {
-                    id: true,
                     username: true,
+                },
+            },
+            restaurant: {
+                select: {
+                    name: true,
                 },
             },
         },

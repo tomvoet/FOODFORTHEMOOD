@@ -6,7 +6,6 @@ const props = defineProps<{
     post: Post
     author?: {
         username: string
-        id: number
     }
 }>()
 </script>
@@ -17,7 +16,7 @@ const props = defineProps<{
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
         </div>
         <div class="postContent">
-            {{ post.content }}
+            {{ post.reviewText }}
         </div>
         <div class="timeStamp">
             {{
