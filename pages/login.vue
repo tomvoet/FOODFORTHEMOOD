@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-const username = ref("")
-const password = ref("")
+import type { Ref } from "vue"
+
+const username: Ref<string> = ref("")
+const password: Ref<string> = ref("")
 
 const login = async () => {
     const user = await useFetch("/api/auth/login", {
@@ -10,8 +12,10 @@ const login = async () => {
             password: password.value,
         }),
     })
+    console.log("user:" + user)
 
     if (user) {
+        console.log(user)
         const router = useRouter()
         router.push("/")
     }
