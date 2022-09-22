@@ -15,8 +15,11 @@ const props = defineProps<{
         <div class="postTitle">
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
         </div>
+        <div class="reviewStars">
+            <StarRating :rating="post.rating" />
+        </div>
         <div class="postContent">
-            {{ post.reviewText }}
+            {{ post.text }}
         </div>
         <div class="timeStamp">
             {{
