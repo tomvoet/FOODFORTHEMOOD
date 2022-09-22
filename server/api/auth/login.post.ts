@@ -1,5 +1,6 @@
 import prisma from "@/server/services/dbManager"
 import bcrypt from "bcrypt"
+import { generateAccessToken } from "@/server/services/jwt"
 
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)
@@ -13,8 +14,9 @@ export default defineEventHandler(async (event) => {
 
     if (!user) {
         return {
-            statusCode: 401,
+            status: 401,
             message: "Invalid credentials",
+            user: null,
         }
     }
 
@@ -22,16 +24,18 @@ export default defineEventHandler(async (event) => {
 
     if (!isPasswordValid) {
         return {
-            statusCode: 401,
+            status: 401,
             message: "Invalid credentials",
+            user: null,
         }
     }
+
+    const token = generateAccessToken(user.username)
 
     const returnUser = {
         id: user.id,
         username: user.username,
-        email: user.email,
     }
 
-    return { status: 200, user: returnUser }
+    return { status: 200, user: returnUser, token }
 })
