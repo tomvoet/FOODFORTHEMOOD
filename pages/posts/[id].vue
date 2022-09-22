@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 const route = useRoute()
 
-const { data } = await useFetch(`/api/post/${route.params.id}`)
+const { data } = await useFetch(`/api/post/${route.params.id}`, {
+    key: `post/${route.params.id}`,
+    server: true,
+})
 
 const status = data.value?.status
 const post = data.value?.post
