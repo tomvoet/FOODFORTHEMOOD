@@ -1,10 +1,16 @@
 <script lang="ts" setup>
 import type { Ref } from "vue"
+import { useUserStore } from "@/stores/userStore"
+
+const userStore = useUserStore()
 
 const username: Ref<string> = ref("")
 const password: Ref<string> = ref("")
 
 const login = async () => {
+    await userStore.login(username.value, password.value)
+    console.log(userStore.token)
+    /*
     const user = await useFetch("/api/auth/login", {
         method: "POST",
         body: JSON.stringify({
@@ -12,15 +18,13 @@ const login = async () => {
             password: password.value,
         }),
     })
-    console.log("user:" + user)
 
     if (user) {
         console.log(user)
-        const router = useRouter()
-        router.push("/")
+        //const router = useRouter()
+        //router.push("/")
     }
-
-    console.log(user)
+    */
 }
 </script>
 
