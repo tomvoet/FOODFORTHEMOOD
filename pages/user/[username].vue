@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { User, Post } from "@prisma/client"
-import test from "node:test"
 import type { Ref } from "vue"
 
 const route = useRoute()
