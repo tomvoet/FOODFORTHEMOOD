@@ -27,8 +27,8 @@ model Post {
   title        String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId Int
-  reviewStars  Int        @db.SmallInt @default(5)
-  reviewText   String?
+  rating       Int        @db.SmallInt @default(5)
+  text         String?
   chosenFood   String?
   author       User       @relation(fields: [authorId], references: [username])
   authorId     String  

@@ -17,8 +17,8 @@ export default defineEventHandler(async (event) => {
             id: true,
             authorId: true,
             title: true,
-            reviewStars: true,
-            reviewText: true,
+            rating: true,
+            text: true,
             createdAt: true,
             author: {
                 select: {
