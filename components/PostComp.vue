@@ -21,6 +21,9 @@ const props = defineProps<{
         <div class="postContent">
             {{ post.text }}
         </div>
+        <div class="debug">
+            <pre>{{ post }}</pre>
+        </div>
         <div class="timeStamp">
             {{
                 `${new Date(post.createdAt).toLocaleTimeString("de-DE", {

@@ -30,6 +30,20 @@ export default defineEventHandler(async (event) => {
                     name: true,
                 },
             },
+            comments: {
+                select: {
+                    id: true,
+                    authorId: true,
+                    createdAt: true,
+                    text: true,
+                },
+                take: 3,
+            },
+            favorites: {
+                select: {
+                    username: true,
+                },
+            },
         },
         orderBy: {
             createdAt: "desc",
