@@ -15,5 +15,16 @@ export default defineNuxtConfig({
     nitro: {
         storage: {},
     },
+    modules: [
+        [
+            "@pinia/nuxt",
+            {
+                autoImports: ["defineStore"],
+            },
+        ],
+    ],
+    imports: {
+        dirs: ["@/stores"],
+    },
     ssr: true,
 })
