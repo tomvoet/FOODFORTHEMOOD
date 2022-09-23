@@ -28,9 +28,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const returnUser = {
-        id: user.id,
         username: user.username,
-        email: user.email,
     }
 
     return { status: 200, user: returnUser }

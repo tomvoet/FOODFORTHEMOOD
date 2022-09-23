@@ -22,10 +22,30 @@ export default defineEventHandler(async (event) => {
                 ...params,
                 select: {
                     id: true,
-                    authorId: true,
                     title: true,
-                    content: true,
+                    text: true,
+                    rating: true,
+                    chosenFood: true,
                     createdAt: true,
+                    favorites: {
+                        select: {
+                            username: true,
+                        },
+                    },
+                    restaurant: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                    comments: {
+                        select: {
+                            id: true,
+                            authorId: true,
+                            createdAt: true,
+                            text: true,
+                        },
+                        take: 3,
+                    },
                 },
                 orderBy: {
                     createdAt: "desc",

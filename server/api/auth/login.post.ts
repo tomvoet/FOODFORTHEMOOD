@@ -33,7 +33,6 @@ export default defineEventHandler(async (event) => {
     const token = generateAccessToken(user.username)
 
     const returnUser = {
-        id: user.id,
         username: user.username,
     }
 

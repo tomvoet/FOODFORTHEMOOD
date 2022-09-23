@@ -7,3 +7,5 @@ nach z.b. add new comment oder post
 ### move login and register into components
 
 move logincomponent into nav dropdown
+
+reduce request payloads (wegen types alles drin aber irgendwie bitte weniger)

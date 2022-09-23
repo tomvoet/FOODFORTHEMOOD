@@ -8,9 +8,13 @@ export default defineEventHandler(async (event) => {
             username: username,
         },
         select: {
-            id: true,
             username: true,
             bio: true,
+            favorites: {
+                select: {
+                    postId: true,
+                }
+            }
         },
     })
 

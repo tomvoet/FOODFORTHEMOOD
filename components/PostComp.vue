@@ -7,6 +7,9 @@ const props = defineProps<{
     author?: {
         username: string
     }
+    restaurant?: {
+        name: string
+    }
 }>()
 </script>
 

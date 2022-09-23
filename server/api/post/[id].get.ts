@@ -9,13 +9,35 @@ export default defineEventHandler(async (event) => {
         },
         select: {
             id: true,
-            authorId: true,
             title: true,
-            content: true,
+            text: true,
+            rating: true,
+            chosenFood: true,
             createdAt: true,
-            author: {
+            restaurantId: true,
+            authorId: true,
+            updatedAt: true,
+            favorites: {
+                select: {
+                    username: true,
+                },
+            },
+            restaurant: {
+                select: {
+                    name: true,
+                },
+            },
+            comments: {
                 select: {
                     id: true,
+                    authorId: true,
+                    createdAt: true,
+                    text: true,
+                },
+                take: 10,
+            },
+            author: {
+                select: {
                     username: true,
                 },
             },

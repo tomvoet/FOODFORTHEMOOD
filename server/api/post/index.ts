@@ -20,6 +20,9 @@ export default defineEventHandler(async (event) => {
             rating: true,
             text: true,
             createdAt: true,
+            chosenFood: true,
+            updatedAt: true,
+            restaurantId: true,
             author: {
                 select: {
                     username: true,

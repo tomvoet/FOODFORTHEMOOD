@@ -58,7 +58,7 @@ useFetch<{ status: number; posts: Post[] }>(
                 v-for="post in posts"
                 :key="post.id"
                 :post="post"
-                :author="{ username: user?.username, id: user?.id }"
+                :author="{ username: user?.username }"
             />
         </div>
         <div v-else-if="postsStatus == 404">

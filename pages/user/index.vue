@@ -9,7 +9,7 @@ const users = data.value?.users
 
 <template>
     <div v-if="status == 200">
-        <div v-for="user of users" :key="user.id">
+        <div v-for="user of users" :key="user.username">
             <NuxtLink :to="'/user/' + user.username">{{ user }}</NuxtLink>
         </div>
     </div>
