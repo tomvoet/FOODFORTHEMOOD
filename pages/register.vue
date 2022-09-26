@@ -57,6 +57,8 @@ const validateUsername = () => {
 const submit = () => {
     validateUsername()
 }
+
+setMetadata("Register", "Register for an account.")
 </script>
 
 <template>

@@ -3,10 +3,8 @@ onMounted(() => {
     console.log("mounted")
     setPageLayout("test")
 })
-definePageMeta({
-    title: "About",
-    description: "This is the about page",
-})
+
+setMetadata("About", "About page")
 </script>
 
 <template>

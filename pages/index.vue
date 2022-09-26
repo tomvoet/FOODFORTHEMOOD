@@ -3,10 +3,7 @@ import { getAllPosts } from "@/composables/getAllPosts"
 
 const { status, posts } = await getAllPosts() // maybe remove await for better performance and non blocking nav
 
-definePageMeta({
-    title: "Home",
-    description: "This is the home page",
-})
+setMetadata("Posts", "Current feed of posts")
 </script>
 
 <template>

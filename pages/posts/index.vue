@@ -3,6 +3,8 @@ const { data } = await useFetch(`/api/post`)
 
 const status = data.value?.status
 const posts = data.value?.posts
+
+setMetadata("Posts", "Current feed of posts")
 </script>
 
 <template>

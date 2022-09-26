@@ -26,6 +26,8 @@ const login = async () => {
     }
     */
 }
+
+setMetadata("Login", "Login to your account.")
 </script>
 
 <template>

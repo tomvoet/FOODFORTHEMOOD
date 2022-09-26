@@ -8,6 +8,8 @@ const { data } = await useFetch(`/api/post/${route.params.id}`, {
 
 const status = data.value?.status
 const post = data.value?.post
+
+setMetadata(post?.title ? post.title : "404", post?.text ? post.text : "404")
 </script>
 
 <template>

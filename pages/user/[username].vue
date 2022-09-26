@@ -44,11 +44,13 @@ useFetch<{ status: number; posts: Post[] }>(
     postsStatus.value = res.data.value?.status
     posts.value = res.data.value?.posts
 })
+
+setMetadata(user?.username ? user.username : "404", `Profile of ${user?.username ? user.username : "404"} and their posts.`)
 </script>
 
 <template>
     <div v-if="userStatus == 200 && user">
-        <img class="profilePicture" :src="img" />
+        <img class="profilePicture" :src="img" :alt="`${user.username}'s Profile Picture`" />
         <h1>{{ user?.username }}</h1>
         <div>
             {{ user?.bio }}

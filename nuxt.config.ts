@@ -27,4 +27,9 @@ export default defineNuxtConfig({
         dirs: ["@/stores"],
     },
     ssr: true,
+    head: {
+        htmlAttrs: {
+            lang: "en",
+        },
+    }
 })

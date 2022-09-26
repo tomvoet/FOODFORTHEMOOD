@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { randomBytes } from 'crypto';
+
 const route = useRoute()
 
 onMounted(() => {
@@ -14,8 +16,42 @@ onMounted(() => {
     }
 })
 
+const titleChunk = useState("titleChunk")
+const descriptionRaw = useState("description")
+
+const title = computed(() => {
+    if (titleChunk.value) {
+        return titleChunk.value + " | " + "FOODFORTHEMOOD"
+    } else {
+        return "FOODFORTHEMOOD"
+    }
+})
+
+const description = computed(() => {
+    if (descriptionRaw.value) {
+        return descriptionRaw.value
+    } else {
+        return "FOODFORTHEMOOD"
+    }
+})
+
+const meta = computed(() => {
+    return [
+        { hid: "description", name: "description", content: description.value },
+        { hid: "og:title", property: "og:title", content: title.value },
+        { hid: "og:description", property: "og:description", content: description.value },
+        { hid: "twitter:title", name: "twitter:title", content: title.value },
+        { hid: "twitter:description", name: "twitter:description", content: description.value },
+    ]
+})
+
 useHead({
-    title: `Testapp - ${route.meta.title}`,
+    htmlAttrs: {
+        lang: "en",
+    },
+    title,
+    meta
+    
 })
 </script>
 

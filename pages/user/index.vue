@@ -5,6 +5,8 @@ const { data } = await useFetch<{ status: number; users: User[] }>(`/api/user`)
 
 const status = data.value?.status
 const users = data.value?.users
+
+setMetadata("Users", "List of all users.")
 </script>
 
 <template>
