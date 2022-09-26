@@ -14,7 +14,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="post">
+    <article class="post">
         <div class="postTitle">
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
         </div>
@@ -40,7 +40,7 @@ const props = defineProps<{
                 >Author: {{ author.username }}</NuxtLink
             >
         </div>
-    </div>
+    </article>
 </template>
 
 <style scoped>
