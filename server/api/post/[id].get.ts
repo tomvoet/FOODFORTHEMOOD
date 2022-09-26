@@ -47,9 +47,7 @@ export default defineEventHandler(async (event) => {
     if (!post) {
         return {
             status: 404,
-            body: {
-                post: null,
-            },
+            post: null,
         }
     }
 
