@@ -58,13 +58,21 @@ model Comment {
 }
 
 model Restaurant {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  cuisines  Cuisine[]
+  state     String    @db.VarChar(255)@default("Germany")
+  city      String    @db.VarChar(255)
+  zip       String    @db.VarChar(255)
+  street    String    @db.VarChar(255)
+  houseNum  String    @db.VarChar(255)
+  phone     String?   @db.VarChar(255)
+  website   String?   @db.VarChar(255)
+  posts     Post[]
+}
+
+model Cuisine {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(255)
-  city      String   @db.VarChar(255)
-  zip       String   @db.VarChar(255)
-  street    String   @db.VarChar(255)
-  houseNum  String   @db.VarChar(255)
-  phone     String?  @db.VarChar(255)
-  website   String?  @db.VarChar(255)
-  posts     Post[]
+  restaurants Restaurant[]
 }
