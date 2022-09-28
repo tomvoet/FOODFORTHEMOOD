@@ -41,9 +41,6 @@ console.log(props.restaurant)
         <div class="postContent">
             {{ post.text }}
         </div>
-        <div class="debug">
-            <pre>{{ post }}</pre>
-        </div>
         <div class="timeStamp">
             {{
                 post.updatedAt == post.createdAt ? 'created: ' : 'updated: '
