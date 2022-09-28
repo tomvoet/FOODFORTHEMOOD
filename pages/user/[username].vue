@@ -31,9 +31,9 @@ useFetch<{ status: number; image: string | null }>(
         }
     }
 })
-
+/*
 const postsStatus: Ref<number | null | undefined> = ref(null)
-const posts: Ref<Post[] | null | undefined> = ref(null)
+const posts: Ref<Post[] | null | undefined> = ref()
 
 useFetch<{ status: number; posts: Post[] }>(
     `/api/user/${route.params.username}/posts`,
@@ -44,6 +44,14 @@ useFetch<{ status: number; posts: Post[] }>(
     postsStatus.value = res.data.value?.status
     posts.value = res.data.value?.posts
 })
+*/
+const { data: postsData } = useFetch(`/api/user/${username.value}/posts`, {
+    key: `user/${username.value}/posts`,
+    server: false
+})
+
+const posts = computed(() => postsData.value?.posts)
+const postsStatus = computed(() => postsData.value?.status)
 
 setMetadata(user?.username ? user.username : "404", `Profile of ${user?.username ? user.username : "404"} and their posts.`)
 </script>
@@ -61,6 +69,8 @@ setMetadata(user?.username ? user.username : "404", `Profile of ${user?.username
                 :key="post.id"
                 :post="post"
                 :author="{ username: user?.username }"
+                :restaurant="{ ...post.restaurant, id: post.restaurantId}"
+                :favorites="post.favorites"
             />
         </div>
         <div v-else-if="postsStatus == 404">
