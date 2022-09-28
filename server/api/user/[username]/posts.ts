@@ -27,6 +27,9 @@ export default defineEventHandler(async (event) => {
                     rating: true,
                     chosenFood: true,
                     createdAt: true,
+                    restaurantId: true,
+                    authorId: true,
+                    updatedAt: true,
                     favorites: {
                         select: {
                             username: true,
