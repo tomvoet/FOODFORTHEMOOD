@@ -71,6 +71,7 @@ setMetadata(user?.username ? user.username : "404", `Profile of ${user?.username
                 :author="{ username: user?.username }"
                 :restaurant="{ ...post.restaurant, id: post.restaurantId}"
                 :favorites="post.favorites"
+                :comments="post.comments"
             />
         </div>
         <div v-else-if="postsStatus == 404">

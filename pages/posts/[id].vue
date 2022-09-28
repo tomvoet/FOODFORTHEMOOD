@@ -14,7 +14,13 @@ setMetadata(post?.title ? post.title : "404", post?.text ? post.text : "404")
 
 <template>
     <div v-if="status == 200 && post">
-        <PostComp :post="post" :author="post.author" />
+        <PostComp 
+        :post="post" 
+        :author="post.author" 
+        :restaurant="{ ...post.restaurant, id: post.restaurantId }"
+        :favorites="post.favorites"
+        :comments="post.comments"
+        />
     </div>
     <div v-else-if="status == 404">404</div>
     <div v-else>Loading...</div>
