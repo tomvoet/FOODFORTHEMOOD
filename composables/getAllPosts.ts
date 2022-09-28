@@ -1,3 +1,9 @@
+/**
+ * synchronously returns all posts
+ * @function getAllPosts
+ * @returns {Post[]}
+ */
+
 export const getAllPosts = async () => {
     const { data } = await useFetch(
         "/api/post" /*, {
