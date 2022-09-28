@@ -28,7 +28,7 @@ console.log(props.restaurant)
             <StarRating :rating="post.rating" />
         </div>
         <div class="likesContainer">
-            <FavoritesDisplay :favorites="favorites" />
+            <FavoritesComp :favorites="favorites" />
         </div>
         <div class="restaurantName">
             <NuxtLink :to="'/restaurants/' + post.restaurantId">
