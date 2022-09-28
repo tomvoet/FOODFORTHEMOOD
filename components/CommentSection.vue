@@ -9,7 +9,8 @@ const props = defineProps<{
 
 <template>
     <div v-if="comments" v-for="comment in comments" :key="comment.id">
-        {{comment.text}}
+        <hr/>
+        <CommentComp :comment="comment" />
     </div>
     <div v-else>
         No comments yet
