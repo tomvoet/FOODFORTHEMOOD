@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { Post } from "@prisma/client"
+import { Post, Comment } from "@prisma/client"
+import { PartialBy, singleLike } from "~~/customTypes";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars#
 const props = defineProps<{
     post: Post
     author?: {
@@ -9,8 +10,13 @@ const props = defineProps<{
     }
     restaurant?: {
         name: string
+        id: number
     }
+    favorites?: singleLike[]
+    comments?: PartialBy<Comment, "postId">[]
 }>()
+
+console.log(props.restaurant)
 </script>
 
 <template>
@@ -21,6 +27,17 @@ const props = defineProps<{
         <div class="reviewStars">
             <StarRating :rating="post.rating" />
         </div>
+        <div class="likesContainer">
+            <FavoritesDisplay :favorites="favorites" />
+        </div>
+        <div class="restaurantName">
+            <NuxtLink :to="'/restaurants/' + post.restaurantId">
+                {{ restaurant?.name }}
+            </NuxtLink>
+        </div>
+        <div class="chosenFood">
+            {{ post.chosenFood }}
+        </div>
         <div class="postContent">
             {{ post.text }}
         </div>
@@ -29,6 +46,8 @@ const props = defineProps<{
         </div>
         <div class="timeStamp">
             {{
+                post.updatedAt == post.createdAt ? 'created: ' : 'updated: '
+                +
                 `${new Date(post.createdAt).toLocaleTimeString("de-DE", {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -40,6 +59,7 @@ const props = defineProps<{
                 >Author: {{ author.username }}</NuxtLink
             >
         </div>
+        <CommentSection :comments="comments"/>
     </article>
 </template>
 
