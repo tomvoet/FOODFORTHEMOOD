@@ -13,6 +13,9 @@ setMetadata("Posts", "Current feed of posts")
             :key="post.id"
             :post="post"
             :author="post.author"
+            :restaurant="{ ...post.restaurant, id: post.restaurantId }"
+            :favorites="post.favorites"
+            :comments="post.comments"
         />
     </div>
 </template>
