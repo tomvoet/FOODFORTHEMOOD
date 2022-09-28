@@ -1,6 +1,7 @@
 /**
  * synchronously returns all posts
  * @function getAllPosts
+ * @author Tom Voet
  * @returns {Post[]}
  */
 

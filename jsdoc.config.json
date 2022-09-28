@@ -1,0 +1,23 @@
+{
+  "tags": {
+      "allowUnknownTags": true
+  },
+  "plugins": [
+    "node_modules/better-docs/typescript"
+  ],
+  "source": {
+    "include": ["./composables", "./stores"],
+    "includePattern": "\\.(ts)$",
+    "excludePattern": "node_modules"
+  },
+  "typescript": {
+    "module": "commonjs",
+    "target": "es5",
+    "includeDeclarations": true
+  },
+  "opts": {
+    "destination": "docs",
+    "recurse": true,
+    "readme": "README.md"
+  }
+}

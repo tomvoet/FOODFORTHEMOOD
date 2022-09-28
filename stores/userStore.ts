@@ -4,7 +4,12 @@ export const useUserStore = defineStore("user", () => {
     const user = ref<User | null>(null)
     const token = ref<string | null>(null)
     const loggedIn = ref<boolean>(false)
-
+    /**
+     * (synchronously) login user & save user data to pinia
+     * @function login
+     * @param {string} username username of user
+     * @param {string} password password of user
+     */
     const login = async (username: string, password: string) => {
         const { data } = await useFetch<{
             status: number
@@ -21,6 +26,21 @@ export const useUserStore = defineStore("user", () => {
         }
     }
 
+    /**
+     * (synchronously) logout user & clear user data from pinia
+     * @function logout
+     * @param {string} username username of user
+     * @param {string} password password of user
+     * @returns {Promise<void>}
+     * @author Tom Voet
+     * @since 1.0.0
+     * @version 1.0.0
+     * @license MIT
+     * @see test
+     * @todo test
+     * @deprecated test
+     * @example test
+     */
     const logout = () => {
         user.value = null
         token.value = null

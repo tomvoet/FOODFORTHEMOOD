@@ -10,7 +10,8 @@
         "lintfix": "eslint --ext --fix .js,.ts,.vue --ignore-path .eslintignore . --ignore-pattern node_modules/",
         "test": "vitest --run --reporter verbose --globals",
         "test:watch": "vitest --reporter verbose --globals",
-        "analyze": "nuxt build --analyze"
+        "analyze": "nuxt build --analyze",
+        "doc": "jsdoc -c jsdoc.config.json"
     },
     "devDependencies": {
         "@nuxt/test-utils-edge": "^3.0.0-rc.10-27716896.3753ea0",
@@ -28,6 +29,7 @@
         "eslint-plugin-nuxt": "^4.0.0",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-vue": "^9.4.0",
+        "jsdoc": "^3.6.11",
         "jsdom": "^20.0.0",
         "jsonwebtoken": "^8.5.1",
         "nuxt": "^3.0.0-rc.11",
