@@ -9,3 +9,6 @@ nach z.b. add new comment oder post
 move logincomponent into nav dropdown
 
 reduce request payloads (wegen types alles drin aber irgendwie bitte weniger)
+
+jsdoc mit ts via better-docs (npm install einfach) aber vulnerabilities
+oder halt vue-styleguidist
