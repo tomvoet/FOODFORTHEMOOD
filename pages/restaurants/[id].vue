@@ -14,6 +14,9 @@ setMetadata(restaurant?.name ? restaurant.name : "404", `Reviews of ${restaurant
     <div>
         <h1>{{ restaurant?.name }}</h1>
         <p>{{ restaurant?.cuisines }}</p>
+        <div class="postsContainer" v-if="reviews">
+            {{reviews}}
+        </div>
     </div>
 </template>
 
