@@ -9,6 +9,7 @@ export const useUserStore = defineStore("user", () => {
      * @function login
      * @param {string} username username of user
      * @param {string} password password of user
+     * @return {{ success: boolean, message: string }}
      */
     const login = async (username: string, password: string) => {
         const { data } = await useFetch<{
@@ -23,6 +24,9 @@ export const useUserStore = defineStore("user", () => {
             user.value = data.value?.user
             token.value = data.value?.token
             loggedIn.value = true
+            return { success: true, message: "Successfully logged in" }
+        } else {
+            return { success: false, message: "Could not log in" }
         }
     }
 
