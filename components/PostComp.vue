@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Post, Comment } from "@prisma/client"
-import { PartialBy, singleLike } from "~~/customTypes"
+import type { Post, Comment } from "@prisma/client"
+import type { PartialBy, singleLike } from "~~/customTypes"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{

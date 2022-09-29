@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { singleLike } from "~~/customTypes"
+import type { singleLike } from "~~/customTypes"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { User } from ".prisma/client"
-
-const { data } = await useFetch<{ status: number; users: User[] }>(`/api/user`)
+const { data } = await useFetch(`/api/user`)
 
 const status = data.value?.status
 const users = data.value?.users

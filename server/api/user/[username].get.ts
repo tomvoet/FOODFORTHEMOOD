@@ -10,11 +10,6 @@ export default defineEventHandler(async (event) => {
         select: {
             username: true,
             bio: true,
-            favorites: {
-                select: {
-                    postId: true,
-                },
-            },
         },
     })
 

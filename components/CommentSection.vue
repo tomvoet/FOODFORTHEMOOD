@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Comment } from "@prisma/client"
-import { PartialBy } from "~~/customTypes"
+import type { Comment } from "@prisma/client"
+import type { PartialBy } from "~~/customTypes"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
