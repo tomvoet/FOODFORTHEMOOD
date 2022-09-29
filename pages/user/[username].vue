@@ -17,7 +17,7 @@ const { data: userData } = await useFetch<{
 const userStatus = userData.value?.status
 const user = userData.value?.user
 
-const img: Ref<string> = ref("/assets/imgs/blankpicture.png")
+const img: Ref<string> = ref("")
 
 useFetch<{ status: number; image: string | null }>(
     `/api/user/${username.value}/profilepicture`,
@@ -61,10 +61,11 @@ setMetadata(
 
 <template>
     <div v-if="userStatus == 200 && user">
-        <img
-            class="profilePicture"
-            :src="img"
+        <nuxt-img
+            :src="img || 'img/blankpicture.png'"
             :alt="`${user.username}'s Profile Picture`"
+            class="profilePicture"
+            sizes="sm:80vw md:7vw"
         />
         <h1>{{ user?.username }}</h1>
         <div>
@@ -105,8 +106,6 @@ h1 {
 }
 
 .profilePicture {
-    width: 6em;
-    height: 6em;
     border-radius: 50%;
     object-fit: cover;
 }

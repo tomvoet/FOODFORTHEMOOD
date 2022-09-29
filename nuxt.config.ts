@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         storage: {},
     },
     modules: [
+        "@nuxt/image-edge",
         [
             "@pinia/nuxt",
             {
@@ -32,4 +33,5 @@ export default defineNuxtConfig({
             lang: "en",
         },
     },
+    image: {},
 })
