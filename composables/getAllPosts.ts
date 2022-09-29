@@ -4,7 +4,6 @@
  * @author Tom Voet
  * @returns {Post[]}
  */
-
 export const getAllPosts = async () => {
     const { data } = await useFetch(
         "/api/post" /*, {

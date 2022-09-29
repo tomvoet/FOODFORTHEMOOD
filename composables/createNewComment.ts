@@ -6,7 +6,6 @@
  * @param {string} content content of the comment
  * @author Tom Voet
  */
-
 export const createNewComment = async (
     text: string,
     authorId: string,

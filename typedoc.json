@@ -1,0 +1,6 @@
+{
+    "entryPoints": ["./composables/*.ts", "./stores/*.ts"],
+    "out": "docs",
+    "tsconfig": "tsconfig.json",
+    "name": "FOODFORTHEMOOD Docs"
+}

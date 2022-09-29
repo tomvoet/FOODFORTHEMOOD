@@ -1,3 +1,7 @@
+/**
+ * @function useTitleChunk returns global title state
+ * @returns {Ref<string>}
+ */
 export const useTitleChunk = () => useState<string>("titleChunk", () => "")
 export const useDescription = () => useState<string>("description", () => "")
 
