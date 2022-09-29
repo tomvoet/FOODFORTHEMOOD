@@ -13,8 +13,8 @@ export default defineEventHandler(async (event) => {
             favorites: {
                 select: {
                     postId: true,
-                }
-            }
+                },
+            },
         },
     })
 

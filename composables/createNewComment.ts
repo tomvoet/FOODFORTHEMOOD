@@ -7,7 +7,12 @@
  * @author Tom Voet
  */
 
-export const createNewComment = async (text: string, authorId: string, postId: number, token: string) => {
+export const createNewComment = async (
+    text: string,
+    authorId: string,
+    postId: number,
+    token: string
+) => {
     const { data } = await useFetch(`/api/post/${postId}/comment`, {
         method: "POST",
         body: JSON.stringify({ text, authorId, postId }),

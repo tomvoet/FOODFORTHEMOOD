@@ -4,6 +4,7 @@ export const useUserStore = defineStore("user", () => {
     const user = ref<User | null>(null)
     const token = ref<string | null>(null)
     const loggedIn = ref<boolean>(false)
+
     /**
      * (synchronously) login user & save user data to pinia
      * @function login

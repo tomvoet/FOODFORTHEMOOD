@@ -15,9 +15,12 @@ export default defineMiddleware(async (event) => {
         }
 
         try {
-            const decoded = jwt.verify(token, "testhilfeichwillkeinscretschreibenwassolldas")
+            const decoded = jwt.verify(
+                token,
+                "testhilfeichwillkeinscretschreibenwassolldas"
+            )
             const body = await useBody(event)
-            if(typeof decoded  === "object") {
+            if (typeof decoded === "object") {
                 body.user = decoded.data
             }
         } catch (err) {

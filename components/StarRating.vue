@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     rating: number
 }>()
@@ -7,20 +7,18 @@ const props = defineProps<{
 
 <template>
     <div class="starRating">
-        <div v-for="i in 5" :key="i" class="star">
-            🔆
-        </div>
+        <div v-for="i in 5" :key="i" class="star">🔆</div>
     </div>
 </template>
 
 <style scoped>
-    .starRating {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+.starRating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-    .star {
-        margin-right: 0.5rem;
-    }
+.star {
+    margin-right: 0.5rem;
+}
 </style>

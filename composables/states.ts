@@ -1,6 +1,5 @@
-export const useTitleChunk = () => useState<string>('titleChunk', () => "")
-export const useDescription = () => useState<string>('description', () => "")
-
+export const useTitleChunk = () => useState<string>("titleChunk", () => "")
+export const useDescription = () => useState<string>("description", () => "")
 
 /**
  * set Metadata states

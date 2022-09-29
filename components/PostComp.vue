@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { Post, Comment } from "@prisma/client"
-import { PartialBy, singleLike } from "~~/customTypes";
+import { PartialBy, singleLike } from "~~/customTypes"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars#
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     post: Post
     author?: {
@@ -43,12 +43,15 @@ console.log(props.restaurant)
         </div>
         <div class="timeStamp">
             {{
-                post.updatedAt == post.createdAt ? 'created: ' : 'updated: '
-                +
-                `${new Date(post.createdAt).toLocaleTimeString("de-DE", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                })} | ${new Date(post.createdAt).toLocaleDateString("de-DE")}`
+                post.updatedAt == post.createdAt
+                    ? "created: "
+                    : "updated: " +
+                      `${new Date(post.createdAt).toLocaleTimeString("de-DE", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                      })} | ${new Date(post.createdAt).toLocaleDateString(
+                          "de-DE"
+                      )}`
             }}
         </div>
         <div v-if="author !== undefined">
@@ -56,7 +59,7 @@ console.log(props.restaurant)
                 >Author: {{ author.username }}</NuxtLink
             >
         </div>
-        <CommentSection :comments="comments" :postId="post.id" />
+        <CommentSection :comments="comments" :post-id="post.id" />
     </article>
 </template>
 

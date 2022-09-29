@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import { randomBytes } from 'crypto';
-
-const route = useRoute()
-
 onMounted(() => {
     document.onscroll = () => {
         const nav = document.getElementById("nav")
@@ -39,9 +35,17 @@ const meta = computed(() => {
     return [
         { hid: "description", name: "description", content: description.value },
         { hid: "og:title", property: "og:title", content: title.value },
-        { hid: "og:description", property: "og:description", content: description.value },
+        {
+            hid: "og:description",
+            property: "og:description",
+            content: description.value,
+        },
         { hid: "twitter:title", name: "twitter:title", content: title.value },
-        { hid: "twitter:description", name: "twitter:description", content: description.value },
+        {
+            hid: "twitter:description",
+            name: "twitter:description",
+            content: description.value,
+        },
     ]
 })
 
@@ -50,8 +54,7 @@ useHead({
         lang: "en",
     },
     title,
-    meta
-    
+    meta,
 })
 </script>
 

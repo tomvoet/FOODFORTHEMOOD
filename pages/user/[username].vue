@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { User, Post } from "@prisma/client"
+import { User } from "@prisma/client"
 import type { Ref } from "vue"
 
 const route = useRoute()
@@ -47,18 +47,25 @@ useFetch<{ status: number; posts: Post[] }>(
 */
 const { data: postsData } = useFetch(`/api/user/${username.value}/posts`, {
     key: `user/${username.value}/posts`,
-    server: false
+    server: false,
 })
 
 const posts = computed(() => postsData.value?.posts)
 const postsStatus = computed(() => postsData.value?.status)
 
-setMetadata(user?.username ? user.username : "404", `Profile of ${user?.username ? user.username : "404"} and their posts.`)
+setMetadata(
+    user?.username ? user.username : "404",
+    `Profile of ${user?.username ? user.username : "404"} and their posts.`
+)
 </script>
 
 <template>
     <div v-if="userStatus == 200 && user">
-        <img class="profilePicture" :src="img" :alt="`${user.username}'s Profile Picture`" />
+        <img
+            class="profilePicture"
+            :src="img"
+            :alt="`${user.username}'s Profile Picture`"
+        />
         <h1>{{ user?.username }}</h1>
         <div>
             {{ user?.bio }}
@@ -69,7 +76,7 @@ setMetadata(user?.username ? user.username : "404", `Profile of ${user?.username
                 :key="post.id"
                 :post="post"
                 :author="{ username: user?.username }"
-                :restaurant="{ ...post.restaurant, id: post.restaurantId}"
+                :restaurant="{ ...post.restaurant, id: post.restaurantId }"
                 :favorites="post.favorites"
                 :comments="post.comments"
             />

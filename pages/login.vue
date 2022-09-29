@@ -9,10 +9,10 @@ const password: Ref<string> = ref("")
 
 const login = async () => {
     const loginRes = await userStore.login(username.value, password.value)
-    if(loginRes.success) {
+    if (loginRes.success) {
         console.log(userStore.token)
         const router = useRouter()
-        router.push("/")    
+        router.push("/")
     } else {
         console.log(loginRes.message)
     }

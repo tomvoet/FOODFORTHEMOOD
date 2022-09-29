@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
 
     const postList = await prisma.restaurant.findUnique({
         where: {
-            id: Number(id)
+            id: Number(id),
         },
         select: {
             posts: {

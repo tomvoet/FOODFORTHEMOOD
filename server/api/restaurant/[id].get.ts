@@ -16,9 +16,9 @@ export default defineEventHandler(async (event) => {
                 select: {
                     id: true,
                     name: true,
-                }
+                },
             },
-        }
+        },
     })
 
     if (!restaurant) {
