@@ -23,8 +23,8 @@ function authenticateToken(req, res, next) {
 }
 */
 
-export const generateAccessToken = (email: string) => {
-    return jwt.sign({ data: { email } }, TOKEN_SECRET, { expiresIn: "1h" })
+export const generateAccessToken = (username: string) => {
+    return jwt.sign({ data: { username } }, TOKEN_SECRET, { expiresIn: "1h" })
 }
 
 //to be implemented, to prevent having to log in every hour
