@@ -8,23 +8,14 @@ const username: Ref<string> = ref("")
 const password: Ref<string> = ref("")
 
 const login = async () => {
-    await userStore.login(username.value, password.value)
-    console.log(userStore.token)
-    /*
-    const user = await useFetch("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify({
-            username: username.value,
-            password: password.value,
-        }),
-    })
-
-    if (user) {
-        console.log(user)
-        //const router = useRouter()
-        //router.push("/")
+    const loginRes = await userStore.login(username.value, password.value)
+    if(loginRes.success) {
+        console.log(userStore.token)
+        const router = useRouter()
+        router.push("/")    
+    } else {
+        console.log(loginRes.message)
     }
-    */
 }
 
 setMetadata("Login", "Login to your account.")
