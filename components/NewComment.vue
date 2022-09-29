@@ -107,6 +107,7 @@ button:hover {
 
 button:disabled:hover {
     background-color: transparent;
+    cursor: default;
 }
 
 .buttonRow {
