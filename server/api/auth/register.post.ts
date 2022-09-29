@@ -1,4 +1,4 @@
-import prisma from "@/server/services/dbManager"
+import { prisma } from "@/server/services/dbManager"
 import bcrypt from "bcrypt"
 
 const hashPassword = (password: string) => {

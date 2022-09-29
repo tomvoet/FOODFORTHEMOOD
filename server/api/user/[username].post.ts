@@ -1,4 +1,4 @@
-import prisma from "@/server/services/dbManager"
+import { prisma } from "@/server/services/dbManager"
 
 export default defineEventHandler(async (event) => {
     const user = await prisma.user.create({
