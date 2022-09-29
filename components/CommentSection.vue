@@ -4,15 +4,20 @@ import { PartialBy } from "~~/customTypes";
 
 const props = defineProps<{
     comments?: PartialBy<Comment, "postId">[]
+    postId: number
 }>()
 </script>
 
 <template>
-    <div v-if="comments" v-for="comment in comments" :key="comment.id">
+    <div class="commentSection">
         <hr/>
-        <CommentComp :comment="comment" />
-    </div>
-    <div v-else>
-        No comments yet
-    </div>
+        <NewComment :postId="postId" />
+        <div v-if="comments" v-for="comment in comments" :key="comment.id">
+            <hr/>
+            <CommentComp :comment="comment" />
+        </div>
+        <div v-else>
+            No comments yet
+        </div>
+    </div> 
 </template>

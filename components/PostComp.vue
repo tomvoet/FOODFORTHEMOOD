@@ -56,7 +56,7 @@ console.log(props.restaurant)
                 >Author: {{ author.username }}</NuxtLink
             >
         </div>
-        <CommentSection :comments="comments"/>
+        <CommentSection :comments="comments" :postId="post.id" />
     </article>
 </template>
 
