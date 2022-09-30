@@ -5,7 +5,7 @@
  * @returns {Post[]}
  */
 export const getAllPosts = async () => {
-    const { data } = await useFetch(
+    const { data, refresh } = await useFetch(
         "/api/post" /*, {
         initialCache: {
             data: [],
@@ -16,5 +16,5 @@ export const getAllPosts = async () => {
     const status = data.value?.status
     const posts = data.value?.posts
 
-    return { status, posts }
+    return { status, posts, refresh }
 }
