@@ -2,9 +2,8 @@ import { prisma } from "@/server/services/dbManager"
 
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)
-    const { user, authorId, postId, text } = body
-
-    console.log(user)
+    const { authorId, postId, text } = body
+    const { user } = event.context
 
     if (!authorId && !postId && !text) return { status: 400, comment: null }
 
