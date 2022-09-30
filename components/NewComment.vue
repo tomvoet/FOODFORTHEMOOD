@@ -5,6 +5,10 @@ const props = defineProps<{
     postId: number
 }>()
 
+const emits = defineEmits<{
+    (e: "newComment"): void
+}>()
+
 const userStore = useUserStore()
 
 const onInput = () => {
@@ -39,6 +43,7 @@ const submit = () => {
                 userStore.token
             )
             reset()
+            emits("newComment")
         }
     }
 }

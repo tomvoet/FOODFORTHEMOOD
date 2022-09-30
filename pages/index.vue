@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import { getAllPosts } from "@/composables/getAllPosts"
 
-const { status, posts } = await getAllPosts() // maybe remove await for better performance and non blocking nav
+const { status, posts, refresh } = await getAllPosts() // maybe remove await for better performance and non blocking nav
 
 setMetadata("Posts", "Current feed of posts")
+
+const reloadPosts = () => {
+    refresh() //refresh auf jeden fall für pagination
+}
 </script>
 
 <template>
@@ -16,6 +20,7 @@ setMetadata("Posts", "Current feed of posts")
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
             :favorites="post.favorites"
             :comments="post.comments"
+            @reload-comments="reloadPosts"
         />
     </div>
 </template>
