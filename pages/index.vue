@@ -6,7 +6,8 @@ const { status, posts, refresh } = await getAllPosts() // maybe remove await for
 setMetadata("Posts", "Current feed of posts")
 
 const reloadPosts = () => {
-    refresh() //refresh auf jeden fall für pagination
+    //refresh() //refresh auf jeden fall für pagination
+    //refreshNuxtData()
 }
 </script>
 
