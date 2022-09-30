@@ -19,14 +19,15 @@ export default defineMiddleware(async (event) => {
                 token,
                 "testhilfeichwillkeinscretschreibenwassolldas"
             )
-            const body = await useBody(event)
+
             if (typeof decoded === "object") {
-                body.user = decoded.data
+                event.context.user = decoded.data
             }
         } catch (err) {
+            console.log(err)
             return {
                 statusCode: 401,
-                message: "Unauthorized",
+                message: "Unauthorized, invalid Token",
             }
         }
     }
