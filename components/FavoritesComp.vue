@@ -11,7 +11,9 @@ const isLiked = (favorites: singleLike[] | undefined) =>
 </script>
 
 <template>
-    <span :style="{ color: isLiked(favorites) ? 'red' : 'black' }"
+    <span
+        :style="{ color: isLiked(favorites) ? 'red' : 'black' }"
+        class="text-3xl cursor-pointer"
         >♥{{ favorites ? favorites.length : "" }}</span
     >
 </template>
