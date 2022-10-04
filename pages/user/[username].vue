@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { User } from "@prisma/client"
-import type { Ref } from "vue"
 
 const route = useRoute()
 
@@ -17,7 +16,7 @@ const { data: userData } = await useFetch<{
 const userStatus = userData.value?.status
 const user = userData.value?.user
 
-const img: Ref<string> = ref("")
+const img = ref("")
 
 useFetch<{ status: number; image: string | null }>(
     `/api/user/${username.value}/profilepicture`,

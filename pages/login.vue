@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import type { Ref } from "vue"
 import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
-const username: Ref<string> = ref("")
-const password: Ref<string> = ref("")
+const username = ref("")
+const password = ref("")
 
 const login = async () => {
     const loginRes = await userStore.login(username.value, password.value)
