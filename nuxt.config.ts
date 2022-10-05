@@ -19,7 +19,6 @@ export default defineNuxtConfig({
         "@nuxt/image-edge",
         "@nuxtjs/tailwindcss",
         "@kevinmarrec/nuxt-pwa",
-        "@heroicons/vue",
         [
             "@pinia/nuxt",
             {
