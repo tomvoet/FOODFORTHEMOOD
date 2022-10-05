@@ -31,22 +31,18 @@ const validate = () => {
 
     if (password.value !== passwordConfirmation.value) {
         document.getElementById("passwordConfCheck")!.innerText = "Passwords do not match";
-        document.getElementById("passwordConfCheck")!.style.display = "inline";
         check = 1;
     }
     if (!emailCheck){
         document.getElementById("emailCheck")!.innerText = "Invalid email";
-        document.getElementById("emailCheck")!.style.display = "inline";
         check = 1;
     }
     if(!passwordCheck) {
         document.getElementById("passwordCheck")!.innerText = "Password must be at least 8 characters, contain multiple uppercase and lowercase letters, multiple digits and a special case letter (!@#$&*)";
-        document.getElementById("passwordCheck")!.style.display = "inline";
         check = 1;
     }
     if(username.value.length < 3) {
         document.getElementById("usernameCheck")!.innerText = "Username must be at least 3 characters";
-        document.getElementById("usernameCheck")!.style.display = "inline";
         check = 1;
     }
     if(check == 0) {
@@ -76,10 +72,10 @@ function validatePassword(): boolean {
 $                         End anchor. */
 
 const submit = () => {
-    document.getElementById("usernameCheck")!.style.display = "none";
-    document.getElementById("passwordCheck")!.style.display = "none";
-    document.getElementById("passwordConfCheck")!.style.display = "none";
-    document.getElementById("emailCheck")!.style.display = "none";
+    document.getElementById("usernameCheck")!.innerText = "";
+    document.getElementById("passwordConfCheck")!.innerText = "";
+    document.getElementById("passwordCheck")!.innerText = "";
+    document.getElementById("emailCheck")!.innerText = "";
     validate()
 }
 
