@@ -1,3 +1,5 @@
 <script lang="ts" setup></script>
 
-<template><br /><br /><br /><br /><RatingSelector /></template>
+<template>
+    <div><br /><br /><br /><br /><NewPostForm /></div>
+</template>

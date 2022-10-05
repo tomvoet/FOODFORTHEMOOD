@@ -20,18 +20,41 @@ const userPath = computed(() => {
     }
     return "/login"
 })
+
+const profilePicture = ref("img/blankpicture.png")
+
+const getProfilePicture = async () => {
+    const { data } = await useFetch(
+        `/api/user/${userStore.user?.username}/profilepicture`
+    )
+    if (data.value?.status === 200) {
+        if (
+            data.value?.image !== null &&
+            data.value?.image !== "" &&
+            data.value?.image !== undefined
+        ) {
+            profilePicture.value = data.value?.image
+        }
+    }
+}
+
+getProfilePicture()
 </script>
 
 <template>
-    <nav class="mainbg">
-        <NuxtLink id="logo" to="/"><h1>Welcome</h1></NuxtLink>
+    <nav class="bg-primary">
+        <NuxtLink id="logo" to="/"><h1>F4TM</h1></NuxtLink>
         <ModalTest />
-        Testss
-        <div v-if="userStore.user && userStore.user.username">
-            {{ userStore.user.username }}
-            <NuxtLink :to="userPath">Profile</NuxtLink>
+        <div v-if="userStore.loggedIn" class="flex flex-row">
+            <NuxtLink :to="userPath"> {{ userStore.user?.username }} </NuxtLink>
+            <button v-if="userStore.loggedIn" @click="logout">Logout</button>
+            <NuxtImg
+                :src="profilePicture"
+                :alt="userStore.user?.username"
+                class="rounded-full"
+                sizes="md:40px"
+            />
         </div>
-        <button v-if="userStore.loggedIn" @click="logout">Logout</button>
         <button v-else @click="goToLogin">Login</button>
     </nav>
 </template>
@@ -63,7 +86,7 @@ nav {
 #logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #fff;
+    color: black;
     text-decoration: none;
 }
 </style>

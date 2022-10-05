@@ -19,6 +19,7 @@ export const useUserStore = defineStore("user", () => {
             token: string
         }>(`/api/auth/login`, {
             method: "POST",
+            initialCache: false,
             body: JSON.stringify({ username, password }),
         })
         if (data.value?.status === 200) {

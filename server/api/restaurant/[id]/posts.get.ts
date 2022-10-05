@@ -49,6 +49,11 @@ export default defineEventHandler(async (event) => {
                         },
                         take: 3,
                     },
+                    author: {
+                        select: {
+                            username: true,
+                        },
+                    },
                 },
                 orderBy: {
                     createdAt: "desc",
