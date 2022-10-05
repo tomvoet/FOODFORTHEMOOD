@@ -6,19 +6,16 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="starRating">
-        <div v-for="i in 5" :key="i" class="star">🔆</div>
+    <div class="flex flex-row items-center">
+        <div
+            v-for="i in 5"
+            :key="i"
+            class="mr-2 text-xl"
+            :class="{ 'text-yellow-500': i <= rating }"
+        >
+            &#9733;
+        </div>
     </div>
 </template>
 
-<style scoped>
-.starRating {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.star {
-    margin-right: 0.5rem;
-}
-</style>
+<style scoped></style>

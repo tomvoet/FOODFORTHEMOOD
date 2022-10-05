@@ -28,16 +28,12 @@ const reloadComments = () => {
 
 <template>
     <article class="post">
-        <div class="postTitle">
+        <h2 class="font-bold text-3xl">
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
-        </div>
-        <div class="reviewStars">
-            <StarRating :rating="post.rating" />
-        </div>
-        <div class="likesContainer">
-            <FavoritesComp :favorites="favorites" />
-        </div>
-        <div class="restaurantName">
+        </h2>
+        <StarRating :rating="post.rating" />
+        <FavoritesComp :favorites="favorites" />
+        <div class="font-bold">
             <NuxtLink :to="'/restaurants/' + post.restaurantId">
                 {{ restaurant?.name }}
             </NuxtLink>
@@ -45,10 +41,10 @@ const reloadComments = () => {
         <div class="chosenFood">
             {{ post.chosenFood }}
         </div>
-        <div class="postContent">
+        <div class="mt-4">
             {{ post.text }}
         </div>
-        <div class="timeStamp">
+        <div class="text-gray-700 mt-1 text-sm">
             {{
                 post.updatedAt == post.createdAt
                     ? "created: "
@@ -81,21 +77,5 @@ const reloadComments = () => {
     padding: 1rem;
     border: 1px solid black;
     border-radius: 5px;
-}
-
-.postTitle {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.postContent {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-}
-
-.timeStamp {
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    color: gray;
 }
 </style>
