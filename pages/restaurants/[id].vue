@@ -28,7 +28,7 @@ setMetadata(
                 :key="review.id"
                 :post="review"
                 :author="review.author"
-                :restaurant="restaurant"
+                :restaurant="{ ...review.restaurant, id: review.restaurantId }"
                 :favorites="review.favorites"
                 :comments="review.comments"
             />
