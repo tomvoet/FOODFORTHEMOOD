@@ -1,7 +1,17 @@
 <script lang="ts" setup>
 import type { Ref } from "vue"
 
-const rating: Ref<number> = ref(0)
+const emits = defineEmits<{
+    (e: "updateRating", val: number): void
+}>()
+
+const props = defineProps<{
+    rating: number
+}>()
+
+const updateRating = (newRating: number) => {
+    emits("updateRating", newRating)
+}
 </script>
 
 <template>
@@ -12,7 +22,7 @@ const rating: Ref<number> = ref(0)
             class="star"
             :name="6 - i"
             :class="{ choice: rating == 6 - i }"
-            @click="rating = i"
+            @click="updateRating(6 - i)"
             >&#9733;</span
         >
     </div>
