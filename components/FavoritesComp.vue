@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import type { singleLike } from "~~/customTypes"
+import { useUserStore } from "@/stores/userStore"
+
+const userStore = useUserStore()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
@@ -7,7 +10,8 @@ const props = defineProps<{
 }>()
 
 const isLiked = (favorites: singleLike[] | undefined) =>
-    favorites?.some((favorite) => favorite.username == "tomvoet")
+    userStore.loggedIn &&
+    favorites?.some((favorite) => favorite.username == userStore.user?.username)
 </script>
 
 <template>
