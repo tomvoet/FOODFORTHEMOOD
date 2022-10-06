@@ -62,7 +62,6 @@ useHead({
     <div id="app">
         <Navbar id="nav" />
         <slot />
-        <FooterBar />
     </div>
 </template>
 
