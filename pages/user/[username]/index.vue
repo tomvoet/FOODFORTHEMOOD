@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { FullPost } from "@/customTypes"
+import type { FullPost, PartialBy } from "@/customTypes"
 
 const route = useRoute()
 
 const username = computed(() => route.params.username as string)
 
-const posts = ref([] as FullPost[] | undefined | null)
+const posts = ref([] as PartialBy<FullPost, "author">[] | undefined | null)
 const postsStatus = ref(0)
 
 const { data: postsData } = useFetch(`/api/user/${username.value}/posts`, {

@@ -18,4 +18,7 @@ interface FullPost extends Post {
     restaurant: {
         name: string
     }
+    author: {
+        username: string
+    }
 }

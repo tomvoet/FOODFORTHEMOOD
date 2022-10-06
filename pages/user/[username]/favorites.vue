@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { FullPost } from "@/customTypes"
+import type { FullPost, PartialBy } from "@/customTypes"
 
 const route = useRoute()
 
 const username = computed(() => route.params.username as string)
 
-const favorites = ref([] as FullPost[] | undefined | null)
+const favorites = ref([] as PartialBy<FullPost, "author">[] | undefined | null)
 const favoritesStatus = ref(0)
 
 const { data: favData } = useFetch(`/api/user/${username.value}/favorites`, {
