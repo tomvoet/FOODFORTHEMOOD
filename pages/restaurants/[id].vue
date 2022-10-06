@@ -1,17 +1,28 @@
 <script setup lang="ts">
+import type { FullPost } from "@/customTypes"
+
 const route = useRoute()
 
 const { data } = await useFetch(`/api/restaurant/${route.params.id}`)
 
 const restaurant = data.value?.restaurant
 
-const { data: reviewData } = useFetch(
+const reviews = ref([] as FullPost[] | undefined | null)
+const reviewsStatus = ref(0)
+
+const { data: reviewsData } = useFetch(
     `/api/restaurant/${route.params.id}/posts`
 )
 
-const reviews = computed(() => reviewData.value?.posts)
-const reviewsStatus = computed(() => reviewData.value?.status)
+if (reviewsData) {
+    reviews.value = reviewsData.value?.favorites
+    reviewsStatus.value = reviewsData.value?.status || 0
+}
 
+watch(reviewsData, (data) => {
+    reviews.value = data?.posts
+    reviewsStatus.value = data?.status || 0
+})
 setMetadata(
     restaurant?.name ? restaurant.name : "404",
     `Reviews of ${restaurant?.name ? restaurant.name : "404"}`
