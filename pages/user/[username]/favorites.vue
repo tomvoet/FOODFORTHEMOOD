@@ -36,15 +36,7 @@ watch(favData, (data) => {
             :comments="post.comments"
         />
     </div>
-    <div v-else-if="favoritesStatus == 404">
-        <h1>No posts found</h1>
-    </div>
-    <div v-else-if="favoritesStatus == 600">
-        <h1>Something went wrong</h1>
-    </div>
-    <div v-else>
-        <h1>Loading...</h1>
-    </div>
+    <StatusComp v-else :status="favoritesStatus" />
 </template>
 
 <style scoped>

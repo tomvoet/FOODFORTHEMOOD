@@ -36,12 +36,7 @@ watch(postsData, (data) => {
             :comments="post.comments"
         />
     </div>
-    <div v-else-if="postsStatus == 404">
-        <h1>No posts found</h1>
-    </div>
-    <div v-else>
-        <h1>Loading...</h1>
-    </div>
+    <StatusComp v-else :status="postsStatus" />
 </template>
 
 <style scoped>
