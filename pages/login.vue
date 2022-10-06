@@ -21,17 +21,33 @@ setMetadata("Login", "Login to your account.")
 </script>
 
 <template>
-    <form class="loginContainer">
-        <h1>Login</h1>
-        <div>
-            <label for="username">Username</label>
-            <input id="username" v-model="username" type="text" />
+    <form class="loginContainer max-w-max">
+        <h1 class="text-2xl font-bold">Login</h1>
+        <div class="p-3">
+            <label for="username" class="block">Username</label>
+            <input
+                id="username"
+                v-model="username"
+                type="text"
+                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
         </div>
-        <div>
-            <label for="password">Password</label>
-            <input id="password" v-model="password" type="password" />
+        <div class="p-3">
+            <label for="password" class="block">Password</label>
+            <input
+                id="password"
+                v-model="password"
+                type="password"
+                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
         </div>
-        <button type="button" @click="login">Login</button>
+        <button
+            type="button"
+            class="border p-1 float-right rounded-[.35em] hover:bg-blue-500 hover:text-white"
+            @click="login"
+        >
+            Login
+        </button>
     </form>
 </template>
 
