@@ -1,5 +1,5 @@
 <script lang="ts" setup></script>
 
 <template>
-    <div><br /><br /><br /><br /><NewPostForm /></div>
+    <div><NewPostForm /></div>
 </template>

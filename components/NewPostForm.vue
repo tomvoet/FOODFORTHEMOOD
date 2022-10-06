@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { minimalRestaurant } from "@/customTypes"
+import { useUserStore } from "@/stores/userStore"
 
 const title = ref("")
 const text = ref("")
@@ -10,7 +11,41 @@ const chosenFood = ref("")
 const restaurants = ref([] as minimalRestaurant[] | undefined | null)
 const restaurantsStatus = ref(0)
 
-const createPost = () => {
+const userStore = useUserStore()
+
+const createPost = async () => {
+    if (
+        title.value == "" ||
+        text.value == "" ||
+        rating.value == 0 ||
+        restaurantChoice.value == 0 ||
+        chosenFood.value == ""
+    ) {
+        alert("Please fill out all fields")
+        return
+    }
+
+    if (!userStore.loggedIn) {
+        alert("You must be logged in to create a post")
+        return
+    }
+
+    /*
+    const { data: postData } = await useFetch("/api/post", {
+        method: "POST",
+        body: {
+            title: title.value,
+            text: text.value,
+            rating: rating.value,
+            restaurantId: restaurantChoice.value,
+            chosenFood: chosenFood.value,
+            authorId: userStore.user?.username,
+        },
+    })
+    */
+
+    console.log(postData)
+
     console.log(
         title.value,
         text.value,
