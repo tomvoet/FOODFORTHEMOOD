@@ -15,7 +15,7 @@ onMounted(() => {
 const titleChunk = useState("titleChunk")
 const descriptionRaw = useState("description")
 
-const title = computed(() => {
+const fullTitle = computed(() => {
     if (titleChunk.value) {
         return titleChunk.value + " | " + "FOODFORTHEMOOD"
     } else {
@@ -34,13 +34,17 @@ const description = computed(() => {
 const meta = computed(() => {
     return [
         { hid: "description", name: "description", content: description.value },
-        { hid: "og:title", property: "og:title", content: title.value },
+        { hid: "og:title", property: "og:title", content: fullTitle.value },
         {
             hid: "og:description",
             property: "og:description",
             content: description.value,
         },
-        { hid: "twitter:title", name: "twitter:title", content: title.value },
+        {
+            hid: "twitter:title",
+            name: "twitter:title",
+            content: fullTitle.value,
+        },
         {
             hid: "twitter:description",
             name: "twitter:description",
@@ -53,7 +57,7 @@ useHead({
     htmlAttrs: {
         lang: "en",
     },
-    title,
+    title: fullTitle,
     meta,
 })
 </script>
