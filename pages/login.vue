@@ -21,7 +21,7 @@ setMetadata("Login", "Login to your account.")
 </script>
 
 <template>
-    <form class="loginContainer max-w-max">
+    <form class="max-w-max">
         <h1 class="text-2xl font-bold">Login</h1>
         <div class="p-3">
             <label for="username" class="block">Username</label>
