@@ -30,12 +30,20 @@ const { data: restaurantData } = useFetch(`/api/restaurant`, {
 })
 
 if (restaurantData) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     restaurants.value = restaurantData.value?.restaurants
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     restaurantsStatus.value = restaurantData.value?.status || 0
 }
 
 watch(restaurantData, (data) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     restaurants.value = data?.restaurants
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     restaurantsStatus.value = data?.status || 0
 })
 </script>
