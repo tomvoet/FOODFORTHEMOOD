@@ -7,6 +7,11 @@ type singleLike = {
     username: string
 }
 
+type minimalRestaurant = {
+    id: number
+    name: string
+}
+
 interface FullPost extends Post {
     favorites: singleLike[]
     comments: {
