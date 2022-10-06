@@ -1,15 +1,27 @@
 <script lang="ts" setup>
+import type { FullPost } from "@/customTypes"
+
 const route = useRoute()
 
 const username = computed(() => route.params.username as string)
+
+const posts = ref([] as FullPost[] | undefined | null)
+const postsStatus = ref(0)
 
 const { data: postsData } = useFetch(`/api/user/${username.value}/posts`, {
     key: `user/${username.value}/posts`,
     server: false,
 })
 
-const posts = computed(() => postsData.value?.posts)
-const postsStatus = computed(() => postsData.value?.status)
+if (postsData) {
+    posts.value = postsData.value?.posts
+    postsStatus.value = postsData.value?.status || 0
+}
+
+watch(postsData, (data) => {
+    posts.value = data?.posts
+    postsStatus.value = data?.status || 0
+})
 </script>
 
 <template>
