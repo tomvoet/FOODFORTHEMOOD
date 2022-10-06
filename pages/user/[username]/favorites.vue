@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Post } from ".prisma/client"
 import type { FullPost } from "@/customTypes"
 
 const route = useRoute()
