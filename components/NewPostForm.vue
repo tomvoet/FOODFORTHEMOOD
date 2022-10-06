@@ -42,9 +42,9 @@ const createPost = async () => {
             authorId: userStore.user?.username,
         },
     })
-    */
 
     console.log(postData)
+    */
 
     console.log(
         title.value,
