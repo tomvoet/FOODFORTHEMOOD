@@ -54,10 +54,25 @@ export const useUserStore = defineStore("user", () => {
      * @deprecated test
      * @example test
      */
-    const logout = () => {
-        user.value = null
-        token.value = null
-        loggedIn.value = false
+    const logout = async () => {
+        try {
+            const res = await $fetch<{ success: boolean }>("/api/auth/logout", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+                body: { username: user.value?.username },
+            })
+
+            if (res.success) {
+                user.value = null
+                token.value = null
+                loggedIn.value = false
+                return { success: true, message: "Successfully logged out" }
+            }
+        } catch (err) {
+            return { success: false, message: getErrorStatus(err).message }
+        }
     }
 
     const refresh_tokens = async () => {
