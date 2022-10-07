@@ -3,6 +3,8 @@ import { prisma } from "@/server/services/dbManager"
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)
 
+    const { user } = event.context
+
     const { authorId, title, text, rating, chosenFood, restaurantId } = body
 
     if (authorId === undefined) {
@@ -61,6 +63,16 @@ export default defineEventHandler(async (event) => {
             createError({
                 statusCode: 400,
                 message: "restaurantId is required",
+            })
+        )
+    }
+
+    if (authorId !== user.username) {
+        return sendError(
+            event,
+            createError({
+                statusCode: 401,
+                message: "Unauthorized",
             })
         )
     }
