@@ -1,13 +1,16 @@
 <script lang="ts" setup>
+/*
 const { data } = await useFetch(`/api/post`)
 
-const status = data.value?.status
 const posts = data.value?.posts
+const status = 200
 
 setMetadata("Posts", "Current feed of posts")
+*/
 </script>
 
 <template>
+    <!--
     <div v-if="status == 200">
         <div class="postsContainer">
             <PostComp
@@ -22,7 +25,8 @@ setMetadata("Posts", "Current feed of posts")
         </div>
     </div>
     <div v-else-if="status == 404">404</div>
-    <div v-else>Loading...</div>
+    <div v-else>Loading...</div>-->
+    <div>test</div>
 </template>
 
 <style scoped>
