@@ -1,6 +1,9 @@
 import { prisma } from "@/server/services/dbManager"
 import bcrypt from "bcrypt"
-import { generateAccessToken } from "@/server/services/jwt"
+import {
+    generateAccessToken,
+    generateRefreshToken,
+} from "@/server/services/jwt"
 
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)
@@ -13,28 +16,41 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!user) {
-        return {
-            status: 401,
-            message: "Invalid credentials",
-            user: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 401,
+                message: "Invalid username or password",
+            })
+        )
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password_hash)
 
     if (!isPasswordValid) {
-        return {
-            status: 401,
-            message: "Invalid credentials",
-            user: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 401,
+                message: "Invalid username or password",
+            })
+        )
     }
 
-    const token = generateAccessToken(user.username)
+    const access_token = generateAccessToken(user.username)
+    const refresh_token = generateRefreshToken(user.username)
 
     const returnUser = {
         username: user.username,
     }
 
-    return { status: 200, user: returnUser, token }
+    setCookie(event, "refresh_token", refresh_token, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 24,
+        sameSite: "strict",
+        secure: true,
+        path: "/api/auth/refresh_token",
+    })
+
+    return { user: returnUser, access_token }
 })
