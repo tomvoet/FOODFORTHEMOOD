@@ -3,6 +3,8 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
+const userMenuOpen = ref(false)
+
 const logout = () => {
     const router = useRouter()
     userStore.logout()
@@ -38,6 +40,24 @@ const getProfilePicture = async () => {
     }
 }
 
+onMounted(() => {
+    document.addEventListener("click", (event) => {
+        if (userMenuOpen.value) {
+            if (
+                event
+                    .composedPath()
+                    .includes(
+                        document.getElementById("user-menu") as HTMLDivElement
+                    )
+            ) {
+                return
+            } else {
+                userMenuOpen.value = false
+            }
+        }
+    })
+})
+
 getProfilePicture()
 </script>
 
@@ -48,16 +68,74 @@ getProfilePicture()
         <NuxtLink to="/test">Test</NuxtLink>
         <ClientOnly>
             <div v-if="userStore.loggedIn" class="flex flex-row">
-                <NuxtLink :to="userPath">
-                    {{ userStore.user?.username }}
-                </NuxtLink>
-                <button @click="logout">Logout</button>
-                <NuxtImg
-                    :src="profilePicture"
-                    :alt="userStore.user?.username"
-                    class="rounded-full"
-                    sizes="md:40px"
-                />
+                <div id="user-menu" class="relative">
+                    <button @click="userMenuOpen = !userMenuOpen">
+                        <NuxtImg
+                            :src="profilePicture"
+                            :alt="userStore.user?.username"
+                            class="rounded-full w-10 h-10"
+                        />
+                    </button>
+                    <transition
+                        enter-active-class="transition ease-out duration-100"
+                        enter-from-class="transform opacity-0 scale-95"
+                        enter-to-class="transform opacity-100 scale-100"
+                        leave-active-class="transition ease-in duration-75"
+                        leave-from-class="transform opacity-100 scale-100"
+                        leave-to-class="transform opacity-0 scale-95"
+                    >
+                        <ul
+                            v-show="userMenuOpen"
+                            class="absolute right-0 w-48 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                            <li class="px-4 py-3 hover:bg-gray-100" role="none">
+                                <NuxtLink
+                                    :to="userPath"
+                                    class="block text-sm text-gray-700 user-menu-button"
+                                    role="menuitem"
+                                    @click="userMenuOpen = false"
+                                >
+                                    Your Profile
+                                </NuxtLink>
+                            </li>
+                            <li class="px-4 py-3 hover:bg-gray-100" role="none">
+                                <NuxtLink
+                                    :to="userPath + '/settings'"
+                                    class="block text-sm text-gray-700 user-menu-button"
+                                    role="menuitem"
+                                    @click="userMenuOpen = false"
+                                >
+                                    Settings
+                                </NuxtLink>
+                            </li>
+                            <li
+                                class="px-4 py-3 hover:bg-gray-100 w-full"
+                                role="none"
+                            >
+                                <a
+                                    class="block text-sm text-gray-700 cursor-pointer user-menu-button"
+                                    role="menuitem"
+                                    @click="
+                                        () => {
+                                            logout()
+                                            userMenuOpen = false
+                                        }
+                                    "
+                                >
+                                    Sign out
+                                </a>
+                            </li>
+                            <li class="px-4 py-3" role="none">
+                                <div
+                                    class="block text-sm text-gray-700 user-menu-button"
+                                    role="menuitem"
+                                >
+                                    logged in as {{ userStore.user?.username }}
+                                </div>
+                            </li>
+                        </ul>
+                    </transition>
+                </div>
             </div>
             <button v-else @click="goToLogin">Login</button>
         </ClientOnly>
