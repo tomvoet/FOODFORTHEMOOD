@@ -137,7 +137,21 @@ getProfilePicture()
                     </transition>
                 </div>
             </div>
-            <button v-else @click="goToLogin">Login</button>
+            <div v-else>
+                <!--differently colored sign in and sign up button-->
+                <button
+                    class="bg-red-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-red-400"
+                    @click="goToLogin"
+                >
+                    Login
+                </button>
+                <button
+                    class="bg-green-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-green-400"
+                    @click="goToLogin"
+                >
+                    Sign Up
+                </button>
+            </div>
         </ClientOnly>
     </nav>
 </template>
