@@ -46,17 +46,21 @@ getProfilePicture()
         <NuxtLink id="logo" to="/"><h1>F4TM</h1></NuxtLink>
         <ModalTest />
         <NuxtLink to="/test">Test</NuxtLink>
-        <div v-if="userStore.loggedIn" class="flex flex-row">
-            <NuxtLink :to="userPath"> {{ userStore.user?.username }} </NuxtLink>
-            <button v-if="userStore.loggedIn" @click="logout">Logout</button>
-            <NuxtImg
-                :src="profilePicture"
-                :alt="userStore.user?.username"
-                class="rounded-full"
-                sizes="md:40px"
-            />
-        </div>
-        <button v-else @click="goToLogin">Login</button>
+        <ClientOnly>
+            <div v-if="userStore.loggedIn" class="flex flex-row">
+                <NuxtLink :to="userPath">
+                    {{ userStore.user?.username }}
+                </NuxtLink>
+                <button @click="logout">Logout</button>
+                <NuxtImg
+                    :src="profilePicture"
+                    :alt="userStore.user?.username"
+                    class="rounded-full"
+                    sizes="md:40px"
+                />
+            </div>
+            <button v-else @click="goToLogin">Login</button>
+        </ClientOnly>
     </nav>
 </template>
 
