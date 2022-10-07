@@ -1,7 +1,15 @@
 <script lang="ts" setup>
 import { getAllPosts } from "@/composables/getAllPosts"
+import { FullPost } from "@/customTypes"
 
-const { posts, status } = await getAllPosts() // maybe remove await for better performance and non blocking nav
+const posts = ref([] as FullPost[])
+const status = ref({} as { code: number; message: string })
+status.value = { code: 0, message: "" }
+
+getAllPosts().then((data) => {
+    posts.value = data.posts
+    status.value = data.status
+})
 
 setMetadata("Posts", "Current feed of posts")
 

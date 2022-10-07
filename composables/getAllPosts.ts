@@ -10,8 +10,17 @@ export const getAllPosts = async () => {
         const posts = await $fetch<FullPost[]>("/api/post", {
             method: "GET",
         })
-        return { posts: posts, status: { code: 200, message: "OK" } }
+        return {
+            posts,
+            status: {
+                code: 200,
+                message: "OK",
+            },
+        }
     } catch (error) {
-        return { posts: null, status: getErrorStatus(error) }
+        return {
+            posts: [],
+            status: getErrorStatus(error),
+        }
     }
 }
