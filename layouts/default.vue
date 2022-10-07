@@ -66,6 +66,7 @@ useHead({
     <div id="app">
         <Navbar id="nav" />
         <slot />
+        <NuxtLoadingIndicator :height="5" />
     </div>
 </template>
 
