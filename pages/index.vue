@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getAllPosts } from "@/composables/getAllPosts"
 
-const { status, posts, refresh } = await getAllPosts() // maybe remove await for better performance and non blocking nav
+const { posts, status } = await getAllPosts() // maybe remove await for better performance and non blocking nav
 
 setMetadata("Posts", "Current feed of posts")
 
@@ -12,7 +12,7 @@ const reloadPosts = () => {
 </script>
 
 <template>
-    <div v-if="status === 200" class="postsContainer">
+    <div v-if="status.code === 200" class="postsContainer">
         <PostComp
             v-for="post in posts"
             :key="post.id"
@@ -23,6 +23,9 @@ const reloadPosts = () => {
             :comments="post.comments"
             @reload-comments="reloadPosts"
         />
+    </div>
+    <div v-else>
+        <StatusComp :status="status.code" />
     </div>
 </template>
 
