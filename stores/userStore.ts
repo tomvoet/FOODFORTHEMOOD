@@ -82,15 +82,15 @@ export const useUserStore = defineStore("user", () => {
                     username: string
                 }
                 access_token: string
-                refresh_token: string
             }>("/api/auth/refresh_token", {
                 method: "GET",
             })
+
             if (res.access_token && res.user) {
                 token.value = res.access_token
                 user.value = res.user
                 loggedIn.value = true
-                console.log("test", res)
+
                 return {
                     success: true,
                     message: "Successfully refreshed tokens",
