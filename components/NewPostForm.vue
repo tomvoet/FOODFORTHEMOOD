@@ -13,7 +13,7 @@ const restaurantsStatus = ref(0)
 
 const userStore = useUserStore()
 
-const createPost = async () => {
+const submitPost = async () => {
     if (
         title.value == "" ||
         text.value == "" ||
@@ -25,34 +25,30 @@ const createPost = async () => {
         return
     }
 
-    if (!userStore.loggedIn) {
+    if (!userStore.loggedIn || !userStore.user?.username) {
         alert("You must be logged in to create a post")
         return
     }
 
-    /*
-    const { data: postData } = await useFetch("/api/post", {
-        method: "POST",
-        body: {
-            title: title.value,
-            text: text.value,
-            rating: rating.value,
-            restaurantId: restaurantChoice.value,
-            chosenFood: chosenFood.value,
-            authorId: userStore.user?.username,
-        },
+    const res = await createPost({
+        title: title.value,
+        text: text.value,
+        rating: rating.value,
+        restaurantId: restaurantChoice.value,
+        chosenFood: chosenFood.value,
+        authorId: userStore.user?.username,
     })
 
-    console.log(postData)
-    */
-
-    console.log(
-        title.value,
-        text.value,
-        rating.value,
-        restaurantChoice.value,
-        chosenFood.value
-    )
+    if (res.status.code === 203) {
+        alert("Post created successfully")
+        title.value = ""
+        text.value = ""
+        rating.value = 0
+        restaurantChoice.value = 0
+        chosenFood.value = ""
+    } else {
+        alert(`Error: ${res.status.code} - ${res.status.message}`)
+    }
 }
 
 const updateRating = (newRating: number) => {
@@ -78,7 +74,7 @@ watch(restaurantData, (data) => {
 <template>
     <div>
         <h1 class="text-2xl font-bold">New Post</h1>
-        <form @submit.prevent="createPost">
+        <form @submit.prevent="submitPost">
             <div class="p-3">
                 <label for="title" class="block">Title</label>
                 <input
