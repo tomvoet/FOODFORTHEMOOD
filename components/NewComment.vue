@@ -62,12 +62,16 @@ const submit = () => {
             @input="onInput()"
         ></textarea>
         <div class="buttonRow">
-            <button :disabled="!userStore.loggedIn" @click.prevent="reset()">
+            <button
+                :disabled="!userStore.loggedIn"
+                class="disabled:opacity-50"
+                @click.prevent="reset()"
+            >
                 Cancel
             </button>
             <button
-                id="newCommenBtn"
                 :disabled="!userStore.loggedIn"
+                class="disabled:opacity-50"
                 @click.prevent="submit()"
             >
                 Submit
@@ -83,7 +87,7 @@ const submit = () => {
     border: none;
     border-radius: 5px;
     resize: none;
-    font-size: 1.5em;
+    font-size: 1em;
     overflow: hidden;
     height: 3em;
     outline: none;
