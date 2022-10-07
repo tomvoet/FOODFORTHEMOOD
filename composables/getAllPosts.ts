@@ -1,3 +1,4 @@
+import { FullPost } from "~~/customTypes"
 /**
  * synchronously returns all posts
  * @function getAllPosts
@@ -5,16 +6,12 @@
  * @returns {Post[]}
  */
 export const getAllPosts = async () => {
-    const { data, refresh } = await useFetch(
-        "/api/post" /*, {
-        initialCache: {
-            data: [],
-        },
-    }*/
-    )
-
-    const status = data.value?.status
-    const posts = data.value?.posts
-
-    return { status, posts, refresh }
+    try {
+        const posts = await $fetch<FullPost[]>("/api/post", {
+            method: "GET",
+        })
+        return { posts: posts, status: { code: 200, message: "OK" } }
+    } catch (error) {
+        return { posts: null, status: getErrorStatus(error) }
+    }
 }
