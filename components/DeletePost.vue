@@ -6,7 +6,7 @@ const emits = defineEmits<{
 
 <template>
     <div
-        class="cursor-pointer hover:text-gray-700"
+        class="cursor-pointer hover:text-gray-700 absolute top-3 right-3"
         @click="emits('deletePost')"
     >
         <svg
