@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { Post, Comment } from "@prisma/client"
-import type { PartialBy, singleLike } from "~~/customTypes"
+import type { PartialBy, singleLike } from "@/customTypes"
+import { useUserStore } from "@/stores/userStore"
+
+const userStore = useUserStore()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
@@ -24,13 +27,38 @@ const emits = defineEmits<{
 const reloadComments = () => {
     emits("reloadComments")
 }
+
+const reloadPosts = () => {
+    //emits("reloadPosts")
+}
+
+const submitDeletePost = async (id: number) => {
+    if (userStore.loggedIn && userStore.user?.username) {
+        if (confirm("Are you sure you want to delete this post?")) {
+            const res = await deletePost(id)
+            if (res.status.code === 204) {
+                alert("Post deleted")
+                reloadPosts()
+            } else {
+                alert("Something went wrong")
+            }
+            //router.push("/posts")
+        }
+    } else {
+        alert("You must be logged in to delete a post")
+    }
+}
 </script>
 
 <template>
-    <article class="post">
+    <article class="post relative">
         <h2 class="font-bold text-3xl">
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
         </h2>
+        <DeletePost
+            v-if="userStore.loggedIn"
+            @delete-post="submitDeletePost(post.id)"
+        />
         <StarRating :rating="post.rating" />
         <FavoritesComp :favorites="favorites" />
         <div class="font-bold">
