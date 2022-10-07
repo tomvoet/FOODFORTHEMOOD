@@ -45,6 +45,7 @@ getProfilePicture()
     <nav class="bg-primary">
         <NuxtLink id="logo" to="/"><h1>F4TM</h1></NuxtLink>
         <ModalTest />
+        <NuxtLink to="/test">Test</NuxtLink>
         <div v-if="userStore.loggedIn" class="flex flex-row">
             <NuxtLink :to="userPath"> {{ userStore.user?.username }} </NuxtLink>
             <button v-if="userStore.loggedIn" @click="logout">Logout</button>
