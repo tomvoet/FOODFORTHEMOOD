@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken"
 
 const TOKEN_SECRET = "testhilfeichwillkeinscretschreibenwassolldas"
+const TOKEN_SECRET_REFRESH =
+    "testhilfeichwillkeinscretschreibenwassolldasrefresh"
 
 //check whether admin
 /*
@@ -28,6 +30,8 @@ export const generateAccessToken = (username: string) => {
 }
 
 //to be implemented, to prevent having to log in every hour
-function generateRefreshToken(email: string) {
-    return jwt.sign({ data: email }, TOKEN_SECRET, { expiresIn: "24h" })
+export const generateRefreshToken = (username: string) => {
+    return jwt.sign({ data: { username } }, TOKEN_SECRET_REFRESH, {
+        expiresIn: "1d",
+    })
 }
