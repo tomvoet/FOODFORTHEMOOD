@@ -53,12 +53,15 @@ export default defineEventHandler(async (event) => {
         },
     })
 
-    if (!posts) {
-        return {
-            status: 404,
-            posts: null,
-        }
-    }
+    if (posts === null)
+        sendError(
+            event,
+            createError({
+                statusCode: 404,
+                statusMessage: "Not Found",
+                message: "No posts found",
+            })
+        )
 
-    return { status: 200, posts: posts }
+    return posts
 })
