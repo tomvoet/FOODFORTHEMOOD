@@ -6,7 +6,6 @@ export const useUserStore = defineStore("user", () => {
     } | null>(null)
     const token = ref<string | null>(null)
     const loggedIn = ref(false)
-    const refresh_token = useCookie("refresh_token")
 
     /**
      * (synchronously) login user & save user data to pinia
@@ -27,10 +26,9 @@ export const useUserStore = defineStore("user", () => {
                 method: "POST",
                 body: { username, password },
             })
-            if (res.user && res.access_token && res.refresh_token) {
+            if (res.user && res.access_token) {
                 user.value = res.user
                 token.value = res.access_token
-                refresh_token.value = res.refresh_token
                 loggedIn.value = true
                 return { success: true, message: "Successfully logged in" }
             } else {
@@ -60,6 +58,34 @@ export const useUserStore = defineStore("user", () => {
         user.value = null
         token.value = null
         loggedIn.value = false
+    }
+
+    const refresh_tokens = async () => {
+        try {
+            const res = await $fetch<{
+                user: {
+                    username: string
+                }
+                access_token: string
+                refresh_token: string
+            }>("/api/auth/refresh_token", {
+                method: "GET",
+            })
+            if (res.access_token && res.user) {
+                token.value = res.access_token
+                user.value = res.user
+                loggedIn.value = true
+                console.log("test", res)
+                return {
+                    success: true,
+                    message: "Successfully refreshed tokens",
+                }
+            } else {
+                return { success: false, message: "Could not refresh tokens" }
+            }
+        } catch (err) {
+            return { success: false, message: getErrorStatus(err).message }
+        }
     }
 
     return {
