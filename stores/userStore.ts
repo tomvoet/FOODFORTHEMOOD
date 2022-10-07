@@ -1,9 +1,12 @@
 import { User } from "@prisma/client"
 
 export const useUserStore = defineStore("user", () => {
-    const user = ref<User | null>(null)
+    const user = ref<{
+        username: string
+    } | null>(null)
     const token = ref<string | null>(null)
-    const loggedIn = ref<boolean>(false)
+    const loggedIn = ref(false)
+    const refresh_token = useCookie("refresh_token")
 
     /**
      * (synchronously) login user & save user data to pinia
@@ -13,22 +16,28 @@ export const useUserStore = defineStore("user", () => {
      * @return {{ success: boolean, message: string }}
      */
     const login = async (username: string, password: string) => {
-        const { data } = await useFetch<{
-            status: number
-            user: User
-            token: string
-        }>(`/api/auth/login`, {
-            method: "POST",
-            initialCache: false,
-            body: JSON.stringify({ username, password }),
-        })
-        if (data.value?.status === 200) {
-            user.value = data.value?.user
-            token.value = data.value?.token
-            loggedIn.value = true
-            return { success: true, message: "Successfully logged in" }
-        } else {
-            return { success: false, message: "Could not log in" }
+        try {
+            const res = await $fetch<{
+                user: {
+                    username: string
+                }
+                access_token: string
+                refresh_token: string
+            }>("/api/auth/login", {
+                method: "POST",
+                body: { username, password },
+            })
+            if (res.user && res.access_token && res.refresh_token) {
+                user.value = res.user
+                token.value = res.access_token
+                refresh_token.value = res.refresh_token
+                loggedIn.value = true
+                return { success: true, message: "Successfully logged in" }
+            } else {
+                return { success: false, message: "Could not log in" }
+            }
+        } catch (err) {
+            return { success: false, message: getErrorStatus(err).message }
         }
     }
 
@@ -59,6 +68,7 @@ export const useUserStore = defineStore("user", () => {
         loggedIn,
         login,
         logout,
+        refresh_tokens,
     }
 })
 
