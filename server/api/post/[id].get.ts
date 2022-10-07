@@ -45,11 +45,14 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!post) {
-        return {
-            status: 404,
-            post: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                message: "Post not found",
+            })
+        )
     }
 
-    return { status: 200, post }
+    return post
 })
