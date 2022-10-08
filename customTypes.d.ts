@@ -27,3 +27,14 @@ interface FullPost extends Post {
         username: string
     }
 }
+
+type simpleRestaurant = {
+    name: string
+    id: number
+    cuisines: {
+        id: number
+        name: string
+    }[]
+    state: string
+    city: string
+}
