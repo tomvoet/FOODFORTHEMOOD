@@ -106,7 +106,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <header id="header" class="sticky top-0 w-full z-50">
+    <header
+        id="header"
+        class="sticky top-0 w-full z-50 bg-primary flex justify-between items-center p-4 md:py-0 md:pl-6"
+    >
         <button
             id="hamburger"
             class="md:hidden"
@@ -118,7 +121,7 @@ onMounted(() => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                class="h-10 w-10"
             >
                 <path
                     stroke-linecap="round"
@@ -127,6 +130,14 @@ onMounted(() => {
                 />
             </svg>
         </button>
+
+        <NuxtLink to="/"
+            ><h1 class="group text-3xl font-semibold hover:text-black md:mr-16">
+                F4TM
+                <span
+                    class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
+                ></span></h1
+        ></NuxtLink>
         <div
             class="fixed top-0 left-0 w-screen h-screen md:hidden transition duration-300 opacity-40"
             :class="{
@@ -136,9 +147,10 @@ onMounted(() => {
                 fadeIn: mobileMenuOpen,
             }"
         ></div>
+        <div class="md:hidden">mobile</div>
         <nav
             id="nav"
-            class="flex flex-col fixed top-0 left-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 -translate-x-full max-w-[80vw] md:max-w-none items-center shadow-sm h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200"
+            class="flex flex-col grow fixed top-0 left-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 -translate-x-full max-w-[80vw] md:max-w-none items-center shadow-sm h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200"
             :class="{
                 'shadow-md': scrolled,
                 ' bg-white': scrolled,
@@ -146,13 +158,6 @@ onMounted(() => {
                 'translate-x-0': mobileMenuOpen,
             }"
         >
-            <NuxtLink to="/"
-                ><h1 class="group text-3xl font-semibold hover:text-black">
-                    F4TM
-                    <span
-                        class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
-                    ></span></h1
-            ></NuxtLink>
             <ModalTest />
             <NuxtLink to="/test">Test</NuxtLink>
             <ClientOnly>
