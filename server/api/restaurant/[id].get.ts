@@ -22,10 +22,13 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!restaurant) {
-        return {
-            status: 404,
-            restaurant: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                message: "Restaurant not found",
+            })
+        )
     }
 
     return {

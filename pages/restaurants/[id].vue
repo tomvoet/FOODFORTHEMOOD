@@ -1,40 +1,50 @@
 <script setup lang="ts">
-import type { FullPost } from "@/customTypes"
+import type { FullPost, simpleRestaurant } from "@/customTypes"
 
 const route = useRoute()
 
-const { data } = await useFetch(`/api/restaurant/${route.params.id}`, {
+const restaurant = ref<simpleRestaurant>()
+const restaurantStatus = useState("restaurantStatus", () => 0) //USESTATE DA SSR
+
+const { data, error } = await useFetch(`/api/restaurant/${route.params.id}`, {
     key: `restaurant/${route.params.id}`,
     server: true,
+    async onResponseError({ response }) {
+        restaurantStatus.value = response.status
+    },
 })
 
-const restaurant = data.value?.restaurant
-const restaurantStatus = data.value?.status || 0
+if (!error.value) {
+    restaurant.value = data.value?.restaurant
+    restaurantStatus.value = 200
+}
 
 const reviews = ref([] as FullPost[] | undefined | null)
 const reviewsStatus = ref(0)
 
-const { data: reviewsData } = useFetch(
-    `/api/restaurant/${route.params.id}/posts`,
-    {
-        key: `restaurant/${route.params.id}/posts`,
-        server: false,
+if (!error.value) {
+    const { data: reviewsData } = useFetch(
+        `/api/restaurant/${route.params.id}/posts`,
+        {
+            key: `restaurant/${route.params.id}/posts`,
+            server: false,
+        }
+    )
+
+    if (reviewsData) {
+        reviews.value = reviewsData.value?.posts
+        reviewsStatus.value = reviewsData.value?.status || 0
     }
-)
 
-if (reviewsData) {
-    reviews.value = reviewsData.value?.posts
-    reviewsStatus.value = reviewsData.value?.status || 0
+    watch(reviewsData, (data) => {
+        reviews.value = data?.posts
+        reviewsStatus.value = data?.status || 0
+    })
+    setMetadata(
+        restaurant.value?.name ? restaurant.value?.name : "404",
+        `Reviews of ${restaurant.value?.name ? restaurant.value?.name : "404"}`
+    )
 }
-
-watch(reviewsData, (data) => {
-    reviews.value = data?.posts
-    reviewsStatus.value = data?.status || 0
-})
-setMetadata(
-    restaurant?.name ? restaurant.name : "404",
-    `Reviews of ${restaurant?.name ? restaurant.name : "404"}`
-)
 </script>
 
 <template>
@@ -54,6 +64,7 @@ setMetadata(
         </div>
         <StatusComp v-else :status="reviewsStatus" />
     </div>
+    <StatusComp v-else :status="restaurantStatus" />
 </template>
 
 <style scoped>
