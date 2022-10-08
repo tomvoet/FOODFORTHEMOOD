@@ -34,7 +34,7 @@ useFetch<{ status: number; image: string | null }>(
 let navBarHeight = ref(0)
 
 onMounted(() => {
-    navBarHeight.value = document.getElementById("nav")?.clientHeight || 0
+    navBarHeight.value = document.getElementById("header")?.clientHeight || 0
 })
 
 setMetadata(
