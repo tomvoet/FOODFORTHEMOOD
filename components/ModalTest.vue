@@ -11,7 +11,7 @@ const closeModal = () => {
 </script>
 
 <template>
-    <button @click="openModal">Open Modal</button>
+    <button class="text-xs" @click="openModal">Open <br />Modal</button>
     <Teleport to="body">
         <div v-if="modalOpen" class="modal">
             <p>Hello from the modal!</p>
