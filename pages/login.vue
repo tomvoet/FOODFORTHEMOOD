@@ -17,6 +17,12 @@ const login = async () => {
     }
 }
 
+onMounted(() => {
+    setTimeout(() => {
+        document.getElementById("username")?.focus()
+    }, 100)
+})
+
 setMetadata("Login", "Login to your account.")
 </script>
 
@@ -42,9 +48,9 @@ setMetadata("Login", "Login to your account.")
             />
         </div>
         <button
-            type="button"
+            type="submit"
             class="border p-1 float-right rounded-[.35em] hover:bg-blue-500 hover:text-white"
-            @click="login"
+            @click.prevent="login"
         >
             Login
         </button>
