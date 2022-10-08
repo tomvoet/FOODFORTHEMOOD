@@ -5,6 +5,8 @@ const userStore = useUserStore()
 
 const userMenuOpen = ref(false)
 
+const mobileMenuOpen = ref(false)
+
 const scrolled = ref(false)
 
 const logout = () => {
@@ -79,6 +81,24 @@ onMounted(() => {
                 userMenuOpen.value = false
             }
         }
+        if (mobileMenuOpen.value) {
+            if (
+                event
+                    .composedPath()
+                    .includes(
+                        document.getElementById("nav") as HTMLDivElement
+                    ) ||
+                event
+                    .composedPath()
+                    .includes(
+                        document.getElementById("hamburger") as HTMLDivElement
+                    )
+            ) {
+                return
+            } else {
+                mobileMenuOpen.value = false
+            }
+        }
     })
 
     if (userStore.loggedIn) getProfilePicture()
@@ -87,13 +107,43 @@ onMounted(() => {
 
 <template>
     <header id="header" class="sticky top-0 w-full z-50">
+        <button
+            id="hamburger"
+            class="md:hidden"
+            @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+            </svg>
+        </button>
+        <div
+            class="fixed top-0 left-0 w-screen h-screen md:hidden transition duration-300 opacity-40"
+            :class="{
+                hidden: !mobileMenuOpen,
+                'bg-white': !mobileMenuOpen,
+                'bg-black': mobileMenuOpen,
+                fadeIn: mobileMenuOpen,
+            }"
+        ></div>
         <nav
             id="nav"
-            class="flex justify-between items-center shadow-sm h-16 py-0 px-8 transition-all ease-in duration-200"
+            class="flex flex-col fixed top-0 left-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 -translate-x-full max-w-[80vw] md:max-w-none items-center shadow-sm h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200"
             :class="{
                 'shadow-md': scrolled,
                 ' bg-white': scrolled,
                 'bg-primary': !scrolled,
+                'translate-x-0': mobileMenuOpen,
             }"
         >
             <NuxtLink to="/"
@@ -185,8 +235,7 @@ onMounted(() => {
                         </transition>
                     </div>
                 </div>
-                <div v-else>
-                    <!--differently colored sign in and sign up button-->
+                <div v-else class="flex flex-row">
                     <button
                         class="bg-red-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-red-400"
                         @click="goToLogin"
@@ -205,4 +254,21 @@ onMounted(() => {
     </header>
 </template>
 
-<style scoped></style>
+<style scoped>
+.fadeIn {
+    animation: fadeIn ease 0.3s;
+    -webkit-animation: fadeIn ease 0.3s;
+    -moz-animation: fadeIn ease 0.3s;
+    -o-animation: fadeIn ease 0.3s;
+    -ms-animation: fadeIn ease 0.3s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.4;
+    }
+}
+</style>

@@ -59,7 +59,7 @@ setMetadata(
         </blockquote>
         <div
             class="border-t border-b shadow-md sticky bg-white z-10"
-            :style="{ top: navBarHeight + 'px' }"
+            :style="{ top: navBarHeight - 1 + 'px' }"
         >
             <NuxtLink
                 class="w-1/2 inline-block text-center hover:bg-gray-100 p-2"
