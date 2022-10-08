@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from "@/stores/userStore"
+import log from "~~/server/middleware/log"
 
 const userStore = useUserStore()
 
@@ -16,6 +17,11 @@ const goToLogin = () => {
     router.push("/login")
 }
 
+const goToRegister = () => {
+    const router = useRouter()
+    router.push("/register")
+}
+
 const userPath = computed(() => {
     if (userStore.user) {
         return `/user/${userStore.user.username}`
@@ -26,16 +32,16 @@ const userPath = computed(() => {
 const profilePicture = ref("img/blankpicture.png")
 
 const getProfilePicture = async () => {
-    const { data } = await useFetch(
+    const res = await $fetch(
         `/api/user/${userStore.user?.username}/profilepicture`
     )
-    if (data.value?.status === 200) {
+    if (res.status === 200) {
         if (
-            data.value?.image !== null &&
-            data.value?.image !== "" &&
-            data.value?.image !== undefined
+            res?.image !== null &&
+            res?.image !== "" &&
+            res?.image !== undefined
         ) {
-            profilePicture.value = data.value?.image
+            profilePicture.value = res.image
         }
     }
 }
@@ -56,9 +62,8 @@ onMounted(() => {
             }
         }
     })
+    if (userStore.loggedIn) getProfilePicture()
 })
-
-getProfilePicture()
 </script>
 
 <template>
@@ -74,6 +79,8 @@ getProfilePicture()
                             :src="profilePicture"
                             :alt="userStore.user?.username"
                             class="rounded-full w-10 h-10"
+                            width="40"
+                            height="40"
                         />
                     </button>
                     <transition
@@ -100,7 +107,7 @@ getProfilePicture()
                             </li>
                             <li class="px-4 py-3 hover:bg-gray-100" role="none">
                                 <NuxtLink
-                                    :to="userPath + '/settings'"
+                                    to="/settings"
                                     class="block text-sm text-gray-700 user-menu-button"
                                     role="menuitem"
                                     @click="userMenuOpen = false"
@@ -147,7 +154,7 @@ getProfilePicture()
                 </button>
                 <button
                     class="bg-green-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-green-400"
-                    @click="goToLogin"
+                    @click="goToRegister"
                 >
                     Sign Up
                 </button>
