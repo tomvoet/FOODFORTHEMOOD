@@ -39,19 +39,39 @@ setMetadata(
 
 <template>
     <div v-if="userStatus == 200 && user">
-        <nuxt-img
-            :src="img || 'img/blankpicture.png'"
-            :alt="`${user.username}'s Profile Picture`"
-            class="profilePicture"
-            sizes="sm:80vw md:7vw"
-        />
-        <h1>{{ user?.username }}</h1>
-        <div>
-            {{ user?.bio }}
+        <div class="flex flex-col md:flex-row p-12 md:p-3 md:items-center">
+            <nuxt-img
+                :src="img || 'img/blankpicture.png'"
+                :alt="`${user.username}'s Profile Picture`"
+                class="profilePicture"
+                sizes="sm:80vw md:7vw"
+            />
+            <h1 class="inline-block w-min md:pl-12">{{ user?.username }}</h1>
         </div>
-        <div>
-            <NuxtLink :to="`/user/${username}`">Posts</NuxtLink>
-            <NuxtLink :to="`/user/${username}/favorites`">Favorites</NuxtLink>
+        <blockquote class="p-6">
+            {{ user?.bio }}
+        </blockquote>
+        <div class="border-t border-b shadow-md">
+            <NuxtLink
+                class="w-1/2 inline-block text-center hover:bg-gray-100 p-2"
+                :to="`/user/${username}`"
+                :class="
+                    route.fullPath === `/user/${username}`
+                        ? 'text-blue-500 font-bold'
+                        : ''
+                "
+                >Posts</NuxtLink
+            >
+            <NuxtLink
+                class="w-1/2 inline-block text-center border-l hover:bg-gray-100 p-2"
+                :to="`/user/${username}/favorites`"
+                :class="
+                    route.fullPath !== `/user/${username}`
+                        ? 'text-blue-500 font-bold'
+                        : ''
+                "
+                >Favorites</NuxtLink
+            >
         </div>
         <NuxtPage />
     </div>
