@@ -31,6 +31,12 @@ useFetch<{ status: number; image: string | null }>(
     }
 })
 
+let navBarHeight = ref(0)
+
+onMounted(() => {
+    navBarHeight.value = document.getElementById("nav")?.clientHeight || 0
+})
+
 setMetadata(
     user?.username ? user.username : "404",
     `Profile of ${user?.username ? user.username : "404"} and their posts.`
@@ -51,7 +57,10 @@ setMetadata(
         <blockquote class="p-6">
             {{ user?.bio }}
         </blockquote>
-        <div class="border-t border-b shadow-md">
+        <div
+            class="border-t border-b shadow-md sticky bg-white z-10"
+            :style="{ top: navBarHeight + 'px' }"
+        >
             <NuxtLink
                 class="w-1/2 inline-block text-center hover:bg-gray-100 p-2"
                 :to="`/user/${username}`"
