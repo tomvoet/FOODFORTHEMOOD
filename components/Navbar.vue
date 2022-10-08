@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { useUserStore } from "@/stores/userStore"
-import log from "~~/server/middleware/log"
 
 const userStore = useUserStore()
 
 const userMenuOpen = ref(false)
+
+const scrolled = ref(false)
 
 const logout = () => {
     const router = useRouter()
@@ -47,6 +48,17 @@ const getProfilePicture = async () => {
 }
 
 onMounted(() => {
+    document.onscroll = () => {
+        const nav = document.getElementById("nav")
+        if (nav) {
+            if (window.scrollY > 0) {
+                scrolled.value = true
+            } else {
+                scrolled.value = false
+            }
+        }
+    }
+
     document.addEventListener("click", (event) => {
         if (userMenuOpen.value) {
             if (
@@ -62,135 +74,129 @@ onMounted(() => {
             }
         }
     })
+
     if (userStore.loggedIn) getProfilePicture()
 })
 </script>
 
 <template>
-    <nav class="bg-primary">
-        <NuxtLink id="logo" to="/"><h1>F4TM</h1></NuxtLink>
-        <ModalTest />
-        <NuxtLink to="/test">Test</NuxtLink>
-        <ClientOnly>
-            <div v-if="userStore.loggedIn" class="flex flex-row">
-                <div id="user-menu" class="relative">
-                    <button @click="userMenuOpen = !userMenuOpen">
-                        <NuxtImg
-                            :src="profilePicture"
-                            :alt="userStore.user?.username"
-                            class="rounded-full w-10 h-10"
-                            width="40"
-                            height="40"
-                        />
-                    </button>
-                    <transition
-                        enter-active-class="transition ease-out duration-100"
-                        enter-from-class="transform opacity-0 scale-95"
-                        enter-to-class="transform opacity-100 scale-100"
-                        leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100"
-                        leave-to-class="transform opacity-0 scale-95"
-                    >
-                        <ul
-                            v-show="userMenuOpen"
-                            class="absolute right-0 w-48 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+    <header id="header" class="sticky top-0 w-full z-50">
+        <nav
+            id="nav"
+            class="flex justify-between items-center shadow-sm h-16 py-0 px-8 transition-all ease-in duration-200"
+            :class="{
+                'shadow-md': scrolled,
+                ' bg-white': scrolled,
+                'bg-primary': !scrolled,
+            }"
+        >
+            <NuxtLink to="/"
+                ><h1 class="group text-3xl font-semibold hover:text-black">
+                    F4TM
+                    <span
+                        class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
+                    ></span></h1
+            ></NuxtLink>
+            <ModalTest />
+            <NuxtLink to="/test">Test</NuxtLink>
+            <ClientOnly>
+                <div v-if="userStore.loggedIn" class="flex flex-row">
+                    <div id="user-menu" class="relative">
+                        <button @click="userMenuOpen = !userMenuOpen">
+                            <NuxtImg
+                                :src="profilePicture"
+                                :alt="userStore.user?.username"
+                                class="rounded-full w-10 h-10"
+                                width="40"
+                                height="40"
+                            />
+                        </button>
+                        <transition
+                            enter-active-class="transition ease-out duration-100"
+                            enter-from-class="transform opacity-0 scale-95"
+                            enter-to-class="transform opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="transform opacity-100 scale-100"
+                            leave-to-class="transform opacity-0 scale-95"
                         >
-                            <li class="px-4 py-3 hover:bg-gray-100" role="none">
-                                <NuxtLink
-                                    :to="userPath"
-                                    class="block text-sm text-gray-700 user-menu-button"
-                                    role="menuitem"
-                                    @click="userMenuOpen = false"
-                                >
-                                    Your Profile
-                                </NuxtLink>
-                            </li>
-                            <li class="px-4 py-3 hover:bg-gray-100" role="none">
-                                <NuxtLink
-                                    to="/settings"
-                                    class="block text-sm text-gray-700 user-menu-button"
-                                    role="menuitem"
-                                    @click="userMenuOpen = false"
-                                >
-                                    Settings
-                                </NuxtLink>
-                            </li>
-                            <li
-                                class="px-4 py-3 hover:bg-gray-100 w-full"
-                                role="none"
+                            <ul
+                                v-show="userMenuOpen"
+                                class="absolute right-0 w-48 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
-                                <a
-                                    class="block text-sm text-gray-700 cursor-pointer user-menu-button"
-                                    role="menuitem"
-                                    @click="
-                                        () => {
-                                            logout()
-                                            userMenuOpen = false
-                                        }
-                                    "
+                                <li
+                                    class="px-4 py-3 hover:bg-gray-100"
+                                    role="none"
                                 >
-                                    Sign out
-                                </a>
-                            </li>
-                            <li class="px-4 py-3" role="none">
-                                <div
-                                    class="block text-sm text-gray-700 user-menu-button"
-                                    role="menuitem"
+                                    <NuxtLink
+                                        :to="userPath"
+                                        class="block text-sm text-gray-700 user-menu-button"
+                                        role="menuitem"
+                                        @click="userMenuOpen = false"
+                                    >
+                                        Your Profile
+                                    </NuxtLink>
+                                </li>
+                                <li
+                                    class="px-4 py-3 hover:bg-gray-100"
+                                    role="none"
                                 >
-                                    logged in as {{ userStore.user?.username }}
-                                </div>
-                            </li>
-                        </ul>
-                    </transition>
+                                    <NuxtLink
+                                        to="/settings"
+                                        class="block text-sm text-gray-700 user-menu-button"
+                                        role="menuitem"
+                                        @click="userMenuOpen = false"
+                                    >
+                                        Settings
+                                    </NuxtLink>
+                                </li>
+                                <li
+                                    class="px-4 py-3 hover:bg-gray-100 w-full"
+                                    role="none"
+                                >
+                                    <a
+                                        class="block text-sm text-gray-700 cursor-pointer user-menu-button"
+                                        role="menuitem"
+                                        @click="
+                                            () => {
+                                                logout()
+                                                userMenuOpen = false
+                                            }
+                                        "
+                                    >
+                                        Sign out
+                                    </a>
+                                </li>
+                                <li class="px-4 py-3" role="none">
+                                    <div
+                                        class="block text-sm text-gray-700 user-menu-button"
+                                        role="menuitem"
+                                    >
+                                        logged in as
+                                        {{ userStore.user?.username }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </transition>
+                    </div>
                 </div>
-            </div>
-            <div v-else>
-                <!--differently colored sign in and sign up button-->
-                <button
-                    class="bg-red-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-red-400"
-                    @click="goToLogin"
-                >
-                    Login
-                </button>
-                <button
-                    class="bg-green-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-green-400"
-                    @click="goToRegister"
-                >
-                    Sign Up
-                </button>
-            </div>
-        </ClientOnly>
-    </nav>
+                <div v-else>
+                    <!--differently colored sign in and sign up button-->
+                    <button
+                        class="bg-red-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-red-400"
+                        @click="goToLogin"
+                    >
+                        Login
+                    </button>
+                    <button
+                        class="bg-green-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-green-400"
+                        @click="goToRegister"
+                    >
+                        Sign Up
+                    </button>
+                </div>
+            </ClientOnly>
+        </nav>
+    </header>
 </template>
 
-<style scoped>
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    height: 4rem;
-    /*
-  background-color: #fff;
-  */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 200ms linear;
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-}
-
-.scrolled {
-    background-color: #fff;
-    color: #050505;
-}
-
-#logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: black;
-    text-decoration: none;
-}
-</style>
+<style scoped></style>
