@@ -1,17 +1,4 @@
 <script lang="ts" setup>
-onMounted(() => {
-    document.onscroll = () => {
-        const nav = document.getElementById("nav")
-        if (nav) {
-            if (window.scrollY > 0) {
-                nav.classList.add("scrolled")
-            } else {
-                nav.classList.remove("scrolled")
-            }
-        }
-    }
-})
-
 const titleChunk = useState("titleChunk")
 const descriptionRaw = useState("description")
 
@@ -64,7 +51,7 @@ useHead({
 
 <template>
     <div id="app">
-        <Navbar id="nav" />
+        <Navbar />
         <slot />
         <NuxtLoadingIndicator :height="5" />
     </div>
