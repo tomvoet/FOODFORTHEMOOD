@@ -47,6 +47,12 @@ const getProfilePicture = async () => {
     }
 }
 
+userStore.$subscribe((state) => {
+    if (userStore.loggedIn) {
+        getProfilePicture()
+    }
+})
+
 onMounted(() => {
     document.onscroll = () => {
         const nav = document.getElementById("nav")
