@@ -51,7 +51,7 @@ const submitDeletePost = async (id: number) => {
 </script>
 
 <template>
-    <article class="post relative">
+    <article class="relative m-4 p-4 border w-3/4 md:w-1/2 rounded-lg">
         <h2 class="font-bold text-3xl">
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
         </h2>
@@ -98,12 +98,4 @@ const submitDeletePost = async (id: number) => {
     </article>
 </template>
 
-<style scoped>
-.post {
-    width: 50%;
-    margin: 1rem;
-    padding: 1rem;
-    border: 1px solid black;
-    border-radius: 5px;
-}
-</style>
+<style scoped></style>
