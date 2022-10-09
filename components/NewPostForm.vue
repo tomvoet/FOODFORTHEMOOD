@@ -46,6 +46,7 @@ const submitPost = async () => {
         rating.value = 0
         restaurantChoice.value = 0
         chosenFood.value = ""
+        refreshNuxtData()
     } else {
         alert(`Error: ${res.status.code} - ${res.status.message}`)
     }
@@ -127,7 +128,7 @@ watch(restaurantData, (data) => {
             </div>
             <button
                 type="submit"
-                class="border p-1 rounded-[.35em] hover:bg-blue-500 hover:text-white"
+                class="border p-1 mr-3 rounded-md hover:bg-blue-500 hover:text-white float-right"
             >
                 Create Post
             </button>
