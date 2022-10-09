@@ -13,23 +13,21 @@ const closeModal = () => {
 <template>
     <button class="text-xs" @click="openModal">Open <br />Modal</button>
     <Teleport to="body">
-        <div v-if="modalOpen" class="modal">
-            <p>Hello from the modal!</p>
-            <button @click="closeModal()">Close</button>
+        <div
+            v-if="modalOpen"
+            class="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex flex-col justify-center items-center z-50"
+            @click.self="closeModal"
+        >
+            <aside class="bg-white rounded-lg p-6 relative">
+                <button
+                    class="absolute top-3 right-3 leading-3 h-6 w-6 text-2xl text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md"
+                    @click="closeModal()"
+                >
+                    &times;
+                </button>
+            </aside>
         </div>
     </Teleport>
 </template>
 
-<style scoped>
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-</style>
+<style scoped></style>
