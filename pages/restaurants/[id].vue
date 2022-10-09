@@ -51,7 +51,10 @@ if (!error.value) {
     <div v-if="restaurantStatus == 200 && restaurant">
         <h1>{{ restaurant?.name }}</h1>
         <p>{{ restaurant?.cuisines }}</p>
-        <div v-if="reviewsStatus === 200" class="flex flex-col items-center">
+        <section
+            v-if="reviewsStatus === 200"
+            class="flex flex-col items-center"
+        >
             <PostComp
                 v-for="review in reviews"
                 :key="review.id"
@@ -61,7 +64,7 @@ if (!error.value) {
                 :favorites="review.favorites"
                 :comments="review.comments"
             />
-        </div>
+        </section>
         <StatusComp v-else :status="reviewsStatus" />
     </div>
     <StatusComp v-else :status="restaurantStatus" />

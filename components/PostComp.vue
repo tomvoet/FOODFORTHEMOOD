@@ -52,9 +52,9 @@ const submitDeletePost = async (id: number) => {
 
 <template>
     <article class="relative m-4 p-4 border w-3/4 md:w-1/2 rounded-lg">
-        <h2 class="font-bold text-3xl">
+        <h3 class="font-bold text-3xl">
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
-        </h2>
+        </h3>
         <DeletePost
             v-if="userStore.loggedIn"
             @delete-post="submitDeletePost(post.id)"
@@ -66,12 +66,12 @@ const submitDeletePost = async (id: number) => {
                 {{ restaurant?.name }}
             </NuxtLink>
         </div>
-        <div class="chosenFood">
+        <p class="chosenFood">
             {{ post.chosenFood }}
-        </div>
-        <div class="mt-4">
+        </p>
+        <p class="mt-4">
             {{ post.text }}
-        </div>
+        </p>
         <div class="text-gray-700 mt-1 text-sm">
             {{
                 post.updatedAt == post.createdAt

@@ -20,7 +20,7 @@ const reloadPosts = () => {
 </script>
 
 <template>
-    <div v-if="status.code === 200" class="flex flex-col items-center">
+    <section v-if="status.code === 200" class="flex flex-col items-center">
         <PostComp
             v-for="post in posts"
             :key="post.id"
@@ -31,10 +31,8 @@ const reloadPosts = () => {
             :comments="post.comments"
             @reload-comments="reloadPosts"
         />
-    </div>
-    <div v-else>
-        <StatusComp :status="status.code" />
-    </div>
+    </section>
+    <StatusComp v-else :status="status.code" />
 </template>
 
 <style scoped></style>
