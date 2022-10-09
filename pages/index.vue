@@ -14,6 +14,10 @@ getAllPosts().then((data) => {
 setMetadata("Posts", "Current feed of posts")
 
 const reloadPosts = () => {
+    getAllPosts().then((data) => {
+        posts.value = data.posts
+        status.value = data.status
+    })
     //refresh() //refresh auf jeden fall für pagination
     //refreshNuxtData()
 }
@@ -29,7 +33,7 @@ const reloadPosts = () => {
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
             :favorites="post.favorites"
             :comments="post.comments"
-            @reload-comments="reloadPosts"
+            @reload-posts="reloadPosts"
         />
     </section>
     <StatusComp v-else :status="status.code" />

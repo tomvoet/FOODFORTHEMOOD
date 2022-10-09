@@ -23,7 +23,10 @@ const reloadComments = () => {
         <template v-if="comments">
             <div v-for="comment in comments" :key="comment.id">
                 <hr />
-                <CommentComp :comment="comment" />
+                <CommentComp
+                    :comment="comment"
+                    @reload-comments="reloadComments"
+                />
             </div>
         </template>
         <div v-else>No comments yet</div>

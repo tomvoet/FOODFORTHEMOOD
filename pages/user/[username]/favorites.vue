@@ -22,6 +22,10 @@ watch(favData, (data) => {
     favorites.value = data?.favorites
     favoritesStatus.value = data?.status || 0
 })
+
+const reloadFavorites = () => {
+    refreshNuxtData()
+}
 </script>
 
 <template>
@@ -34,6 +38,7 @@ watch(favData, (data) => {
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
             :favorites="post.favorites"
             :comments="post.comments"
+            @reload-posts="reloadFavorites"
         />
     </section>
     <StatusComp v-else :status="favoritesStatus" />

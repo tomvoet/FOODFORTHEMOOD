@@ -20,16 +20,16 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-    (e: "reloadComments"): void
+    (e: "reloadPosts"): void
     (e: "reloadFavorites"): void
 }>()
 
-const reloadComments = () => {
-    emits("reloadComments")
-}
+//const reloadComments = () => {
+//    emits("reloadPosts")
+//}
 
 const reloadPosts = () => {
-    //emits("reloadPosts")
+    emits("reloadPosts")
 }
 
 const submitDeletePost = async (id: number) => {
@@ -93,7 +93,7 @@ const submitDeletePost = async (id: number) => {
         <CommentSection
             :comments="comments"
             :post-id="post.id"
-            @reload-comments="reloadComments"
+            @reload-comments="reloadPosts"
         />
     </article>
 </template>

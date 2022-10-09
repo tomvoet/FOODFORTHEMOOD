@@ -10,6 +10,10 @@ const props = defineProps<{
     comment: PartialBy<Comment, "postId">
 }>()
 
+const emits = defineEmits<{
+    (e: "reloadComments"): void
+}>()
+
 const pressDelete = async () => {
     if (userStore.loggedIn && userStore.user && userStore.token) {
         const response = await deleteComment(props.comment.id, userStore.token)
@@ -19,7 +23,7 @@ const pressDelete = async () => {
                 : "Error deleting comment"
         )
         if (response.status == 200) {
-            //reload comments
+            emits("reloadComments")
         }
     }
 }

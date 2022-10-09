@@ -22,6 +22,10 @@ watch(postsData, (data) => {
     posts.value = data?.posts
     postsStatus.value = data?.status || 0
 })
+
+const reloadPosts = () => {
+    refreshNuxtData()
+}
 </script>
 
 <template>
@@ -34,6 +38,7 @@ watch(postsData, (data) => {
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
             :favorites="post.favorites"
             :comments="post.comments"
+            @reload-posts="reloadPosts"
         />
     </section>
     <StatusComp v-else :status="postsStatus" />

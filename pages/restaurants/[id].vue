@@ -22,7 +22,11 @@ if (!error.value) {
 const reviews = ref([] as FullPost[] | undefined | null)
 const reviewsStatus = ref(0)
 
-if (!error.value) {
+const reloadReviews = () => {
+    refreshNuxtData()
+}
+
+const loadReviews = () => {
     const { data: reviewsData } = useFetch(
         `/api/restaurant/${route.params.id}/posts`,
         {
@@ -40,11 +44,16 @@ if (!error.value) {
         reviews.value = data?.posts
         reviewsStatus.value = data?.status || 0
     })
-    setMetadata(
-        restaurant.value?.name ? restaurant.value?.name : "404",
-        `Reviews of ${restaurant.value?.name ? restaurant.value?.name : "404"}`
-    )
 }
+
+if (!error.value) {
+    loadReviews()
+}
+
+setMetadata(
+    restaurant.value?.name ? restaurant.value?.name : "404",
+    `Reviews of ${restaurant.value?.name ? restaurant.value?.name : "404"}`
+)
 </script>
 
 <template>
@@ -63,6 +72,7 @@ if (!error.value) {
                 :restaurant="{ ...review.restaurant, id: review.restaurantId }"
                 :favorites="review.favorites"
                 :comments="review.comments"
+                @reload-posts="reloadReviews"
             />
         </section>
         <StatusComp v-else :status="reviewsStatus" />
