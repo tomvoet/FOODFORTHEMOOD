@@ -4,7 +4,7 @@ import { FullPost } from "@/customTypes"
 const route = useRoute()
 
 const { data } = await useAsyncData(
-    "post",
+    `post/${route.params.id}`,
     async () => {
         return getPostById(route.params.id as string)
     },
