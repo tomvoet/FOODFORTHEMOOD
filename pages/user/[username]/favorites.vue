@@ -25,7 +25,7 @@ watch(favData, (data) => {
 </script>
 
 <template>
-    <div v-if="favoritesStatus == 200" class="postsContainer">
+    <div v-if="favoritesStatus == 200" class="flex flex-col items-center">
         <PostComp
             v-for="post in favorites"
             :key="post.id"
@@ -39,10 +39,4 @@ watch(favData, (data) => {
     <StatusComp v-else :status="favoritesStatus" />
 </template>
 
-<style scoped>
-.postsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-</style>
+<style scoped></style>

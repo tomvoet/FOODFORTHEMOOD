@@ -51,7 +51,7 @@ if (!error.value) {
     <div v-if="restaurantStatus == 200 && restaurant">
         <h1>{{ restaurant?.name }}</h1>
         <p>{{ restaurant?.cuisines }}</p>
-        <div v-if="reviewsStatus === 200" class="postsContainer">
+        <div v-if="reviewsStatus === 200" class="flex flex-col items-center">
             <PostComp
                 v-for="review in reviews"
                 :key="review.id"
@@ -68,11 +68,6 @@ if (!error.value) {
 </template>
 
 <style scoped>
-.postsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 h1 {
     font-size: 2rem;
     display: inline-block;
