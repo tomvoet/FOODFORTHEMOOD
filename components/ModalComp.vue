@@ -25,6 +25,7 @@ const closeModal = () => {
                 >
                     &times;
                 </button>
+                <slot></slot>
             </aside>
         </div>
     </Teleport>
