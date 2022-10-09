@@ -108,7 +108,12 @@ onMounted(() => {
 <template>
     <header
         id="header"
-        class="sticky top-0 w-full z-50 bg-primary flex justify-between items-center p-4 md:py-0 md:pl-6"
+        class="sticky top-0 w-full z-50 bg-primary flex justify-between items-center p-4 md:py-0 md:pl-6 transition duration-300"
+        :class="{
+            'shadow-md': scrolled,
+            ' bg-white': scrolled,
+            'bg-primary': !scrolled,
+        }"
     >
         <button
             id="hamburger"
@@ -150,11 +155,8 @@ onMounted(() => {
         <div class="md:hidden">mobile</div>
         <nav
             id="nav"
-            class="flex flex-col grow fixed top-0 left-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 -translate-x-full max-w-[80vw] md:max-w-none items-center shadow-sm h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200"
+            class="flex flex-col grow fixed top-0 left-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 -translate-x-full max-w-[80vw] md:max-w-none items-center shadow-sm h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200 bg-primary md:bg-transparent"
             :class="{
-                'shadow-md': scrolled,
-                ' bg-white': scrolled,
-                'bg-primary': !scrolled,
                 'translate-x-0': mobileMenuOpen,
             }"
         >
