@@ -21,6 +21,11 @@ const printText = () => {
             placeholder="Enter password here"
             icon="lockClosedSolid"
             field="Password"
-        /><button @click="printText">test</button>
+        /><TextInput
+            v-model="text"
+            type="text"
+            placeholder="KEINE ICONS"
+            field="Password"
+        /><button class="shadow-sm" @click="printText">test</button>
     </div>
 </template>
