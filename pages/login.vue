@@ -7,12 +7,14 @@ const username = ref("")
 const password = ref("")
 
 const login = async () => {
+    document.getElementById("errorMessage")!.innerText = ""
     const loginRes = await userStore.login(username.value, password.value)
     if (loginRes.success) {
         console.log(userStore.token)
         const router = useRouter()
         router.push("/")
     } else {
+        document.getElementById("errorMessage")!.innerText = "Your username or password is wrong."
         console.log(loginRes.message)
     }
 }
@@ -46,6 +48,9 @@ setMetadata("Login", "Login to your account.")
                 type="password"
                 class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+        </div>
+        <div class="p-4">
+            <p id="errorMessage"></p>
         </div>
         <button
             type="submit"
