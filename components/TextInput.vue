@@ -36,7 +36,9 @@ const updateModel = (event: Event) => {
                 :name="field"
                 :type="type || 'text'"
                 :placeholder="placeholder"
-                class="block w-full border rounded-md p-1 pl-7 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="block w-full border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                :class="icon ? 'pl-7' : ''"
+                :value="modelValue"
                 @input="updateModel"
             />
         </div>
