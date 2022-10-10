@@ -49,7 +49,7 @@ const getProfilePicture = async () => {
     }
 }
 
-userStore.$subscribe((state) => {
+userStore.$subscribe(() => {
     if (userStore.loggedIn) {
         getProfilePicture()
     }
