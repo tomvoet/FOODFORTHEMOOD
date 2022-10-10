@@ -56,7 +56,10 @@ const submitDeletePost = async (id: number) => {
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
         </h3>
         <DeletePost
-            v-if="userStore.loggedIn"
+            v-if="
+                userStore.loggedIn &&
+                userStore.user?.username === author?.username
+            "
             @delete-post="submitDeletePost(post.id)"
         />
         <StarRating :rating="post.rating" />
