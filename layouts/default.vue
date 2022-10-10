@@ -50,7 +50,7 @@ useHead({
 </script>
 
 <template>
-    <div id="app">
+    <div id="app" class="min-h-screen">
         <Navbar />
         <main>
             <slot />
