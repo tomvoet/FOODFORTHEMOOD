@@ -4,6 +4,12 @@ const email = ref("")
 const password = ref("")
 const passwordConfirmation = ref("")
 
+const usernameValid = ref(true)
+const emailValid = ref(true)
+const passwordValid = ref(true)
+const passwordConfValid = ref(true)
+
+
 const register = async () => {
     const user = await useFetch("/api/auth/register", {
         method: "POST",
@@ -23,32 +29,29 @@ const register = async () => {
 }
 
 const validate = () => {
-    var check = 0
+    var check = true
 
-    var emailCheck = validateEmail()
-
-    var passwordCheck = validatePassword()
-
-    if (password.value !== passwordConfirmation.value) {
-        document.getElementById("passwordConfCheck")!.innerText =
-            "Passwords do not match"
-        check = 1
-    }
-    if (!emailCheck) {
-        document.getElementById("emailCheck")!.innerText = "Invalid email"
-        check = 1
-    }
-    if (!passwordCheck) {
-        document.getElementById("passwordCheck")!.innerText =
-            "Password must be at least 8 characters, contain multiple uppercase and lowercase letters, multiple digits and a special case letter (!@#$&*)"
-        check = 1
-    }
     if (username.value.length < 3) {
-        document.getElementById("usernameCheck")!.innerText =
-            "Username must be at least 3 characters"
-        check = 1
+        usernameValid.value = false
+        check = false
     }
-    if (check == 0) {
+
+    if (!validateEmail()) {
+        emailValid.value = false
+        check = false
+    }
+
+    if (!validatePassword()) {
+        passwordValid.value = false
+        check = false
+    }
+    
+    if (password.value !== passwordConfirmation.value) {
+        passwordConfValid.value = false
+        check = false
+    }
+    
+    if (check) {
         register()
     }
 }
@@ -79,10 +82,6 @@ function validatePassword(): boolean {
 $                         End anchor. */
 
 const submit = () => {
-    document.getElementById("usernameCheck")!.innerText = ""
-    document.getElementById("passwordConfCheck")!.innerText = ""
-    document.getElementById("passwordCheck")!.innerText = ""
-    document.getElementById("emailCheck")!.innerText = ""
     validate()
 }
 
@@ -93,22 +92,22 @@ setMetadata("Register", "Register for an account.")
     <form class="registerContainer">
         <h1>Register</h1>
         <div>
-            <p id="usernameCheck"></p>
+            <p id="usernameCheck" v-show="!usernameValid">Username must be at least 3 characters</p>
             <label for="username">Username</label>
             <input id="username" v-model="username" type="text" />
         </div>
         <div>
-            <p id="emailCheck"></p>
+            <p id="emailCheck" v-show="!emailValid">Invalid email</p>
             <label for="email">Email</label>
             <input id="email" v-model="email" type="email" />
         </div>
         <div>
-            <p id="passwordCheck"></p>
+            <p id="passwordCheck" v-show="!passwordValid">Password must be at least 8 characters, contain multiple uppercase and lowercase letters, multiple digits and a special case letter (!@#$&*)</p>
             <label for="password">Password</label>
             <input id="password" v-model="password" type="password" />
         </div>
         <div>
-            <p id="passwordConfCheck"></p>
+            <p id="passwordConfCheck" v-show="!passwordConfValid">Passwords do not match</p>
             <label for="passwordConfirmation">Confirm Password</label>
             <input
                 id="passwordConfirmation"
