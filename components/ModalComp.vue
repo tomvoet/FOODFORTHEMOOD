@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+const props = defineProps<{
+    text: string
+    classes?: string
+}>()
+
 const modalOpen = ref(false)
 
 const openModal = () => {
@@ -11,7 +16,7 @@ const closeModal = () => {
 </script>
 
 <template>
-    <button class="text-xs" @click="openModal">Open <br />Modal</button>
+    <button :class="classes" @click="openModal">{{ text }}</button>
     <Teleport to="body">
         <div
             v-if="modalOpen"

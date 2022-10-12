@@ -160,7 +160,7 @@ onMounted(() => {
                 'translate-x-0': mobileMenuOpen,
             }"
         >
-            <ModalComp><NewPostForm /></ModalComp>
+            <ModalComp text="newpost"><NewPostForm /></ModalComp>
             <NuxtLink to="/test">Test</NuxtLink>
             <ClientOnly>
                 <div v-if="userStore.loggedIn" class="flex flex-row">
