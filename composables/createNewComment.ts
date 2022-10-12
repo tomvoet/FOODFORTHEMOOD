@@ -3,7 +3,8 @@
  * @function getAllPosts
  * @param {string} authorId username of the author
  * @param {number} postId id of the post
- * @param {string} content content of the comment
+ * @param {string} text content of the comment
+ * @param {string} token token of the user
  * @author Tom Voet
  */
 export const createNewComment = async (
@@ -18,6 +19,7 @@ export const createNewComment = async (
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        initialCache: false,
     })
 
     const status = data.value?.status

@@ -11,6 +11,7 @@ export const deleteComment = async (commentId: number, token: string) => {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        initialCache: false,
     })
 
     const status = data.value?.status
