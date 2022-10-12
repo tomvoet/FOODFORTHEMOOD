@@ -15,7 +15,10 @@ const props = defineProps<{
         </div>
         <div v-else>
             <span class="text-3xl font-bold">
-                <img src="img\nudel.webp" class="w-50 h-50 mr-3 animate-spin" />
+                <nuxt-img
+                    :src="'img\nudel.webp'"
+                    class="w-50 h-50 mr-3 animate-spin"
+                />
                 <!--
                 <svg
                     class="animate-spin h-9 w-9 mr-3 float-left"
