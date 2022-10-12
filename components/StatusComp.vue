@@ -18,6 +18,7 @@ const props = defineProps<{
                 <nuxt-img
                     :src="'img\nudel.webp'"
                     class="w-50 h-50 mr-3 animate-spin"
+                    sizes="sm:80vw md:7vw"
                 />
                 <!--
                 <svg
