@@ -6,15 +6,16 @@ const userStore = useUserStore()
 const username = ref("")
 const password = ref("")
 
+const errorMessage = ref(false)
+
 const login = async () => {
-    document.getElementById("errorMessage")!.innerText = ""
     const loginRes = await userStore.login(username.value, password.value)
     if (loginRes.success) {
         console.log(userStore.token)
         const router = useRouter()
         router.push("/")
     } else {
-        document.getElementById("errorMessage")!.innerText = "Your username or password is wrong."
+        errorMessage.value = true
         console.log(loginRes.message)
     }
 }
@@ -50,7 +51,9 @@ setMetadata("Login", "Login to your account.")
             />
         </div>
         <div class="p-4">
-            <p id="errorMessage"></p>
+            <p v-show="errorMessage" id="errorMessage">
+                Your username or password is wrong.
+            </p>
         </div>
         <button
             type="submit"
