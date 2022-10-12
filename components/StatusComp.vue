@@ -15,6 +15,11 @@ const props = defineProps<{
         </div>
         <div v-else>
             <span class="text-3xl font-bold">
+                <img
+                    src="img\137025225-eine-makkaroni-von-cornetti-rigatti-pasta-flacher-einzelner-symbolvektor-isoliert-auf-weiß.webp"
+                    class="w-50 h-50 mr-3 animate-spin"
+                />
+                <!--
                 <svg
                     class="animate-spin h-9 w-9 mr-3 float-left"
                     xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +39,7 @@ const props = defineProps<{
                         stroke-dasharray="164.93361431346415 56.97787143782138"
                         transform="matrix(1,0,0,1,0,0)"
                     ></circle></svg
-                >Loading...
+                >-->Loading...
             </span>
         </div>
     </div>
