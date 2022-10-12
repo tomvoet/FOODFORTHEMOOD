@@ -15,8 +15,8 @@ const props = defineProps<{
         </div>
         <div v-else>
             <span class="text-3xl font-bold">
-                <nuxt-img
-                    :src="'img\nudel.webp'"
+                <nuxt-picture
+                    :src="'img/nudel.webp'"
                     class="w-50 h-50 mr-3 animate-spin"
                     sizes="sm:80vw md:7vw"
                 />
