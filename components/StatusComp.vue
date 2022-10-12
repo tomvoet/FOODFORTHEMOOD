@@ -15,10 +15,7 @@ const props = defineProps<{
         </div>
         <div v-else>
             <span class="text-3xl font-bold">
-                <img
-                    src="img\137025225-eine-makkaroni-von-cornetti-rigatti-pasta-flacher-einzelner-symbolvektor-isoliert-auf-weiß.webp"
-                    class="w-50 h-50 mr-3 animate-spin"
-                />
+                <img src="img\nudel.webp" class="w-50 h-50 mr-3 animate-spin" />
                 <!--
                 <svg
                     class="animate-spin h-9 w-9 mr-3 float-left"
