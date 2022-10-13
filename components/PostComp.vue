@@ -32,6 +32,10 @@ const reloadPosts = () => {
     emits("reloadPosts")
 }
 
+const commentList = ref(
+    props.comments || ([] as PartialBy<Comment, "postId">[])
+)
+
 const submitDeletePost = async (id: number) => {
     if (userStore.loggedIn && userStore.user?.username) {
         if (confirm("Are you sure you want to delete this post?")) {
@@ -51,6 +55,19 @@ const submitDeletePost = async (id: number) => {
 
 const onLike = () => {
     console.log("test")
+}
+
+const loadAdditionalComments = async () => {
+    const { data } = await useFetch<PartialBy<Comment, "postId">[]>(
+        `/api/post/${props.post.id}/comment?cursorId=${
+            commentList.value[commentList.value.length - 1].id
+        }`,
+        {
+            server: true,
+            initialCache: false,
+        }
+    )
+    commentList.value = commentList.value.concat(data.value || [])
 }
 </script>
 
@@ -107,10 +124,17 @@ const onLike = () => {
             </div>
         </div>
         <CommentSection
-            :comments="comments"
+            :comments="commentList"
             :post-id="post.id"
             @reload-comments="reloadPosts"
         />
+        <button
+            v-if="comments && comments.length >= 10"
+            class="text-blue-600 underline mx-auto block w-max m-auto p-1 mt-1 hover:text-blue-800"
+            @click="loadAdditionalComments"
+        >
+            load mehr
+        </button>
     </article>
 </template>
 
