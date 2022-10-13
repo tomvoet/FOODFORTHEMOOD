@@ -200,7 +200,7 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                                 class="absolute right-0 w-48 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
                                 <li
-                                    class="px-4 py-3 hover:bg-gray-100"
+                                    class="px-4 py-3 hover:bg-gray-100 rounded-t-md"
                                     role="none"
                                 >
                                     <NuxtLink
