@@ -71,7 +71,7 @@ const submit = () => {
             </button>
             <button
                 :disabled="!userStore.loggedIn"
-                class="disabled:opacity-50"
+                class="disabled:opacity-50 rounded-br-md"
                 @click.prevent="submit()"
             >
                 Submit
@@ -106,7 +106,6 @@ button {
     border-top: 1px solid #ddd;
     font-size: 1em;
     padding: 0.2em 0.5em;
-    border-radius: 0px;
     cursor: pointer;
 }
 
