@@ -8,10 +8,12 @@ const username = computed(() => route.params.username as string)
 const favorites = ref([] as PartialBy<FullPost, "author">[] | undefined | null)
 const favoritesStatus = ref(0)
 
-const { data: favData } = useFetch(`/api/user/${username.value}/favorites`, {
-    key: `user/${username.value}/favorites`,
-    server: false,
-})
+const { data: favData, pending } = useLazyFetch(
+    `/api/user/${username.value}/favorites`,
+    {
+        key: `user/${username.value}/favorites`,
+    }
+)
 
 if (favData) {
     favorites.value = favData.value?.favorites
@@ -29,7 +31,11 @@ const reloadFavorites = () => {
 </script>
 
 <template>
-    <section v-if="favoritesStatus == 200" class="flex flex-col items-center">
+    <LoadingComp v-if="pending" />
+    <section
+        v-else-if="favoritesStatus == 200"
+        class="flex flex-col items-center"
+    >
         <PostComp
             v-for="post in favorites"
             :key="post.id"

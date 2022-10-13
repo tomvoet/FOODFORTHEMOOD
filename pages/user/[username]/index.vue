@@ -8,10 +8,12 @@ const username = computed(() => route.params.username as string)
 const posts = ref([] as PartialBy<FullPost, "author">[] | undefined | null)
 const postsStatus = ref(0)
 
-const { data: postsData } = useFetch(`/api/user/${username.value}/posts`, {
-    key: `user/${username.value}/posts`,
-    server: false,
-})
+const { data: postsData, pending } = useLazyFetch(
+    `/api/user/${username.value}/posts`,
+    {
+        key: `user/${username.value}/posts`,
+    }
+)
 
 if (postsData) {
     posts.value = postsData.value?.posts
@@ -29,7 +31,8 @@ const reloadPosts = () => {
 </script>
 
 <template>
-    <section v-if="postsStatus == 200" class="flex flex-col items-center">
+    <LoadingComp v-if="pending" />
+    <section v-else-if="postsStatus == 200" class="flex flex-col items-center">
         <PostComp
             v-for="post in posts"
             :key="post.id"
