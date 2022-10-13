@@ -4,7 +4,7 @@ import { clearNuxtData } from "nuxt/dist/app/composables/asyncData"
 
 const route = useRoute()
 
-const { data, pending, refresh } = await useAsyncData(
+const { data, pending } = await useAsyncData(
     `post/${route.params.id}`,
     async () => {
         return getPostById(route.params.id as string)
