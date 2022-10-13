@@ -82,6 +82,7 @@ onMounted(() => {
             }
         }
         if (mobileMenuOpen.value) {
+            console.log(document.querySelectorAll("nav button"))
             if (
                 event
                     .composedPath()
@@ -103,15 +104,27 @@ onMounted(() => {
 
     if (userStore.loggedIn) getProfilePicture()
 })
+
+const pathContainsNavButton = (path: EventTarget[]) => {
+    const help = path.some((element) => {
+        if (element instanceof HTMLButtonElement) {
+            return true
+        }
+    })
+
+    console.log(help)
+
+    return help
+}
 </script>
 
 <template>
     <header
         id="header"
-        class="sticky top-0 w-full z-50 shadow-md bg-primary flex justify-between items-center p-4 md:py-0 md:pl-6 transition duration-300"
+        class="sticky top-0 w-full z-50 shadow-md flex justify-between items-center p-4 md:py-0 md:pl-6 transition duration-300"
         :class="{
             'shadow-md': scrolled,
-            ' bg-white': scrolled,
+            'bg-white': scrolled,
             'bg-primary': !scrolled,
         }"
     >
