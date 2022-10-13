@@ -29,10 +29,12 @@ onMounted(() => {
 
 //email checken, obs ne email ist, request an backend schicken
 const sendMail = () => {
-    console.log("test")
-    if (emailInput.value != "test") {
-        console.log("testinput")
-    }
+    $fetch("/api/auth/reset_password", {
+        method: "post",
+        body: {
+            email: emailInput.value
+        }
+    })
 }
 
 setMetadata("Login", "Login to your account.")
