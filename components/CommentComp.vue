@@ -5,7 +5,6 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     comment: PartialBy<Comment, "postId">
 }>()
@@ -30,22 +29,12 @@ const pressDelete = async () => {
 </script>
 
 <template>
-    <div class="comment">
-        <div class="commentText">
-            {{ comment.text }}
-        </div>
-        <div class="commentAuthor">
+    <div class="comment relative">
+        <div>
             <NuxtLink :to="'/user/' + comment.authorId">
                 {{ comment.authorId }}
             </NuxtLink>
-        </div>
-        <button
-            v-if="comment.authorId == userStore.user?.username"
-            @click="pressDelete()"
-        >
-            Delete
-        </button>
-        <div class="commentTime">
+            -
             {{
                 `${new Date(comment.createdAt).toLocaleTimeString("de-DE", {
                     hour: "2-digit",
@@ -55,5 +44,15 @@ const pressDelete = async () => {
                 )}`
             }}
         </div>
+        <div class="commentText">
+            {{ comment.text }}
+        </div>
+        <button
+            v-if="comment.authorId == userStore.user?.username"
+            class="absolute top-0 right-0"
+            @click="pressDelete()"
+        >
+            Delete
+        </button>
     </div>
 </template>
