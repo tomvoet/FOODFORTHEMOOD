@@ -56,11 +56,13 @@ const isLiked = (favorites: singleLike[] | undefined) =>
         <ModalComp
             :text="favorites ? String(favorites.length) : ''"
             classes="ml-1"
-            ><NuxtLink
+        >
+            <h4 class="text-xl font-bold">People who like this</h4>
+            <NuxtLink
                 v-for="favorite in favorites"
                 :key="favorite.username + 'fav'"
                 :to="'/user/' + favorite.username"
-                class="block p-1"
+                class="block p-1 hover:bg-gray-200"
                 >{{ favorite.username }}</NuxtLink
             >
         </ModalComp>
