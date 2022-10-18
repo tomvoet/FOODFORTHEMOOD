@@ -5,11 +5,14 @@ import { FullPost } from "~~/customTypes"
  * @author Tom Voet
  * @returns {{ posts: FullPost[], status: { code: number, message: string } }}
  */
-export const getAllPosts = async () => {
+export const getAllPosts = async (opts: { cursor?: number }) => {
     try {
-        const posts = await $fetch<FullPost[]>("/api/post", {
-            method: "GET",
-        })
+        const posts = await $fetch<FullPost[]>(
+            `/api/post${opts.cursor ? "?cursorId=" + opts.cursor : ""}`,
+            {
+                method: "GET",
+            }
+        )
         return {
             posts,
             status: {
