@@ -128,6 +128,23 @@ const pathContainsNavButton = (path: EventTarget[]) => {
             'bg-primary': !scrolled,
         }"
     >
+        <div class="md:hidden">mobile</div>
+        <NuxtLink to="/"
+            ><h1 class="group text-3xl font-semibold hover:text-black md:mr-16">
+                F4TM
+                <span
+                    class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
+                ></span></h1
+        ></NuxtLink>
+        <div
+            class="fixed top-0 left-0 w-screen h-screen md:hidden transition duration-300 opacity-40"
+            :class="{
+                hidden: !mobileMenuOpen,
+                'bg-white': !mobileMenuOpen,
+                'bg-black': mobileMenuOpen,
+                fadeIn: mobileMenuOpen,
+            }"
+        ></div>
         <button
             id="hamburger"
             class="md:hidden"
@@ -148,32 +165,13 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                 />
             </svg>
         </button>
-
-        <NuxtLink to="/"
-            ><h1 class="group text-3xl font-semibold hover:text-black md:mr-16">
-                F4TM
-                <span
-                    class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
-                ></span></h1
-        ></NuxtLink>
-        <div
-            class="fixed top-0 left-0 w-screen h-screen md:hidden transition duration-300 opacity-40"
-            :class="{
-                hidden: !mobileMenuOpen,
-                'bg-white': !mobileMenuOpen,
-                'bg-black': mobileMenuOpen,
-                fadeIn: mobileMenuOpen,
-            }"
-        ></div>
-        <div class="md:hidden">mobile</div>
         <nav
             id="nav"
-            class="flex flex-col grow fixed top-0 left-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 -translate-x-full max-w-[80vw] md:max-w-none items-center shadow-md md:shadow-none h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200 bg-primary md:bg-transparent"
+            class="flex flex-col grow fixed top-0 right-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 translate-x-full max-w-[80vw] md:max-w-none items-center shadow-md md:shadow-none h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200 bg-primary md:bg-transparent"
             :class="{
-                'translate-x-0': mobileMenuOpen,
+                '-translate-x-0': mobileMenuOpen,
             }"
         >
-            <ModalComp text="newpost"><NewPostForm /></ModalComp>
             <NuxtLink to="/test">Test</NuxtLink>
             <ClientOnly>
                 <div v-if="userStore.loggedIn" class="flex flex-row">
