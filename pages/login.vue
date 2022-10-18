@@ -7,6 +7,8 @@ const username = ref("")
 const password = ref("")
 const emailInput = ref("")
 
+const usernameField = ref(null as HTMLInputElement | null)
+
 const errorMessage = ref(false)
 
 const login = async () => {
@@ -22,9 +24,7 @@ const login = async () => {
 }
 
 onMounted(() => {
-    setTimeout(() => {
-        document.getElementById("username")?.focus()
-    }, 100)
+    usernameField.value?.focus()
 })
 
 //email checken, obs ne email ist, request an backend schicken
@@ -47,6 +47,7 @@ setMetadata("Login", "Login to your account.")
             <label for="username" class="block">Username</label>
             <input
                 id="username"
+                ref="usernameField"
                 v-model="username"
                 type="text"
                 class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
