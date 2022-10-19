@@ -6,6 +6,7 @@ const posts = ref([] as FullPost[])
 const status = ref({} as { code: number; message: string })
 status.value = { code: 0, message: "" }
 
+const cursorObj = ref({} as { cursor: number })
 const endOfFeed = ref(false)
 
 getAllPosts({}).then((data) => {
@@ -24,22 +25,20 @@ const reloadPosts = () => {
     //refreshNuxtData()
 }
 
-const loadMorePosts = () => {
-    getAllPosts({ cursor: posts.value[posts.value.length - 1].id }).then(
-        (data) => {
-            if (data.posts.length > 0) {
-                posts.value = [...posts.value, ...data.posts]
-                status.value = data.status
-            } else {
-                if (data.status.code === 200) {
-                    endOfFeed.value = true
-                } else {
-                    status.value = data.status
-                }
-            }
-        }
-    )
+const moveCursor = () => {
+    cursorObj.value.cursor = posts.value[posts.value.length - 1].id
 }
+
+watch(cursorObj.value, () => {
+    getAllPosts(cursorObj.value).then((data) => {
+        if (data.posts.length === 0) {
+            endOfFeed.value = true
+        } else {
+            posts.value = [...posts.value, ...data.posts]
+            status.value = data.status
+        }
+    })
+})
 </script>
 
 <template>
@@ -56,7 +55,7 @@ const loadMorePosts = () => {
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed"
-            @load-more-posts="loadMorePosts"
+            @load-more-posts="moveCursor"
         />
     </section>
     <StatusComp v-else :status="status.code" />
