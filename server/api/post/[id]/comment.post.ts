@@ -5,9 +5,45 @@ export default defineEventHandler(async (event) => {
     const { authorId, postId, text } = body
     const { user } = event.context
 
-    if (!authorId && !postId && !text) return { status: 400, comment: null }
+    if (!authorId)
+        return sendError(
+            event,
+            createError({
+                statusCode: 400,
+                statusMessage: "Bad request",
+                message: "authorId is required",
+            })
+        )
 
-    if (authorId !== user.username) return { status: 401, comment: null } //prevent commenting under wrong username
+    if (!postId)
+        return sendError(
+            event,
+            createError({
+                statusCode: 400,
+                statusMessage: "Bad request",
+                message: "postId is required",
+            })
+        )
+
+    if (!text)
+        return sendError(
+            event,
+            createError({
+                statusCode: 400,
+                statusMessage: "Bad request",
+                message: "text is required",
+            })
+        )
+
+    if (authorId !== user.username)
+        return sendError(
+            event,
+            createError({
+                statusCode: 401,
+                statusMessage: "Unauthorized",
+                message: "You are not authorized to create a comment",
+            })
+        )
 
     const comment = await prisma.comment.create({
         data: {
@@ -17,7 +53,15 @@ export default defineEventHandler(async (event) => {
         },
     })
 
-    if (!comment) return { status: 400, comment: null }
+    if (!comment)
+        return sendError(
+            event,
+            createError({
+                statusCode: 500,
+                statusMessage: "Internal server error",
+                message: "Something went wrong",
+            })
+        )
 
-    return { status: 200, comment }
+    return comment
 })

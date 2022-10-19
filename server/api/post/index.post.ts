@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 400,
+                statusMessage: "Bad request",
                 message: "authorId is required",
             })
         )
@@ -22,6 +23,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 400,
+                statusMessage: "Bad request",
                 message: "title is required",
             })
         )
@@ -32,6 +34,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 400,
+                statusMessage: "Bad request",
                 message: "text is required",
             })
         )
@@ -42,6 +45,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 400,
+                statusMessage: "Bad request",
                 message: "rating is required",
             })
         )
@@ -52,6 +56,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 400,
+                statusMessage: "Bad request",
                 message: "chosenFood is required",
             })
         )
@@ -62,6 +67,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 400,
+                statusMessage: "Bad request",
                 message: "restaurantId is required",
             })
         )
@@ -72,7 +78,8 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 401,
-                message: "Unauthorized",
+                statusMessage: "Unauthorized",
+                message: "You are not authorized to create a post",
             })
         )
     }
@@ -103,8 +110,9 @@ export default defineEventHandler(async (event) => {
         return sendError(
             event,
             createError({
-                statusCode: 404,
-                message: "Post not found",
+                statusCode: 500,
+                statusMessage: "Internal server error",
+                message: "Something went wrong",
             })
         )
 

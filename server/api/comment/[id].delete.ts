@@ -11,13 +11,15 @@ export default defineEventHandler(async (event) => {
         },
     })
 
-    console.log(comment)
-
     if (comment?.authorId !== user.username) {
-        return {
-            status: 401,
-            message: "Unauthorized",
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 401,
+                statusMessage: "Unauthorized",
+                message: "You are not authorized to delete this comment",
+            })
+        )
     }
 
     await prisma.comment.delete({

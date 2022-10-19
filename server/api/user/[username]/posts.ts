@@ -69,10 +69,14 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!postList) {
-        return {
-            status: 404,
-            posts: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                statusMessage: "Not Found",
+                message: "User not found",
+            })
+        )
     }
 
     const posts = postList?.posts

@@ -49,6 +49,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 404,
+                statusMessage: "Not Found",
                 message: "Post not found",
             })
         )

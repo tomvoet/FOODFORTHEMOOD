@@ -12,8 +12,5 @@ export default defineEventHandler(async (event) => {
         },
     })
 
-    return {
-        status: 200,
-        image: user?.image,
-    }
+    return user?.image
 })

@@ -73,10 +73,14 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!favorites) {
-        return {
-            status: 404,
-            favorites: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                statusMessage: "Not Found",
+                message: "Favorites not found",
+            })
+        )
     }
 
     const favPosts: {
