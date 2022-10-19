@@ -19,15 +19,13 @@ const register = async () => {
         },
     })
 
-    if (user) {
-        navigateTo("/login")
-    }
+    if (user) navigateTo("/login")
 
     console.log(user)
 }
 
 const validate = () => {
-    var check = true
+    let check = true
 
     if (username.value.length < 3) {
         usernameValid.value = false
