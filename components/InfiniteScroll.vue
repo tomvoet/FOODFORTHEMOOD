@@ -37,7 +37,10 @@ onMounted(() => {
 
 <template>
     <div v-if="!endOfFeed" class="text-xl italic relative">
-        <div ref="triggerElement" class="absolute top-[-100vh]"></div>
+        <div
+            ref="triggerElement"
+            class="absolute bottom-0 h-[100vh] -z-50"
+        ></div>
         Loading
     </div>
     <div v-else class="text-xl italic">End of feed</div>
