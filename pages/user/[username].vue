@@ -1,32 +1,39 @@
 <script lang="ts" setup>
-import type { User } from "@prisma/client"
-
 const route = useRoute()
 
 const username = computed(() => route.params.username as string)
 
-const { data: userData } = await useFetch<{
-    status: number
-    user: User | null
-}>(`/api/user/${username.value}`, {
-    key: `user/${username.value}`,
-    server: true,
-})
+const userStatus = useState("userStatus", () => 0)
+const user = ref({} as { username: string; bio: string | null })
 
-const userStatus = userData.value?.status
-const user = userData.value?.user
+const { data: userData, error } = await useFetch(
+    `/api/user/${username.value}`,
+    {
+        key: `user/${username.value}`,
+        server: true,
+    }
+)
+
+console.log(userData.value)
+
+if (!error.value && userData.value) {
+    user.value = userData.value
+    userStatus.value = 200
+}
 
 const img = ref("")
 
-useFetch<{ status: number; image: string | null }>(
-    `/api/user/${username.value}/profilepicture`,
-    {
-        key: `user/${username.value}/profilepicture`,
-    }
-).then((res) => {
-    if (res.data.value?.status === 200) {
-        if (res.data.value?.image) {
-            img.value = res.data.value?.image
+useFetch(`/api/user/${username.value}/profilepicture`, {
+    key: `user/${username.value}/profilepicture`,
+}).then((res) => {
+    if (!res.error.value) {
+        if (
+            res.data.value &&
+            res.data.value !== null &&
+            res.data.value !== undefined &&
+            res.data.value !== ""
+        ) {
+            img.value = res.data.value
         }
     }
 })
@@ -38,8 +45,10 @@ onMounted(() => {
 })
 
 setMetadata(
-    user?.username ? user.username : "404",
-    `Profile of ${user?.username ? user.username : "404"} and their posts.`
+    user.value?.username ? user.value.username : "404",
+    `Profile of ${
+        user.value?.username ? user.value.username : "404"
+    } and their posts.`
 )
 </script>
 
