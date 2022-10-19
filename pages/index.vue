@@ -30,14 +30,16 @@ const moveCursor = () => {
 }
 
 watch(cursorObj.value, () => {
-    getAllPosts(cursorObj.value).then((data) => {
-        if (data.posts.length === 0) {
-            endOfFeed.value = true
-        } else {
-            posts.value = [...posts.value, ...data.posts]
-            status.value = data.status
-        }
-    })
+    if (posts.value.length) {
+        getAllPosts(cursorObj.value).then((data) => {
+            if (data.posts.length === 0) {
+                endOfFeed.value = true
+            } else {
+                posts.value = [...posts.value, ...data.posts]
+                status.value = data.status
+            }
+        })
+    }
 })
 </script>
 
