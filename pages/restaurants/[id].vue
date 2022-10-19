@@ -14,8 +14,8 @@ const { data, error } = await useFetch(`/api/restaurant/${route.params.id}`, {
     },
 })
 
-if (!error.value) {
-    restaurant.value = data.value?.restaurant
+if (!error.value && data.value) {
+    restaurant.value = data.value
     restaurantStatus.value = 200
 }
 
