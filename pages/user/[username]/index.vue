@@ -58,10 +58,12 @@ watch(cursorObj.value, () => {
             posts: PartialBy<FullPost, "author">[]
             status: number
         }
-        if (!data || !data.posts || data.posts?.length === 0)
+        if (!data || !data.posts || data.posts?.length === 0) {
             endOfFeed.value = true
-        else posts.value = [...posts.value, ...data.posts]
-        postsStatus.value = data?.status || 0
+        } else {
+            posts.value = [...posts.value, ...data.posts]
+            postsStatus.value = data?.status || 0
+        }
     })
 })
 </script>
