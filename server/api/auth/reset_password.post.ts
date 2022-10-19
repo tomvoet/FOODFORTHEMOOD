@@ -1,42 +1,45 @@
 import { prisma } from "@/server/services/dbManager"
-import sgMail from "@sendgrid/mail" 
+import sgMail from "@sendgrid/mail"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event) 
+    const body = await useBody(event)
     const { email } = body
 
     const user = await prisma.user.findUnique({
         where: {
-            email
-        }
+            email,
+        },
     })
 
-//gescheite fehlermeldung für existiert nciht und email fehlt
+    //gescheite fehlermeldung für existiert nciht und email fehlt
 
-    if(user && process.env.SENDGRID_API_KEY) {
+    if (user && process.env.SENDGRID_API_KEY) {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY)
         const msg = {
             to: email,
-            from: 'foodforthemoodf4tm@gmail.com', // Change to your verified sender
-            subject: 'Reset your password',
-            text: 'Dear User, with this link you are able to reset your password. www.HALLOO.de Have fun with foodforthemood, your f4tm team :)',
+            from: "foodforthemoodf4tm@gmail.com", // Change to your verified sender
+            subject: "Reset your password",
+            text: "Dear User, with this link you are able to reset your password. www.HALLOO.de Have fun with foodforthemood, your f4tm team :)",
         }
         sgMail
             .send(msg)
             .then(() => {
-                console.log('Email sent')
+                console.log("Email sent")
             })
-            .catch((error:unknown) => {
+            .catch((error: unknown) => {
                 console.error(error)
             })
         console.log("sent email")
     } else {
-        return sendError(event, createError({
-            statusCode: 404, message: "User does not exist."
-        }))
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                message: "User does not exist.",
+            })
+        )
     }
 
     console.log(user)
     return null
 })
-
