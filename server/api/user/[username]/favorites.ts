@@ -1,23 +1,40 @@
 import { prisma } from "@/server/services/dbManager"
-import type { Post } from "@prisma/client"
 
 export default defineEventHandler(async (event) => {
     const { username } = event.context.params
 
     const query = getQuery(event)
 
-    const limit = query.limit
-    const offset = query.offset
+    const { limit, offset, cursor } = query
 
-    const params = {
+    const params: {
+        take: number
+        skip: number
+        cursor?: {
+            username_postId: {
+                username: string
+                postId: number
+            }
+        }
+    } = {
         take: Number(limit) || 10,
-        skip: Number(offset) || 0,
+        skip: !Number(cursor) ? Number(offset) || 0 : 1,
+    }
+
+    if (Number(cursor)) {
+        params.cursor = {
+            username_postId: {
+                username: username,
+                postId: Number(cursor),
+            },
+        }
     }
 
     const favorites = await prisma.favorites.findMany({
         where: {
             username: username,
         },
+        ...params,
         select: {
             postId: true,
             post: {
@@ -53,7 +70,6 @@ export default defineEventHandler(async (event) => {
                 },
             },
         },
-        ...params,
     })
 
     if (!favorites) {
