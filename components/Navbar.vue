@@ -9,9 +9,19 @@ const mobileMenuOpen = ref(false)
 
 const scrolled = ref(false)
 
-const logout = () => {
-    userStore.logout()
-    navigateTo("/")
+const logout = async () => {
+    if (userStore.loggedIn) {
+        userStore.logout().then((logoutStatus) => {
+            if (logoutStatus && logoutStatus.success) {
+                userMenuOpen.value = false
+                navigateTo("/")
+            } else if (logoutStatus && !logoutStatus.success) {
+                alert(logoutStatus.message)
+            } else {
+                alert("Something went wrong")
+            }
+        })
+    }
 }
 
 const goToLogin = () => navigateTo("/login")
@@ -221,12 +231,7 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                                     <a
                                         class="block text-sm text-gray-700 cursor-pointer user-menu-button"
                                         role="menuitem"
-                                        @click="
-                                            () => {
-                                                logout()
-                                                userMenuOpen = false
-                                            }
-                                        "
+                                        @click="logout"
                                     >
                                         Sign out
                                     </a>
