@@ -8,7 +8,7 @@ import { FullPost } from "~~/customTypes"
 export const getAllPosts = async (opts: { cursor?: number }) => {
     try {
         const posts = await $fetch<FullPost[]>(
-            `/api/post${opts.cursor ? "?cursorId=" + opts.cursor : ""}`,
+            `/api/post${opts.cursor ? "?cursor=" + opts.cursor : ""}`,
             {
                 method: "GET",
             }
