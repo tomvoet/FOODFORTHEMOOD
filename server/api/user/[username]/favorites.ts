@@ -4,7 +4,7 @@ import type { Post } from "@prisma/client"
 export default defineEventHandler(async (event) => {
     const { username } = event.context.params
 
-    const query = useQuery(event)
+    const query = getQuery(event)
 
     const limit = query.limit
     const offset = query.offset
