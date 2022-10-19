@@ -10,20 +10,13 @@ const mobileMenuOpen = ref(false)
 const scrolled = ref(false)
 
 const logout = () => {
-    const router = useRouter()
     userStore.logout()
-    router.push("/")
+    navigateTo("/")
 }
 
-const goToLogin = () => {
-    const router = useRouter()
-    router.push("/login")
-}
+const goToLogin = () => navigateTo("/login")
 
-const goToRegister = () => {
-    const router = useRouter()
-    router.push("/register")
-}
+const goToRegister = () => navigateTo("/register")
 
 const userPath = computed(() => {
     if (userStore.user) {

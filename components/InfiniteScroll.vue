@@ -45,5 +45,3 @@ onMounted(() => {
     </div>
     <div v-else class="text-xl italic">End of feed</div>
 </template>
-
-<style scoped></style>

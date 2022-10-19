@@ -5,7 +5,6 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     post: Post
     author?: {
@@ -23,10 +22,6 @@ const emits = defineEmits<{
     (e: "reloadPosts"): void
     (e: "reloadFavorites"): void
 }>()
-
-//const reloadComments = () => {
-//    emits("reloadPosts")
-//}
 
 const reloadPosts = () => {
     emits("reloadPosts")
@@ -137,5 +132,3 @@ const loadAdditionalComments = async () => {
         </button>
     </article>
 </template>
-
-<style scoped></style>

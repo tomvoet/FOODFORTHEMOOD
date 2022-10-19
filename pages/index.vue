@@ -60,5 +60,3 @@ watch(cursorObj.value, () => {
     </section>
     <StatusComp v-else :status="status.code" />
 </template>
-
-<style scoped></style>

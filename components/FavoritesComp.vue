@@ -4,8 +4,7 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
+defineProps<{
     favorites?: singleLike[]
 }>()
 
@@ -13,9 +12,7 @@ const emits = defineEmits<{
     (e: "onLike"): void
 }>()
 
-const emitLike = () => {
-    emits("onLike")
-}
+const emitLike = () => emits("onLike")
 
 const isLiked = (favorites: singleLike[] | undefined) =>
     userStore.loggedIn &&

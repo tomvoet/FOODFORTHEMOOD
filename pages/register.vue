@@ -140,5 +140,3 @@ setMetadata("Register", "Register for an account.")
         <button type="submit" @click.prevent="submit">Submit</button>
     </form>
 </template>
-
-<style scoped></style>

@@ -45,14 +45,18 @@ setMetadata(
 
 <template>
     <div v-if="userStatus == 200 && user">
-        <div class="flex flex-col md:flex-row p-12 md:p-3 md:items-center">
+        <div
+            class="flex flex-row p-12 md:p-3 items-center justify-around md:justify-start"
+        >
             <nuxt-img
                 :src="img || 'img/blankpicture.png'"
                 :alt="`${user.username}'s Profile Picture`"
-                class="profilePicture"
+                class="object-cover rounded-full w-32 md:w-32 shadow-lg aspect-square"
                 sizes="sm:80vw md:7vw"
             />
-            <h1 class="inline-block w-min md:pl-12">{{ user?.username }}</h1>
+            <h2 class="inline-block w-min md:pl-12 text-3xl font-semibold">
+                {{ user?.username }}
+            </h2>
         </div>
         <blockquote class="p-6">
             {{ user?.bio }}
@@ -87,17 +91,3 @@ setMetadata(
     <div v-else-if="userStatus == 404">404</div>
     <div v-else>Loading...</div>
 </template>
-
-<style scoped>
-h1 {
-    font-size: 2rem;
-    display: inline-block;
-}
-
-.profilePicture {
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-    aspect-ratio: 1 / 1;
-}
-</style>

@@ -16,5 +16,3 @@ setMetadata("Users", "List of all users.")
     <div v-else-if="status == 404">404</div>
     <div v-else>Loading...</div>
 </template>
-
-<style scoped></style>

@@ -93,5 +93,3 @@ watch(cursorObj.value, () => {
     </section>
     <StatusComp v-else :status="favoritesStatus" />
 </template>
-
-<style scoped></style>

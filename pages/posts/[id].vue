@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { FullPost } from "@/customTypes"
-import { clearNuxtData } from "nuxt/dist/app/composables/asyncData"
-
 const route = useRoute()
 
 const { data, pending } = await useAsyncData(
@@ -48,5 +45,3 @@ setMetadata(
     </div>
     <StatusComp v-else :status="status?.code || 0" />
 </template>
-
-<style scoped></style>

@@ -134,5 +134,3 @@ watch(restaurantData, (data) => {
         </form>
     </div>
 </template>
-
-<style scoped></style>

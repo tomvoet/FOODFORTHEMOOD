@@ -32,5 +32,3 @@ const closeModal = () => {
         </div>
     </Teleport>
 </template>
-
-<style scoped></style>

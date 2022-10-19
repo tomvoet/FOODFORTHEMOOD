@@ -28,19 +28,3 @@ setMetadata("Posts", "Current feed of posts")
     <div v-else>Loading...</div>-->
     <div>test</div>
 </template>
-
-<style scoped>
-.postsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.post {
-    width: 50%;
-    margin: 1rem;
-    padding: 1rem;
-    border: 1px solid black;
-    border-radius: 5px;
-}
-</style>

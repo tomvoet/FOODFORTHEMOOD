@@ -106,5 +106,3 @@ setMetadata("Login", "Login to your account.")
         </ModalComp>
     </form>
 </template>
-
-<style scoped></style>
