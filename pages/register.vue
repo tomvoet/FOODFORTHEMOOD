@@ -12,16 +12,15 @@ const passwordConfValid = ref(true)
 const register = async () => {
     const user = await useFetch("/api/auth/register", {
         method: "POST",
-        body: JSON.stringify({
+        body: {
             username: username.value,
             email: email.value,
             password: password.value,
-        }),
+        },
     })
 
     if (user) {
-        const router = useRouter()
-        router.push("/")
+        navigateTo("/login")
     }
 
     console.log(user)
