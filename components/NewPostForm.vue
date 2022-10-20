@@ -77,12 +77,11 @@ watch(restaurantData, (data) => {
         <h1 class="text-2xl font-bold">New Post</h1>
         <form @submit.prevent="submitPost">
             <div class="p-3">
-                <label for="title" class="block">Title</label>
-                <input
-                    id="title"
+                <TextInput
                     v-model="title"
-                    class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    field="Title"
                     type="text"
+                    placeholder="Title"
                 />
             </div>
             <div class="p-3">
@@ -90,7 +89,7 @@ watch(restaurantData, (data) => {
                 <select
                     id="restaurant"
                     v-model="restaurantChoice"
-                    class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
                 >
                     <option selected value="0">Select a restaurant</option>
                     <option
@@ -117,20 +116,21 @@ watch(restaurantData, (data) => {
                 />
             </div>
             <div class="p-3">
-                <label for="chosenFood" class="block">Chosen Food</label>
-                <input
-                    id="chosenFood"
+                <TextInput
                     v-model="chosenFood"
-                    class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    field="Chosen Food"
+                    placeholder="What did you eat?"
                     type="text"
                 />
             </div>
-            <button
-                type="submit"
-                class="border p-1 mr-3 rounded-md hover:bg-blue-500 hover:text-white float-right"
-            >
-                Create Post
-            </button>
+            <div class="p-3">
+                <button
+                    type="submit"
+                    class="border p-1 rounded-md hover:bg-blue-500 hover:text-white float-right"
+                >
+                    Create Post
+                </button>
+            </div>
         </form>
     </div>
 </template>
