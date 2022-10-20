@@ -8,8 +8,7 @@ export default defineNuxtConfig({
     buildModules: ["@nuxtjs/google-fonts"],
     googleFonts: {
         families: {
-            "Crimson Text": [400, 700],
-            "Work Sans": [400, 700],
+            Inter: true,
         },
     },
     nitro: {
