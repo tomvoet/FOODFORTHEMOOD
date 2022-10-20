@@ -89,11 +89,14 @@ const handleTouchMove = (evt: TouchEvent) => {
 
     const xDiff = xDown - xUp
 
-    if (xDiff > 0) {
+    if (xDiff > vw / 4) {
         mobileMenuOpen.value = true
-    } else if (xDiff < 0) {
+    } else if (xDiff < -vw / 4) {
         mobileMenuOpen.value = false
     }
+}
+
+const handleTouchEnd = () => {
     xDown = null
     yDown = null
 }
@@ -146,6 +149,8 @@ onMounted(() => {
     })
     document.addEventListener("touchstart", handleTouchStart, false)
     document.addEventListener("touchmove", handleTouchMove, false)
+    document.addEventListener("touchend", handleTouchEnd, false)
+    document.addEventListener("touchcancel", handleTouchEnd, false)
 
     if (userStore.loggedIn) getProfilePicture()
 })
