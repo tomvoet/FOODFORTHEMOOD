@@ -10,6 +10,7 @@ const mobileMenuOpen = ref(false)
 const scrolled = ref(false)
 
 const logout = async () => {
+    mobileMenuOpen.value = false
     if (userStore.loggedIn) {
         userStore.logout().then((logoutStatus) => {
             if (logoutStatus && logoutStatus.success) {
@@ -168,23 +169,31 @@ const pathContainsNavButton = (path: EventTarget[]) => {
         </button>
         <nav
             id="nav"
-            class="flex flex-col grow fixed top-0 right-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 translate-x-full max-w-[80vw] md:max-w-none items-center shadow-md md:shadow-none h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200 bg-primary md:bg-transparent"
+            class="flex flex-col grow fixed top-0 right-0 min-w-[40%] md:relative md:flex-row md:justify-end md:translate-x-0 translate-x-full max-w-[80vw] md:max-w-none items-center shadow-md md:shadow-none h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200 bg-primary md:bg-transparent pt-6 md:pt-0"
             :class="{
                 '-translate-x-0': mobileMenuOpen,
             }"
         >
-            <NuxtLink to="/test">Test</NuxtLink>
             <ClientOnly>
-                <div v-if="userStore.loggedIn" class="flex flex-row">
+                <div
+                    v-if="userStore.loggedIn"
+                    class="flex flex-col md:flex-row"
+                >
                     <div id="user-menu" class="relative">
-                        <button @click="userMenuOpen = !userMenuOpen">
+                        <button
+                            class="flex items-center"
+                            @click="userMenuOpen = !userMenuOpen"
+                        >
                             <NuxtImg
                                 :src="profilePicture"
                                 :alt="userStore.user?.username"
-                                class="rounded-full w-10 h-10"
+                                class="rounded-full w-16 h-16 md:w-10 md:h-10"
                                 width="40"
                                 height="40"
                             />
+                            <span class="ml-4 md:hidden text-lg font-semibold"
+                                >Profile</span
+                            >
                         </button>
                         <transition
                             enter-active-class="transition ease-out duration-100"
@@ -248,6 +257,46 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                             </ul>
                         </transition>
                     </div>
+                    <ul class="md:hidden mt-4">
+                        <li class="py-3">
+                            <NuxtLink
+                                to="/"
+                                class="block text-lg font-semibold hover:text-white"
+                                >Home</NuxtLink
+                            >
+                        </li>
+                        <li class="py-3">
+                            <NuxtLink
+                                to="/settings"
+                                class="block text-lg font-semibold"
+                                >Settings</NuxtLink
+                            >
+                        </li>
+                        <li class="py-3">
+                            <NuxtLink
+                                to="/about"
+                                class="block text-lg font-semibold"
+                                >About</NuxtLink
+                            >
+                        </li>
+                        <li class="py-3">
+                            <NuxtLink
+                                to="/imprint"
+                                class="block text-lg font-semibold"
+                                >Imprint</NuxtLink
+                            >
+                        </li>
+                    </ul>
+                    <button
+                        class="block flex flex-row justify-center items-center hover:font-semibold text-lg absolute bottom-0 left-0 w-full p-3 md:hidden shadow-inner"
+                        @click="logout"
+                    >
+                        <IconWrapper
+                            icon="logoutOutline"
+                            :classes="'h-6 w-6'"
+                        />
+                        &nbsp; Sign Out
+                    </button>
                 </div>
                 <div v-else class="flex flex-row">
                     <button
