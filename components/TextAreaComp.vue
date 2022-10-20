@@ -26,7 +26,7 @@ onMounted(() => {
 
 <template>
     <div class="w-full">
-        <label :for="field" class="block text-sm font-medium text-gray-700">{{
+        <label :for="field" class="block font-medium text-gray-700">{{
             field
         }}</label>
         <textarea
