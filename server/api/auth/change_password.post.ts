@@ -12,24 +12,38 @@ export default defineEventHandler(async (event) => {
     const { password } = body
     const token = event.req.headers["authorization"]?.split(" ")[1]
     if (!token) {
-        return
+        return sendError(
+            event,
+            createError({
+                statusCode: 401,
+                message: "No token provided.",
+            })
+        )
     }
-    const decoded = jwt.verify(token, "testhilfeichwillkeinscretschreibenwassolldascooler")
+    const decoded = jwt.verify(
+        token,
+        "testhilfeichwillkeinscretschreibenwassolldascooler"
+    )
     if (typeof decoded === "object") {
         const user = decoded.data as { email: string }
         const email = user.email
         const password_hash = await hashPassword(password)
         const userNew = await prisma.user.update({
-        where: {
-            email: email
-        },
-        data: {
-            password_hash: password_hash
-        }
-    })
-    return userNew
+            where: {
+                email: email,
+            },
+            data: {
+                password_hash: password_hash,
+            },
+        })
+        return userNew
     } else {
-        return
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                message: "Invalid token.",
+            })
+        )
     }
-    })
-
+})
