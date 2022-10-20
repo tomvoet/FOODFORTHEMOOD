@@ -9,6 +9,9 @@ const mobileMenuOpen = ref(false)
 
 const scrolled = ref(false)
 
+let xDown: number | null = null
+let yDown: number | null = null
+
 const logout = async () => {
     mobileMenuOpen.value = false
     if (userStore.loggedIn) {
@@ -57,6 +60,44 @@ userStore.$subscribe(() => {
     }
 })
 
+const handleMenuClick = () => {
+    mobileMenuOpen.value = false
+    userMenuOpen.value = false
+}
+
+function getTouches(evt: TouchEvent) {
+    return evt.touches
+}
+
+const handleTouchStart = (evt: TouchEvent) => {
+    const firstTouch = getTouches(evt)[0]
+    xDown = firstTouch.clientX
+    yDown = firstTouch.clientY
+}
+
+const handleTouchMove = (evt: TouchEvent) => {
+    if (!xDown || !yDown) return
+
+    const vw = Math.max(
+        document.documentElement.clientWidth || 0,
+        window.innerWidth || 0
+    )
+
+    if (vw > 768) return
+
+    const xUp = evt.touches[0].clientX
+
+    const xDiff = xDown - xUp
+
+    if (xDiff > 0) {
+        mobileMenuOpen.value = true
+    } else if (xDiff < 0) {
+        mobileMenuOpen.value = false
+    }
+    xDown = null
+    yDown = null
+}
+
 onMounted(() => {
     document.onscroll = () => {
         const nav = document.getElementById("nav")
@@ -103,6 +144,8 @@ onMounted(() => {
             }
         }
     })
+    document.addEventListener("touchstart", handleTouchStart, false)
+    document.addEventListener("touchmove", handleTouchMove, false)
 
     if (userStore.loggedIn) getProfilePicture()
 })
