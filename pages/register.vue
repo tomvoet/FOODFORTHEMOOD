@@ -72,6 +72,7 @@ function validatePassword(): boolean {
 }
 
 /* explanation of used regex in validatePassword(), if changes are supposed to be made
+example for valid password TestT!234
 ^                         Start anchor
 (?=.*[A-Z].*[A-Z])        Ensure string has two uppercase letters.
 (?=.*[!@#$&*])            Ensure string has one special case letter.

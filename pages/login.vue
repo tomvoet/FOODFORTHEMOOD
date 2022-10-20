@@ -7,6 +7,7 @@ const username = ref("")
 const password = ref("")
 const emailInput = ref("")
 
+const emailValid = ref(true)
 const errorMessage = ref(false)
 
 const login = async () => {
@@ -27,14 +28,25 @@ onMounted(() => {
     }, 100)
 })
 
-//email checken, obs ne email ist, request an backend schicken
 const sendMail = () => {
+    if (!validateEmail()) {
+        emailValid.value = false
+        return
+    }
     $fetch("/api/auth/reset_password", {
         method: "post",
         body: {
             email: emailInput.value
         }
     })
+}
+
+function validateEmail(): boolean {
+    const regexp = new RegExp(
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )
+
+    return regexp.test(emailInput.value)
 }
 
 setMetadata("Login", "Login to your account.")
@@ -85,6 +97,7 @@ setMetadata("Login", "Login to your account.")
                 password.
             </p>
             <div class="p-3">
+                <p v-show="!emailValid" id="emailCheck">Invalid email</p>
                 <label for="email" class="block">Email</label>
                 <input
                     id="emailInput"
