@@ -86,58 +86,68 @@ setMetadata("Register", "Register for an account.")
 </script>
 
 <template>
-    <form class="flex flex-col items-center">
-        <h1>Register</h1>
-        <div class="flex flex-col items-center my-2">
+    <form
+        class="flex flex-col items-center justify-center h-[80vh] md:p-0 p-16"
+    >
+        <h2 class="text-5xl font-bold mb-4">Register</h2>
+        <div class="flex flex-col items-center my-4 w-full md:w-auto">
             <p v-show="!usernameValid" id="usernameCheck">
                 Username must be at least 3 characters
             </p>
-            <label for="username" class="mb-1">Username</label>
-            <input
-                id="username"
+            <TextInputPrimary
                 v-model="username"
+                field="username"
                 type="text"
-                class="w-80 p-2 border border-gray-300 rounded-md"
+                placeholder="Username"
+                icon="userSolid"
             />
         </div>
-        <div class="flex flex-col items-center my-2">
+        <div class="flex flex-col items-center my-4 w-full md:w-auto">
             <p v-show="!emailValid" id="emailCheck">Invalid email</p>
-            <label for="email" class="mb-1">Email</label>
-            <input
-                id="email"
+            <TextInputPrimary
                 v-model="email"
+                field="email"
+                placeholder="Email"
                 type="email"
-                class="w-80 p-2 border border-gray-300 rounded-md"
+                icon="envelopeSolid"
             />
         </div>
-        <div class="flex flex-col items-center my-2">
+        <div class="flex flex-col items-center my-4 w-full md:w-auto">
             <p v-show="!passwordValid" id="passwordCheck">
                 Password must be at least 8 characters, contain multiple
                 uppercase and lowercase letters, multiple digits and a special
                 case letter (!@#$&*)
             </p>
-            <label for="password" class="mb-1">Password</label>
-            <input
-                id="password"
+            <TextInputPrimary
                 v-model="password"
                 type="password"
-                class="w-80 p-2 border border-gray-300 rounded-md"
+                field="password"
+                placeholder="Password"
+                icon="lockClosedSolid"
             />
         </div>
-        <div class="flex flex-col items-center my-2">
+        <div class="flex flex-col items-center my-4 w-full md:w-auto">
             <p v-show="!passwordConfValid" id="passwordConfCheck">
                 Passwords do not match
             </p>
-            <label for="passwordConfirmation" class="mb-1"
-                >Confirm Password</label
-            >
-            <input
-                id="passwordConfirmation"
+            <TextInputPrimary
                 v-model="passwordConfirmation"
                 type="password"
-                class="w-80 p-2 border border-gray-300 rounded-md"
+                field="passwordConfirmation"
+                placeholder="Confirm Password"
+                icon="checkSolid"
             />
         </div>
-        <button type="submit" @click.prevent="submit">Submit</button>
+        <button
+            type="submit"
+            class="bg-primary p-3 md:w-96 rounded-md font-bold border border-black border-2 shadow-lg my-4 w-full"
+            @click.prevent="submit"
+        >
+            REGISTER
+        </button>
+        <span
+            >Already Have An Account?
+            <NuxtLink to="/login" class="underline">Sign In</NuxtLink></span
+        >
     </form>
 </template>
