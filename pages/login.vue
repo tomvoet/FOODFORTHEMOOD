@@ -53,25 +53,26 @@ setMetadata("Login", "Login to your account.")
 </script>
 
 <template>
-    <form class="max-w-max">
-        <h1 class="text-2xl font-bold">Login</h1>
-        <div class="p-3">
-            <label for="username" class="block">Username</label>
-            <input
-                id="username"
-                ref="usernameField"
+    <form
+        class="flex flex-col items-center justify-center h-[80vh] md:p-0 p-16"
+    >
+        <h2 class="text-5xl font-bold mb-4">Login</h2>
+        <div class="flex flex-col items-center my-4 w-full md:w-auto">
+            <TextInputPrimary
                 v-model="username"
+                field="username"
                 type="text"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Username"
+                icon="userSolid"
             />
         </div>
-        <div class="p-3">
-            <label for="password" class="block">Password</label>
-            <input
-                id="password"
+        <div class="flex flex-col items-center my-4 w-full md:w-auto">
+            <TextInputPrimary
                 v-model="password"
                 type="password"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                field="password"
+                placeholder="Password"
+                icon="lockClosedSolid"
             />
         </div>
         <div class="p-4">
@@ -81,41 +82,48 @@ setMetadata("Login", "Login to your account.")
         </div>
         <button
             type="submit"
-            class="border p-1 float-right rounded-[.35em] hover:bg-blue-500 hover:text-white"
+            class="bg-primary p-3 md:w-96 rounded-md font-bold border border-black border-2 shadow-lg my-4 w-full"
             @click.prevent="login"
         >
-            Login
+            LOGIN
         </button>
-        <ModalComp>
-            <template #button>
-                <span class="p-1 float-right hover:underline">
-                    Forgot Password?
-                </span>
-            </template>
-            <template #modalContent
-                ><aside class="p-6 relative text-center">
-                    <p>
-                        Did you forget your password?<br />Please enter your
-                        E-Mail address below.<br />We will send you an email to
-                        reset your password.
-                    </p>
-                    <div class="p-3">
-                        <label for="email" class="block">Email</label>
-                        <input
-                            id="emailInput"
-                            v-model="emailInput"
-                            class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            type="email"
-                        />
-                    </div>
-                    <button
-                        class="mx-auto leading-5 h-12 w-24 text-l text-black-500 bg-gray-300 bg-opacity-40 hover:underline hover:bg-gray-100 rounded-md shadow"
-                        @click="sendMail()"
-                    >
-                        Send Mail
-                    </button>
-                </aside></template
-            >
-        </ModalComp>
+        <div class="flex flex-row justify-between w-full md:w-96">
+            <span class="p-1 float-right hover:underline">
+                <router-link to="/register" class="hover:text-black"
+                    >Not registered?</router-link
+                >
+            </span>
+            <ModalComp>
+                <template #button>
+                    <span class="p-1 float-right hover:underline text-right">
+                        Forgot Password?
+                    </span>
+                </template>
+                <template #modalContent
+                    ><aside class="p-6 relative text-center">
+                        <p>
+                            Did you forget your password?<br />Please enter your
+                            E-Mail address below.<br />We will send you an email
+                            to reset your password.
+                        </p>
+                        <div class="p-3">
+                            <label for="email" class="block">Email</label>
+                            <input
+                                id="emailInput"
+                                v-model="emailInput"
+                                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                type="email"
+                            />
+                        </div>
+                        <button
+                            class="mx-auto leading-5 h-12 w-24 text-l text-black-500 bg-gray-300 bg-opacity-40 hover:underline hover:bg-gray-100 rounded-md shadow"
+                            @click="sendMail()"
+                        >
+                            Send Mail
+                        </button>
+                    </aside></template
+                >
+            </ModalComp>
+        </div>
     </form>
 </template>
