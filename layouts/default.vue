@@ -72,7 +72,10 @@ useHead({
         <main>
             <slot />
         </main>
-        <NuxtLoadingIndicator :height="5" />
+        <NuxtLoadingIndicator
+            :height="3"
+            color="repeating-linear-gradient(to right,#FF7D7D 0%, #FFFFFF 100%)"
+        />
 
         <ModalComp v-if="showFAB">
             <template #button
