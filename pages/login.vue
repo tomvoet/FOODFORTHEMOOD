@@ -30,6 +30,7 @@ onMounted(() => {
 const sendMail = () => {
     if (!validateEmail()) {
         emailValid.value = false
+        console.log("test")
         return
     }
     $fetch("/api/auth/reset_password", {

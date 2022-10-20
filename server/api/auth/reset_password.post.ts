@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
             to: email,
             from: 'foodforthemoodf4tm@gmail.com', // Change to your verified sender
             subject: 'Reset your password',
-            text: 'Dear User, with this link you are able to reset your password. www.HALLOO.de Have fun with foodforthemood, your f4tm team :)' + token,
+            text: 'Dear User, with this link you are able to reset your password. https://foodforthemood-tomvoet.vercel.app/reset_password?token='+ token +' Have fun with foodforthemood, your f4tm team :)',
         }
         sgMail
             .send(msg)

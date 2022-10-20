@@ -62,7 +62,7 @@ function validateEmail(): boolean {
 
 function validatePassword(): boolean {
     const regexp = new RegExp(
-        /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/
+        /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/
     )
 
     return regexp.test(password.value)

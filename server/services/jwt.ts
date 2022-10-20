@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 const TOKEN_SECRET = "testhilfeichwillkeinscretschreibenwassolldas"
 const TOKEN_SECRET_REFRESH =
     "testhilfeichwillkeinscretschreibenwassolldasrefresh"
+const RESET_SECRET = "testhilfeichwillkeinscretschreibenwassolldascooler"
 
 //check whether admin
 /*
@@ -34,4 +35,8 @@ export const generateRefreshToken = (username: string) => {
     return jwt.sign({ data: { username } }, TOKEN_SECRET_REFRESH, {
         expiresIn: "1d",
     })
+}
+
+export const generateResetToken = (email: string) => {
+    return jwt.sign({ data: { email } }, RESET_SECRET, { expiresIn: "15m"})
 }
