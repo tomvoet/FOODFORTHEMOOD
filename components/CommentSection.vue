@@ -2,8 +2,7 @@
 import type { Comment } from "@prisma/client"
 import type { PartialBy } from "~~/customTypes"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
+defineProps<{
     comments?: PartialBy<Comment, "postId">[]
     postId: number
 }>()

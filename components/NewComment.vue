@@ -9,32 +9,34 @@ const emits = defineEmits<{
     (e: "newComment"): void
 }>()
 
+const textArea = ref(null as HTMLTextAreaElement | null)
+
 const userStore = useUserStore()
 
 const onInput = () => {
-    const textarea = document.getElementById(
-        "newComment"
-    ) as HTMLTextAreaElement
-    textarea.style.height = "3em"
-    if (textarea.scrollHeight > 3 * 16) {
-        textarea.style.height = textarea.scrollHeight + "px"
+    if (textArea.value) {
+        textArea.value.style.height = "3em"
+        if (textArea.value.scrollHeight > 3 * 16) {
+            textArea.value.style.height = textArea.value.scrollHeight + "px"
+        }
     }
 }
 
 const reset = () => {
-    const textarea = document.getElementById(
-        "newComment"
-    ) as HTMLTextAreaElement
-    textarea.value = ""
-    textarea.style.height = "3em"
+    if (textArea.value) {
+        textArea.value.value = ""
+        textArea.value.style.height = "3em"
+    }
 }
 
 const submit = () => {
-    if (userStore.loggedIn && userStore.user && userStore.token) {
-        const textarea = document.getElementById(
-            "newComment"
-        ) as HTMLTextAreaElement
-        const comment = textarea.value
+    if (
+        textArea.value &&
+        userStore.loggedIn &&
+        userStore.user &&
+        userStore.token
+    ) {
+        const comment = textArea.value.value
         if (comment.length > 0) {
             createNewComment(
                 comment,
@@ -50,9 +52,10 @@ const submit = () => {
 </script>
 
 <template>
-    <form>
+    <form class="border border-gray-300 rounded-md relative">
         <textarea
-            id="newComment"
+            ref="textArea"
+            class="w-full p-1 rounded-md resize-none overflow-hidden h-[3em] outline-none"
             :disabled="!userStore.loggedIn"
             :placeholder="
                 userStore.loggedIn
@@ -61,17 +64,17 @@ const submit = () => {
             "
             @input="onInput()"
         ></textarea>
-        <div class="buttonRow">
+        <div class="absolute bottom-0 right-0 w-full flex justify-end">
             <button
                 :disabled="!userStore.loggedIn"
-                class="disabled:opacity-50"
+                class="border-l border-t border-gray-300 py-1 px-2 cursor-pointer hover:bg-gray-100 disabled:opacity-50 disabled:cursor-default"
                 @click.prevent="reset()"
             >
                 Cancel
             </button>
             <button
                 :disabled="!userStore.loggedIn"
-                class="disabled:opacity-50"
+                class="border-l border-t border-gray-300 py-1 px-2 cursor-pointer hover:bg-gray-100 disabled:opacity-50 disabled:cursor- rounded-br-md"
                 @click.prevent="submit()"
             >
                 Submit
@@ -79,52 +82,3 @@ const submit = () => {
         </div>
     </form>
 </template>
-
-<style scoped>
-#newComment {
-    width: 100%;
-    padding: 0.2em 0.2em 2em 0.2em;
-    border: none;
-    border-radius: 5px;
-    resize: none;
-    font-size: 1em;
-    overflow: hidden;
-    height: 3em;
-    outline: none;
-}
-
-form {
-    border: 1px solid black;
-    border-radius: 5px;
-    position: relative;
-}
-
-button {
-    background-color: transparent;
-    border: none;
-    border-left: 1px solid #ddd;
-    border-top: 1px solid #ddd;
-    font-size: 1em;
-    padding: 0.2em 0.5em;
-    border-radius: 0px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #e6e6e6;
-}
-
-button:disabled:hover {
-    background-color: transparent;
-    cursor: default;
-}
-
-.buttonRow {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-}
-</style>

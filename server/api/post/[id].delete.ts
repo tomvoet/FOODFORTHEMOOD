@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 400,
+                statusMessage: "Bad request",
                 message: "authorId is required",
             })
         )
@@ -24,7 +25,8 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 401,
-                message: "You can only delete your own posts",
+                statusMessage: "Unauthorized",
+                message: "You are not authorized to delete this post",
             })
         )
 
@@ -34,12 +36,14 @@ export default defineEventHandler(async (event) => {
         },
     })
 
-    console.log("POSTxd", post)
-
     if (!post)
         return sendError(
             event,
-            createError({ statusCode: 400, message: "Post not found" })
+            createError({
+                statusCode: 404,
+                statusMessage: "Not Found",
+                message: "Post not found",
+            })
         )
 
     return { deleted: true }

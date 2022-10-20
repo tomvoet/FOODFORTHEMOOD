@@ -14,11 +14,15 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!user) {
-        return {
-            status: 404,
-            user: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                statusMessage: "Not Found",
+                message: "User not found",
+            })
+        )
     }
 
-    return { status: 200, user }
+    return user
 })

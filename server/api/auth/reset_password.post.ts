@@ -3,16 +3,16 @@ import sgMail from "@sendgrid/mail"
 import { generateResetToken } from "@/server/services/jwt"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event) 
+    const body = await useBody(event)
     const { email } = body
 
     const user = await prisma.user.findUnique({
         where: {
-            email
-        }
+            email,
+        },
     })
 
-//gescheite fehlermeldung für existiert nciht und email fehlt
+    //gescheite fehlermeldung für existiert nciht und email fehlt
 
     if(user && process.env.SENDGRID_API_KEY) {
         const token = generateResetToken(email)
@@ -26,19 +26,22 @@ export default defineEventHandler(async (event) => {
         sgMail
             .send(msg)
             .then(() => {
-                console.log('Email sent')
+                console.log("Email sent")
             })
-            .catch((error:unknown) => {
+            .catch((error: unknown) => {
                 console.error(error)
             })
         console.log("sent email")
     } else {
-        return sendError(event, createError({
-            statusCode: 404, message: "User does not exist."
-        }))
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                message: "User does not exist.",
+            })
+        )
     }
 
     console.log(user)
     return null
 })
-

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
+defineProps<{
     rating: number
 }>()
 </script>
@@ -17,5 +16,3 @@ const props = defineProps<{
         </div>
     </div>
 </template>
-
-<style scoped></style>

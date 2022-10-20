@@ -5,7 +5,6 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     post: Post
     author?: {
@@ -24,13 +23,13 @@ const emits = defineEmits<{
     (e: "reloadFavorites"): void
 }>()
 
-//const reloadComments = () => {
-//    emits("reloadPosts")
-//}
-
 const reloadPosts = () => {
     emits("reloadPosts")
 }
+
+const commentList = ref(
+    props.comments || ([] as PartialBy<Comment, "postId">[])
+)
 
 const submitDeletePost = async (id: number) => {
     if (userStore.loggedIn && userStore.user?.username) {
@@ -48,6 +47,23 @@ const submitDeletePost = async (id: number) => {
         alert("You must be logged in to delete a post")
     }
 }
+
+const onLike = () => {
+    console.log("test")
+}
+
+const loadAdditionalComments = async () => {
+    const { data } = await useFetch<PartialBy<Comment, "postId">[]>(
+        `/api/post/${props.post.id}/comment?cursorId=${
+            commentList.value[commentList.value.length - 1].id
+        }`,
+        {
+            server: true,
+            initialCache: false,
+        }
+    )
+    commentList.value = commentList.value.concat(data.value || [])
+}
 </script>
 
 <template>
@@ -62,8 +78,10 @@ const submitDeletePost = async (id: number) => {
             "
             @delete-post="submitDeletePost(post.id)"
         />
-        <StarRating :rating="post.rating" />
-        <FavoritesComp :favorites="favorites" />
+        <div class="flex flex-row items-center">
+            <StarRating :rating="post.rating" />
+            <FavoritesComp :favorites="favorites" @on-like="onLike" />
+        </div>
         <div class="font-bold">
             <NuxtLink :to="'/restaurants/' + post.restaurantId">
                 {{ restaurant?.name }}
@@ -72,33 +90,45 @@ const submitDeletePost = async (id: number) => {
         <p class="chosenFood">
             {{ post.chosenFood }}
         </p>
-        <p class="mt-4">
+        <p class="mt-4 break-words">
             {{ post.text }}
         </p>
-        <div class="text-gray-700 mt-1 text-sm">
-            {{
-                post.updatedAt == post.createdAt
-                    ? "created: "
-                    : "updated: " +
-                      `${new Date(post.createdAt).toLocaleTimeString("de-DE", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                      })} | ${new Date(post.createdAt).toLocaleDateString(
-                          "de-DE"
-                      )}`
-            }}
-        </div>
-        <div v-if="author !== undefined">
-            <NuxtLink :to="'/user/' + author.username"
-                >Author: {{ author.username }}</NuxtLink
-            >
+        <div class="flex space-between w-full flex-row">
+            <div v-if="author !== undefined" class="w-max">
+                <NuxtLink
+                    :to="'/user/' + author.username"
+                    class="italic font-bold"
+                    >{{ author.username }}</NuxtLink
+                >
+            </div>
+            <div class="text-gray-700 mt-1 text-sm w-max ml-auto">
+                {{
+                    post.updatedAt == post.createdAt
+                        ? "created: "
+                        : "updated: " +
+                          `${new Date(post.createdAt).toLocaleTimeString(
+                              "de-DE",
+                              {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              }
+                          )} | ${new Date(post.createdAt).toLocaleDateString(
+                              "de-DE"
+                          )}`
+                }}
+            </div>
         </div>
         <CommentSection
-            :comments="comments"
+            :comments="commentList"
             :post-id="post.id"
             @reload-comments="reloadPosts"
         />
+        <button
+            v-if="comments && comments.length >= 10"
+            class="text-blue-600 underline mx-auto block w-max m-auto p-1 mt-1 hover:text-blue-800"
+            @click="loadAdditionalComments"
+        >
+            load mehr
+        </button>
     </article>
 </template>
-
-<style scoped></style>

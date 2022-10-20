@@ -6,7 +6,10 @@ const posts = ref([] as FullPost[])
 const status = ref({} as { code: number; message: string })
 status.value = { code: 0, message: "" }
 
-getAllPosts().then((data) => {
+const cursorObj = ref({} as { cursor: number })
+const endOfFeed = ref(false)
+
+getAllPosts({}).then((data) => {
     posts.value = data.posts
     status.value = data.status
 })
@@ -14,13 +17,30 @@ getAllPosts().then((data) => {
 setMetadata("Posts", "Current feed of posts")
 
 const reloadPosts = () => {
-    getAllPosts().then((data) => {
+    getAllPosts({}).then((data) => {
         posts.value = data.posts
         status.value = data.status
     })
     //refresh() //refresh auf jeden fall für pagination
     //refreshNuxtData()
 }
+
+const moveCursor = () => {
+    cursorObj.value.cursor = posts.value[posts.value.length - 1].id
+}
+
+watch(cursorObj.value, () => {
+    if (posts.value.length) {
+        getAllPosts(cursorObj.value).then((data) => {
+            if (data.posts.length === 0) {
+                endOfFeed.value = true
+            } else {
+                posts.value = [...posts.value, ...data.posts]
+                status.value = data.status
+            }
+        })
+    }
+})
 </script>
 
 <template>
@@ -35,8 +55,10 @@ const reloadPosts = () => {
             :comments="post.comments"
             @reload-posts="reloadPosts"
         />
+        <InfiniteScroll
+            :end-of-feed="endOfFeed"
+            @load-more-posts="moveCursor"
+        />
     </section>
     <StatusComp v-else :status="status.code" />
 </template>
-
-<style scoped></style>

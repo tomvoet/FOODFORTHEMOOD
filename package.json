@@ -12,9 +12,13 @@
         "test:watch": "vitest --reporter verbose --globals",
         "analyze": "nuxt build --analyze",
         "doc": "typedoc --options typedoc.json",
-        "doc:components": "vuedoc-md components/*.vue --output compdocs/"
+        "doc:components": "vuedoc-md components/*.vue --output compdocs/",
+        "story:dev": "histoire dev",
+        "story:build": "histoire build",
+        "story:preview": "histoire preview"
     },
     "devDependencies": {
+        "@histoire/plugin-nuxt": "^0.11.3",
         "@kevinmarrec/nuxt-pwa": "^0.6.1",
         "@nuxt/image-edge": "^1.0.0-27719579.87dcdf2",
         "@nuxt/test-utils-edge": "^3.0.0-rc.10-27716896.3753ea0",
@@ -34,6 +38,7 @@
         "eslint-plugin-nuxt": "^4.0.0",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-vue": "^9.4.0",
+        "histoire": "^0.11.3",
         "jsdoc": "^3.6.11",
         "jsdom": "^20.0.0",
         "jsonwebtoken": "^8.5.1",

@@ -14,8 +14,8 @@ const { data, error } = await useFetch(`/api/restaurant/${route.params.id}`, {
     },
 })
 
-if (!error.value) {
-    restaurant.value = data.value?.restaurant
+if (!error.value && data.value) {
+    restaurant.value = data.value
     restaurantStatus.value = 200
 }
 
@@ -58,8 +58,14 @@ setMetadata(
 
 <template>
     <div v-if="restaurantStatus == 200 && restaurant">
-        <h1>{{ restaurant?.name }}</h1>
-        <p>{{ restaurant?.cuisines }}</p>
+        <h2 class="text-3xl font-semibold">{{ restaurant?.name }}</h2>
+        <p v-if="restaurant.cuisines.length" class="text-center">
+            &bull;
+            <template v-for="cuisine in restaurant.cuisines"
+                >{{ cuisine.name }} &bull;</template
+            >
+        </p>
+        <p v-else>No Cuisines added yet</p>
         <section
             v-if="reviewsStatus === 200"
             class="flex flex-col items-center"
@@ -79,10 +85,3 @@ setMetadata(
     </div>
     <StatusComp v-else :status="restaurantStatus" />
 </template>
-
-<style scoped>
-h1 {
-    font-size: 2rem;
-    display: inline-block;
-}
-</style>

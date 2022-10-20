@@ -9,21 +9,24 @@ const mobileMenuOpen = ref(false)
 
 const scrolled = ref(false)
 
-const logout = () => {
-    const router = useRouter()
-    userStore.logout()
-    router.push("/")
+const logout = async () => {
+    if (userStore.loggedIn) {
+        userStore.logout().then((logoutStatus) => {
+            if (logoutStatus && logoutStatus.success) {
+                userMenuOpen.value = false
+                navigateTo("/")
+            } else if (logoutStatus && !logoutStatus.success) {
+                alert(logoutStatus.message)
+            } else {
+                alert("Something went wrong")
+            }
+        })
+    }
 }
 
-const goToLogin = () => {
-    const router = useRouter()
-    router.push("/login")
-}
+const goToLogin = () => navigateTo("/login")
 
-const goToRegister = () => {
-    const router = useRouter()
-    router.push("/register")
-}
+const goToRegister = () => navigateTo("/register")
 
 const userPath = computed(() => {
     if (userStore.user) {
@@ -35,17 +38,15 @@ const userPath = computed(() => {
 const profilePicture = ref("img/blankpicture.png")
 
 const getProfilePicture = async () => {
-    const res = await $fetch(
-        `/api/user/${userStore.user?.username}/profilepicture`
-    )
-    if (res.status === 200) {
-        if (
-            res?.image !== null &&
-            res?.image !== "" &&
-            res?.image !== undefined
-        ) {
-            profilePicture.value = res.image
+    try {
+        const res = await $fetch(
+            `/api/user/${userStore.user?.username}/profilepicture`
+        )
+        if (res !== null && res !== "" && res !== undefined) {
+            profilePicture.value = res
         }
+    } catch (err) {
+        console.log(err)
     }
 }
 
@@ -82,6 +83,7 @@ onMounted(() => {
             }
         }
         if (mobileMenuOpen.value) {
+            console.log(document.querySelectorAll("nav button"))
             if (
                 event
                     .composedPath()
@@ -103,18 +105,47 @@ onMounted(() => {
 
     if (userStore.loggedIn) getProfilePicture()
 })
+
+const pathContainsNavButton = (path: EventTarget[]) => {
+    const help = path.some((element) => {
+        if (element instanceof HTMLButtonElement) {
+            return true
+        }
+    })
+
+    console.log(help)
+
+    return help
+}
 </script>
 
 <template>
     <header
         id="header"
-        class="sticky top-0 w-full z-50 shadow-md bg-primary flex justify-between items-center p-4 md:py-0 md:pl-6 transition duration-300"
+        class="sticky top-0 w-full z-50 shadow-md flex justify-between items-center p-4 md:py-0 md:pl-6 transition duration-300"
         :class="{
             'shadow-md': scrolled,
-            ' bg-white': scrolled,
+            'bg-white': scrolled,
             'bg-primary': !scrolled,
         }"
     >
+        <div class="md:hidden">mobile</div>
+        <NuxtLink to="/"
+            ><h1 class="group text-3xl font-semibold hover:text-black md:mr-16">
+                F4TM
+                <span
+                    class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
+                ></span></h1
+        ></NuxtLink>
+        <div
+            class="fixed top-0 left-0 w-screen h-screen md:hidden transition duration-300 opacity-40"
+            :class="{
+                hidden: !mobileMenuOpen,
+                'bg-white': !mobileMenuOpen,
+                'bg-black': mobileMenuOpen,
+                fadeIn: mobileMenuOpen,
+            }"
+        ></div>
         <button
             id="hamburger"
             class="md:hidden"
@@ -135,32 +166,13 @@ onMounted(() => {
                 />
             </svg>
         </button>
-
-        <NuxtLink to="/"
-            ><h1 class="group text-3xl font-semibold hover:text-black md:mr-16">
-                F4TM
-                <span
-                    class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
-                ></span></h1
-        ></NuxtLink>
-        <div
-            class="fixed top-0 left-0 w-screen h-screen md:hidden transition duration-300 opacity-40"
-            :class="{
-                hidden: !mobileMenuOpen,
-                'bg-white': !mobileMenuOpen,
-                'bg-black': mobileMenuOpen,
-                fadeIn: mobileMenuOpen,
-            }"
-        ></div>
-        <div class="md:hidden">mobile</div>
         <nav
             id="nav"
-            class="flex flex-col grow fixed top-0 left-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 -translate-x-full max-w-[80vw] md:max-w-none items-center shadow-md md:shadow-none h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200 bg-primary md:bg-transparent"
+            class="flex flex-col grow fixed top-0 right-0 min-w-[40%] md:relative md:flex-row md:justify-between md:translate-x-0 translate-x-full max-w-[80vw] md:max-w-none items-center shadow-md md:shadow-none h-screen md:h-16 py-0 px-8 transition-all ease-in duration-200 bg-primary md:bg-transparent"
             :class="{
-                'translate-x-0': mobileMenuOpen,
+                '-translate-x-0': mobileMenuOpen,
             }"
         >
-            <ModalComp text="newpost"><NewPostForm /></ModalComp>
             <NuxtLink to="/test">Test</NuxtLink>
             <ClientOnly>
                 <div v-if="userStore.loggedIn" class="flex flex-row">
@@ -187,7 +199,7 @@ onMounted(() => {
                                 class="absolute right-0 w-48 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
                                 <li
-                                    class="px-4 py-3 hover:bg-gray-100"
+                                    class="px-4 py-3 hover:bg-gray-100 rounded-t-md"
                                     role="none"
                                 >
                                     <NuxtLink
@@ -219,12 +231,7 @@ onMounted(() => {
                                     <a
                                         class="block text-sm text-gray-700 cursor-pointer user-menu-button"
                                         role="menuitem"
-                                        @click="
-                                            () => {
-                                                logout()
-                                                userMenuOpen = false
-                                            }
-                                        "
+                                        @click="logout"
                                     >
                                         Sign out
                                     </a>

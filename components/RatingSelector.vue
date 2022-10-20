@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import type { Ref } from "vue"
-
 const emits = defineEmits<{
     (e: "updateRating", val: number): void
 }>()
 
-const props = defineProps<{
+defineProps<{
     rating: number
 }>()
 

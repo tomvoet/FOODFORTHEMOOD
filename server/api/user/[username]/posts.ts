@@ -3,14 +3,25 @@ import { prisma } from "@/server/services/dbManager"
 export default defineEventHandler(async (event) => {
     const { username } = event.context.params
 
-    const query = useQuery(event)
+    const query = getQuery(event)
 
-    const limit = query.limit
-    const offset = query.offset
+    const { limit, offset, cursor } = query
 
-    const params = {
+    const params: {
+        take: number
+        skip: number
+        cursor?: {
+            id: number
+        }
+    } = {
         take: Number(limit) || 10,
-        skip: Number(offset) || 0,
+        skip: !Number(cursor) ? Number(offset) || 0 : 1,
+    }
+
+    if (Number(cursor)) {
+        params.cursor = {
+            id: Number(cursor),
+        }
     }
 
     const postList = await prisma.user.findUnique({
@@ -58,10 +69,14 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!postList) {
-        return {
-            status: 404,
-            posts: null,
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                statusMessage: "Not Found",
+                message: "User not found",
+            })
+        )
     }
 
     const posts = postList?.posts

@@ -26,13 +26,11 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 404,
+                statusMessage: "Not Found",
                 message: "Restaurant not found",
             })
         )
     }
 
-    return {
-        status: 200,
-        restaurant,
-    }
+    return restaurant
 })

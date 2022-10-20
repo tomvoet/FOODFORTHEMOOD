@@ -1,32 +1,39 @@
 <script lang="ts" setup>
-import type { User } from "@prisma/client"
-
 const route = useRoute()
 
 const username = computed(() => route.params.username as string)
 
-const { data: userData } = await useFetch<{
-    status: number
-    user: User | null
-}>(`/api/user/${username.value}`, {
-    key: `user/${username.value}`,
-    server: true,
-})
+const userStatus = useState("userStatus", () => 0)
+const user = ref({} as { username: string; bio: string | null })
 
-const userStatus = userData.value?.status
-const user = userData.value?.user
+const { data: userData, error } = await useFetch(
+    `/api/user/${username.value}`,
+    {
+        key: `user/${username.value}`,
+        server: true,
+    }
+)
+
+console.log(userData.value)
+
+if (!error.value && userData.value) {
+    user.value = userData.value
+    userStatus.value = 200
+}
 
 const img = ref("")
 
-useFetch<{ status: number; image: string | null }>(
-    `/api/user/${username.value}/profilepicture`,
-    {
-        key: `user/${username.value}/profilepicture`,
-    }
-).then((res) => {
-    if (res.data.value?.status === 200) {
-        if (res.data.value?.image) {
-            img.value = res.data.value?.image
+useFetch(`/api/user/${username.value}/profilepicture`, {
+    key: `user/${username.value}/profilepicture`,
+}).then((res) => {
+    if (!res.error.value) {
+        if (
+            res.data.value &&
+            res.data.value !== null &&
+            res.data.value !== undefined &&
+            res.data.value !== ""
+        ) {
+            img.value = res.data.value
         }
     }
 })
@@ -38,21 +45,27 @@ onMounted(() => {
 })
 
 setMetadata(
-    user?.username ? user.username : "404",
-    `Profile of ${user?.username ? user.username : "404"} and their posts.`
+    user.value?.username ? user.value.username : "404",
+    `Profile of ${
+        user.value?.username ? user.value.username : "404"
+    } and their posts.`
 )
 </script>
 
 <template>
     <div v-if="userStatus == 200 && user">
-        <div class="flex flex-col md:flex-row p-12 md:p-3 md:items-center">
+        <div
+            class="flex flex-row p-12 md:p-3 items-center justify-around md:justify-start"
+        >
             <nuxt-img
                 :src="img || 'img/blankpicture.png'"
                 :alt="`${user.username}'s Profile Picture`"
-                class="profilePicture"
+                class="object-cover rounded-full w-32 md:w-32 shadow-lg aspect-square"
                 sizes="sm:80vw md:7vw"
             />
-            <h1 class="inline-block w-min md:pl-12">{{ user?.username }}</h1>
+            <h2 class="inline-block w-min md:pl-12 text-3xl font-semibold">
+                {{ user?.username }}
+            </h2>
         </div>
         <blockquote class="p-6">
             {{ user?.bio }}
@@ -87,17 +100,3 @@ setMetadata(
     <div v-else-if="userStatus == 404">404</div>
     <div v-else>Loading...</div>
 </template>
-
-<style scoped>
-h1 {
-    font-size: 2rem;
-    display: inline-block;
-}
-
-.profilePicture {
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-    aspect-ratio: 1 / 1;
-}
-</style>

@@ -1,3 +1,5 @@
+import type { Comment } from "@prisma/client"
+
 /**
  * synchronously create a new comment
  * @function getAllPosts
@@ -13,14 +15,17 @@ export const createNewComment = async (
     postId: number,
     token: string
 ) => {
-    const { data } = await useFetch(`/api/post/${postId}/comment`, {
-        method: "POST",
-        body: JSON.stringify({ text, authorId, postId }),
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        initialCache: false,
-    })
+    const { data } = await useFetch<{ status: 200; comment: Comment }>(
+        `/api/post/${postId}/comment`,
+        {
+            method: "POST",
+            body: JSON.stringify({ text, authorId, postId }),
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            initialCache: false,
+        }
+    )
 
     const status = data.value?.status
     const comment = data.value?.comment

@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-const props = defineProps<{
-    text: string
-    classes?: string
-}>()
-
 const modalOpen = ref(false)
 
 const openModal = () => {
@@ -16,7 +11,9 @@ const closeModal = () => {
 </script>
 
 <template>
-    <button :class="classes" @click="openModal">{{ text }}</button>
+    <button @click.prevent="openModal">
+        <slot name="button" class="test" @click="openModal" />
+    </button>
     <Teleport to="body">
         <div
             v-if="modalOpen"
@@ -30,10 +27,8 @@ const closeModal = () => {
                 >
                     &times;
                 </button>
-                <slot></slot>
+                <slot name="modalContent" />
             </aside>
         </div>
     </Teleport>
 </template>
-
-<style scoped></style>

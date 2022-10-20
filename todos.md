@@ -12,3 +12,11 @@ reduce request payloads (wegen types alles drin aber irgendwie bitte weniger)
 
 jsdoc mit ts via better-docs (npm install einfach) aber vulnerabilities
 oder halt vue-styleguidist
+
+### skeleton loader
+### SUSPENSE????
+### moving label
+### replace getelembyid with refs  (i.e. navbar)
+### navigateTo for redirects
+### restaurant page comment usestate da ssr?? insgesamt was hab ich da gemacht ist das besser???
+### add proper client side error handling (fetch) (userposts, user favs!!!!!!)

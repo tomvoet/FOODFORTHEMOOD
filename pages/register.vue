@@ -12,23 +12,20 @@ const passwordConfValid = ref(true)
 const register = async () => {
     const user = await useFetch("/api/auth/register", {
         method: "POST",
-        body: JSON.stringify({
+        body: {
             username: username.value,
             email: email.value,
             password: password.value,
-        }),
+        },
     })
 
-    if (user) {
-        const router = useRouter()
-        router.push("/")
-    }
+    if (user) navigateTo("/login")
 
     console.log(user)
 }
 
 const validate = () => {
-    var check = true
+    let check = true
 
     if (username.value.length < 3) {
         usernameValid.value = false
@@ -89,66 +86,58 @@ setMetadata("Register", "Register for an account.")
 </script>
 
 <template>
-    <form class="registerContainer">
+    <form class="flex flex-col items-center">
         <h1>Register</h1>
-        <div>
+        <div class="flex flex-col items-center my-2">
             <p v-show="!usernameValid" id="usernameCheck">
                 Username must be at least 3 characters
             </p>
-            <label for="username">Username</label>
-            <input id="username" v-model="username" type="text" />
+            <label for="username" class="mb-1">Username</label>
+            <input
+                id="username"
+                v-model="username"
+                type="text"
+                class="w-80 p-2 border border-gray-300 rounded-md"
+            />
         </div>
-        <div>
+        <div class="flex flex-col items-center my-2">
             <p v-show="!emailValid" id="emailCheck">Invalid email</p>
-            <label for="email">Email</label>
-            <input id="email" v-model="email" type="email" />
+            <label for="email" class="mb-1">Email</label>
+            <input
+                id="email"
+                v-model="email"
+                type="email"
+                class="w-80 p-2 border border-gray-300 rounded-md"
+            />
         </div>
-        <div>
+        <div class="flex flex-col items-center my-2">
             <p v-show="!passwordValid" id="passwordCheck">
                 Password must be at least 8 characters, contain multiple
                 uppercase and lowercase letters, multiple digits and a special
                 case letter (!@#$&*)
             </p>
-            <label for="password">Password</label>
-            <input id="password" v-model="password" type="password" />
+            <label for="password" class="mb-1">Password</label>
+            <input
+                id="password"
+                v-model="password"
+                type="password"
+                class="w-80 p-2 border border-gray-300 rounded-md"
+            />
         </div>
-        <div>
+        <div class="flex flex-col items-center my-2">
             <p v-show="!passwordConfValid" id="passwordConfCheck">
                 Passwords do not match
             </p>
-            <label for="passwordConfirmation">Confirm Password</label>
+            <label for="passwordConfirmation" class="mb-1"
+                >Confirm Password</label
+            >
             <input
                 id="passwordConfirmation"
                 v-model="passwordConfirmation"
                 type="password"
+                class="w-80 p-2 border border-gray-300 rounded-md"
             />
         </div>
         <button type="submit" @click.prevent="submit">Submit</button>
     </form>
 </template>
-
-<style scoped>
-.registerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.registerContainer > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 1rem 0;
-}
-
-.registerContainer > div > label {
-    margin-bottom: 0.5rem;
-}
-
-.registerContainer > div > input {
-    width: 20rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-}
-</style>

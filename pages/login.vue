@@ -8,14 +8,15 @@ const password = ref("")
 const emailInput = ref("")
 
 const emailValid = ref(true)
+const usernameField = ref(null as HTMLInputElement | null)
+
 const errorMessage = ref(false)
 
 const login = async () => {
     const loginRes = await userStore.login(username.value, password.value)
     if (loginRes.success) {
         console.log(userStore.token)
-        const router = useRouter()
-        router.push("/")
+        navigateTo("/")
     } else {
         errorMessage.value = true
         console.log(loginRes.message)
@@ -23,9 +24,7 @@ const login = async () => {
 }
 
 onMounted(() => {
-    setTimeout(() => {
-        document.getElementById("username")?.focus()
-    }, 100)
+    usernameField.value?.focus()
 })
 
 const sendMail = () => {
@@ -36,8 +35,8 @@ const sendMail = () => {
     $fetch("/api/auth/reset_password", {
         method: "post",
         body: {
-            email: emailInput.value
-        }
+            email: emailInput.value,
+        },
     })
 }
 
@@ -59,6 +58,7 @@ setMetadata("Login", "Login to your account.")
             <label for="username" class="block">Username</label>
             <input
                 id="username"
+                ref="usernameField"
                 v-model="username"
                 type="text"
                 class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -85,35 +85,36 @@ setMetadata("Login", "Login to your account.")
         >
             Login
         </button>
-    </form>
-    <ModalComp
-        text="Forgot Password?"
-        classes="p-1 float-right hover:underline"
-    >
-        <aside class="p-6 relative text-center">
-            <p>
-                Did you forget your password?<br />Please enter your E-Mail
-                address below.<br />We will send you an email to reset your
-                password.
-            </p>
-            <div class="p-3">
-                <p v-show="!emailValid" id="emailCheck">Invalid email</p>
-                <label for="email" class="block">Email</label>
-                <input
-                    id="emailInput"
-                    v-model="emailInput"
-                    class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type="email"
-                />
-            </div>
-            <button
-                class="mx-auto leading-5 h-12 w-24 text-l text-black-500 bg-gray-300 bg-opacity-40 hover:underline hover:bg-gray-100 rounded-md shadow"
-                @click="sendMail()"
+        <ModalComp>
+            <template #button>
+                <span class="p-1 float-right hover:underline">
+                    Forgot Password?
+                </span>
+            </template>
+            <template #modalContent
+                ><aside class="p-6 relative text-center">
+                    <p>
+                        Did you forget your password?<br />Please enter your
+                        E-Mail address below.<br />We will send you an email to
+                        reset your password.
+                    </p>
+                    <div class="p-3">
+                        <label for="email" class="block">Email</label>
+                        <input
+                            id="emailInput"
+                            v-model="emailInput"
+                            class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            type="email"
+                        />
+                    </div>
+                    <button
+                        class="mx-auto leading-5 h-12 w-24 text-l text-black-500 bg-gray-300 bg-opacity-40 hover:underline hover:bg-gray-100 rounded-md shadow"
+                        @click="sendMail()"
+                    >
+                        Send Mail
+                    </button>
+                </aside></template
             >
-                Send Mail
-            </button>
-        </aside>
-    </ModalComp>
+        </ModalComp>
+    </form>
 </template>
-
-<style scoped></style>

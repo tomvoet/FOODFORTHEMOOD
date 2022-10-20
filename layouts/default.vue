@@ -56,6 +56,16 @@ useHead({
             <slot />
         </main>
         <NuxtLoadingIndicator :height="5" />
+
+        <ModalComp>
+            <template #button
+                ><div
+                    class="fixed bottom-3 right-3 h-16 w-16 md:h-10 md:w-10 md:text-2xl bg-green-400 rounded-full flex items-center justify-center text-5xl text-white"
+                >
+                    +
+                </div></template
+            ><template #modalContent><NewPostForm /></template
+        ></ModalComp>
     </div>
 </template>
 

@@ -10,5 +10,3 @@ setMetadata("About", "About page")
 <template>
     <div>Page: foo</div>
 </template>
-
-<style scoped></style>

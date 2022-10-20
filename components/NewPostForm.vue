@@ -110,12 +110,11 @@ watch(restaurantData, (data) => {
                 />
             </div>
             <div class="p-3">
-                <label for="text" class="block resizable-y">Content</label>
-                <textarea
-                    id="text"
+                <TextAreaComp
                     v-model="text"
-                    class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                ></textarea>
+                    field="Content"
+                    placeholder="Write down youre review in here..."
+                />
             </div>
             <div class="p-3">
                 <label for="chosenFood" class="block">Chosen Food</label>
@@ -135,5 +134,3 @@ watch(restaurantData, (data) => {
         </form>
     </div>
 </template>
-
-<style scoped></style>

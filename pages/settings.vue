@@ -15,17 +15,15 @@ if (userStore.loggedIn && userStore.user) {
 }
 
 const getProfilePicture = async () => {
-    const res = await $fetch(
-        `/api/user/${userStore.user?.username}/profilepicture`
-    )
-    if (res.status === 200) {
-        if (
-            res?.image !== null &&
-            res?.image !== "" &&
-            res?.image !== undefined
-        ) {
-            profilePicture.value = res.image
+    try {
+        const res = await $fetch(
+            `/api/user/${userStore.user?.username}/profilepicture`
+        )
+        if (res !== null && res !== "" && res !== undefined) {
+            profilePicture.value = res
         }
+    } catch (err) {
+        console.log(err)
     }
 }
 
