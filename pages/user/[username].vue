@@ -71,7 +71,7 @@ setMetadata(
             {{ user?.bio }}
         </blockquote>
         <div
-            class="border-t border-b shadow-md sticky bg-white z-10"
+            class="border-t border-b shadow-md sticky bg-white z-20"
             :style="{ top: navBarHeight - 1 + 'px' }"
         >
             <NuxtLink
