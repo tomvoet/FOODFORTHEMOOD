@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { Ref } from "vue"
+
 const username = ref("")
 const email = ref("")
 const password = ref("")
@@ -8,6 +10,11 @@ const usernameValid = ref(true)
 const emailValid = ref(true)
 const passwordValid = ref(true)
 const passwordConfValid = ref(true)
+
+const usernameCheck: Ref<HTMLParagraphElement | null> = ref(null)
+const emailCheck: Ref<HTMLParagraphElement | null> = ref(null)
+const passwordCheck: Ref<HTMLParagraphElement | null> = ref(null)
+const passwordConfCheck: Ref<HTMLParagraphElement | null> = ref(null)
 
 const register = async () => {
     const user = await useFetch("/api/auth/register", {
@@ -30,21 +37,29 @@ const validate = () => {
     if (username.value.length < 3) {
         usernameValid.value = false
         check = false
+    } else {
+        usernameValid.value = true
     }
 
     if (!validateEmail()) {
         emailValid.value = false
         check = false
+    } else {
+        emailValid.value = true
     }
 
     if (!validatePassword()) {
         passwordValid.value = false
         check = false
+    } else {
+        passwordValid.value = true
     }
 
     if (password.value !== passwordConfirmation.value) {
         passwordConfValid.value = false
         check = false
+    } else {
+        passwordConfValid.value = true
     }
 
     if (check) {
@@ -90,8 +105,16 @@ setMetadata("Register", "Register for an account.")
         class="flex flex-col items-center justify-center h-[80vh] md:p-0 p-16"
     >
         <h2 class="text-5xl font-bold mb-4">Register</h2>
-        <div class="flex flex-col items-center my-4 w-full md:w-auto">
-            <p v-show="!usernameValid" id="usernameCheck">
+        <div class="flex flex-col items-center my-4 w-full md:w-96">
+            <p
+                ref="usernameCheck"
+                class="text-sm text-red-400 max-h-0 overflow-hidden transition-all"
+                :style="{
+                    maxHeight: usernameValid
+                        ? '0'
+                        : usernameCheck?.scrollHeight + 'px',
+                }"
+            >
                 Username must be at least 3 characters
             </p>
             <TextInputPrimary
@@ -102,8 +125,18 @@ setMetadata("Register", "Register for an account.")
                 icon="userSolid"
             />
         </div>
-        <div class="flex flex-col items-center my-4 w-full md:w-auto">
-            <p v-show="!emailValid" id="emailCheck">Invalid email</p>
+        <div class="flex flex-col items-center my-4 w-full md:w-96">
+            <p
+                ref="emailCheck"
+                class="text-sm text-red-400 max-h-0 overflow-hidden transition-all"
+                :style="{
+                    maxHeight: emailValid
+                        ? '0'
+                        : emailCheck?.scrollHeight + 'px',
+                }"
+            >
+                Invalid email
+            </p>
             <TextInputPrimary
                 v-model="email"
                 field="email"
@@ -112,8 +145,16 @@ setMetadata("Register", "Register for an account.")
                 icon="envelopeSolid"
             />
         </div>
-        <div class="flex flex-col items-center my-4 w-full md:w-auto">
-            <p v-show="!passwordValid" id="passwordCheck">
+        <div class="flex flex-col items-center my-4 w-full w-full md:w-96">
+            <p
+                ref="passwordCheck"
+                class="text-sm text-red-400 max-h-0 overflow-hidden transition-all"
+                :style="{
+                    maxHeight: passwordValid
+                        ? '0'
+                        : passwordCheck?.scrollHeight + 'px',
+                }"
+            >
                 Password must be at least 8 characters, contain multiple
                 uppercase and lowercase letters, multiple digits and a special
                 case letter (!@#$&*)
@@ -126,8 +167,16 @@ setMetadata("Register", "Register for an account.")
                 icon="lockClosedSolid"
             />
         </div>
-        <div class="flex flex-col items-center my-4 w-full md:w-auto">
-            <p v-show="!passwordConfValid" id="passwordConfCheck">
+        <div class="flex flex-col items-center my-4 w-full md:w-96">
+            <p
+                ref="passwordConfCheck"
+                class="text-sm text-red-400 max-h-0 overflow-hidden transition-all"
+                :style="{
+                    maxHeight: passwordConfValid
+                        ? '0'
+                        : passwordConfCheck?.scrollHeight + 'px',
+                }"
+            >
                 Passwords do not match
             </p>
             <TextInputPrimary
