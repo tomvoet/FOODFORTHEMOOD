@@ -1,13 +1,10 @@
 <script lang="ts" setup>
-import type { Post, Comment } from "@prisma/client"
-import type { PartialBy } from "@/customTypes"
+import type { Post } from "@prisma/client"
 import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
-const endOfFeed = ref(false)
-
-const props = defineProps<{
+defineProps<{
     post: Post
     author?: {
         username: string

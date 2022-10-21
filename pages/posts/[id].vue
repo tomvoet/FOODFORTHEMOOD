@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type { ReducedPost, PartialBy } from "~~/customTypes"
-import type { Comment } from "@prisma/client"
-import type { Ref } from "vue"
+import type { ReducedPost } from "~~/customTypes"
 
 const route = useRoute()
 
