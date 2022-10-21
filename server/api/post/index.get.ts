@@ -1,7 +1,10 @@
 import { prisma } from "@/server/services/dbManager"
+import { reducePosts } from "~~/server/services/reducePost"
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event)
+
+    const { user }: { user?: { username: string } } = event.context
 
     const { limit, offset, cursor } = query
 
@@ -44,18 +47,18 @@ export default defineEventHandler(async (event) => {
                     name: true,
                 },
             },
-            comments: {
-                select: {
-                    id: true,
-                    authorId: true,
-                    createdAt: true,
-                    text: true,
-                },
-                take: 3,
-            },
             favorites: {
+                where: {
+                    username: user?.username || "",
+                },
                 select: {
                     username: true,
+                },
+            },
+            _count: {
+                select: {
+                    favorites: true,
+                    comments: true,
                 },
             },
         },
@@ -74,5 +77,7 @@ export default defineEventHandler(async (event) => {
             })
         )
 
-    return posts
+    const reducedPosts = reducePosts(posts)
+
+    return reducedPosts
 })

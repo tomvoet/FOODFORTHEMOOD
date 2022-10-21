@@ -1,7 +1,10 @@
 import { prisma } from "@/server/services/dbManager"
+import { reducePosts } from "~~/server/services/reducePost"
 
 export default defineEventHandler(async (event) => {
     const { id } = event.context.params
+
+    const { user }: { user?: { username: string } } = event.context
 
     const post = await prisma.post.findUnique({
         where: {
@@ -17,7 +20,7 @@ export default defineEventHandler(async (event) => {
             restaurantId: true,
             authorId: true,
             updatedAt: true,
-            favorites: {
+            author: {
                 select: {
                     username: true,
                 },
@@ -27,18 +30,18 @@ export default defineEventHandler(async (event) => {
                     name: true,
                 },
             },
-            comments: {
-                select: {
-                    id: true,
-                    authorId: true,
-                    createdAt: true,
-                    text: true,
+            favorites: {
+                where: {
+                    username: user?.username || "",
                 },
-                take: 10,
-            },
-            author: {
                 select: {
                     username: true,
+                },
+            },
+            _count: {
+                select: {
+                    favorites: true,
+                    comments: true,
                 },
             },
         },
@@ -55,5 +58,7 @@ export default defineEventHandler(async (event) => {
         )
     }
 
-    return post
+    const reducedPosts = reducePosts([post])
+
+    return reducedPosts[0]
 })

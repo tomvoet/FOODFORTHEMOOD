@@ -1,7 +1,10 @@
 import { prisma } from "@/server/services/dbManager"
+import { reducePosts } from "~~/server/services/reducePost"
 
 export default defineEventHandler(async (event) => {
     const { username } = event.context.params
+
+    const { user }: { user?: { username: string } } = event.context
 
     const query = getQuery(event)
 
@@ -48,7 +51,7 @@ export default defineEventHandler(async (event) => {
                     restaurantId: true,
                     authorId: true,
                     updatedAt: true,
-                    favorites: {
+                    author: {
                         select: {
                             username: true,
                         },
@@ -58,14 +61,19 @@ export default defineEventHandler(async (event) => {
                             name: true,
                         },
                     },
-                    comments: {
-                        select: {
-                            id: true,
-                            authorId: true,
-                            createdAt: true,
-                            text: true,
+                    favorites: {
+                        where: {
+                            username: user?.username || "",
                         },
-                        take: 3,
+                        select: {
+                            username: true,
+                        },
+                    },
+                    _count: {
+                        select: {
+                            favorites: true,
+                            comments: true,
+                        },
                     },
                 },
             },
@@ -86,6 +94,8 @@ export default defineEventHandler(async (event) => {
     const favPosts: {
         restaurant: { name: string }
         favorites: { username: string }[]
+        author: { username: string }
+        _count: { favorites: number; comments: number }
         id: number
         title: string
         text: string | null
@@ -95,20 +105,13 @@ export default defineEventHandler(async (event) => {
         restaurantId: number
         authorId: string
         updatedAt: Date
-        comments: {
-            id: number
-            text: string
-            createdAt: Date
-            authorId: string
-        }[]
     }[] = []
 
     favorites.forEach((fav) => {
         favPosts.push(fav.post)
     })
 
-    return {
-        status: 200,
-        favorites: favPosts,
-    }
+    const posts = reducePosts(favPosts)
+
+    return posts
 })
