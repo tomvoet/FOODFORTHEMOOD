@@ -11,12 +11,12 @@ defineProps<{
     postId: number
 }>()
 
-const emits = defineEmits<{
-    (e: "reloadComments"): void
-}>()
+const deleteComment = (id: number) => {
+    comments.value = comments.value.filter((c) => c.id !== id)
+}
 
-const reloadComments = () => {
-    emits("reloadComments")
+const newComment = (comment: ReducedComment) => {
+    comments.value = [comment, ...comments.value]
 }
 
 const cursorObj = ref({} as { cursor: number })
@@ -73,13 +73,13 @@ watch(cursorObj.value, () => {
 
 <template>
     <div class="commentSection">
-        <NewComment :post-id="postId" @new-comment="reloadComments" />
+        <NewComment :post-id="postId" @new-comment="newComment" />
         <template v-if="comments">
             <div v-for="comment in comments" :key="comment.id">
                 <hr />
                 <CommentComp
                     :comment="comment"
-                    @reload-comments="reloadComments"
+                    @deleted-comment="deleteComment"
                 />
             </div>
             <InfiniteScroll

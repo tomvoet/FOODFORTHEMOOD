@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 const modalOpen = ref(false)
 
+const { $bus } = useNuxtApp()
+
+onMounted(() => {
+    $bus.$on("newPost", (post: any) => {
+        modalOpen.value = false
+    })
+})
+
 const openModal = () => {
     modalOpen.value = true
 }
