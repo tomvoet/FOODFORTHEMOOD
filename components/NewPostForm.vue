@@ -11,6 +11,8 @@ const chosenFood = ref("")
 const restaurants = ref([] as minimalRestaurant[] | undefined | null)
 const restaurantsStatus = ref(0)
 
+const { $bus } = useNuxtApp()
+
 const userStore = useUserStore()
 
 const submitPost = async () => {
@@ -39,14 +41,13 @@ const submitPost = async () => {
         authorId: userStore.user?.username,
     })
 
-    if (res.status.code === 203) {
-        alert("Post created successfully")
+    if (res.status.code === 203 && res.post) {
         title.value = ""
         text.value = ""
         rating.value = 0
         restaurantChoice.value = 0
         chosenFood.value = ""
-        refreshNuxtData()
+        $bus.$emit("newPost", res.post)
     } else {
         alert(`Error: ${res.status.code} - ${res.status.message}`)
     }
