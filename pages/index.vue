@@ -2,6 +2,8 @@
 import { getAllPosts } from "@/composables/getAllPosts"
 import { ReducedPost } from "@/customTypes"
 
+const { $bus } = useNuxtApp()
+
 const posts = ref([] as ReducedPost[])
 const status = ref({} as { code: number; message: string })
 status.value = { code: 0, message: "" }
@@ -15,15 +17,6 @@ getAllPosts({}).then((data) => {
 })
 
 setMetadata("Posts", "Current feed of posts")
-
-const reloadPosts = () => {
-    getAllPosts({}).then((data) => {
-        posts.value = data.posts
-        status.value = data.status
-    })
-    //refresh() //refresh auf jeden fall für pagination
-    //refreshNuxtData()
-}
 
 const moveCursor = () => {
     cursorObj.value.cursor = posts.value[posts.value.length - 1].id
@@ -41,6 +34,16 @@ watch(cursorObj.value, () => {
         })
     }
 })
+
+onMounted(() => {
+    $bus.$on("newPost", (post: unknown) => {
+        posts.value = [post as ReducedPost, ...posts.value]
+    })
+})
+
+const deletePost = (id: number) => {
+    posts.value = posts.value.filter((post) => post.id !== id)
+}
 </script>
 
 <template>
@@ -56,7 +59,7 @@ watch(cursorObj.value, () => {
                 favoriteAmount: post.favoriteAmount,
                 commentAmount: post.commentAmount,
             }"
-            @reload-posts="reloadPosts"
+            @delete-post="deletePost"
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed"
