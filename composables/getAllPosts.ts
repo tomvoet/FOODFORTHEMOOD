@@ -1,4 +1,5 @@
-import { FullPost } from "~~/customTypes"
+import { ReducedPost } from "~~/customTypes"
+import { useUserStore } from "~~/stores/userStore"
 /**
  * synchronously returns all posts
  * @function getAllPosts
@@ -6,11 +7,19 @@ import { FullPost } from "~~/customTypes"
  * @returns {{ posts: FullPost[], status: { code: number, message: string } }}
  */
 export const getAllPosts = async (opts: { cursor?: number }) => {
+    const userStore = useUserStore()
+    const headers: { Authorization?: string } = {}
+
+    if (userStore.loggedIn) {
+        headers.Authorization = `Bearer ${userStore.token}`
+    }
+
     try {
-        const posts = await $fetch<FullPost[]>(
+        const posts = await $fetch<ReducedPost[]>(
             `/api/post${opts.cursor ? "?cursor=" + opts.cursor : ""}`,
             {
                 method: "GET",
+                headers,
             }
         )
         return {

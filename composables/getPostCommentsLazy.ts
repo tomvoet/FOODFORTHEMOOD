@@ -1,7 +1,7 @@
 import { useUserStore } from "~~/stores/userStore"
 
-export const getUserPostsLazy = (
-    username: string,
+export const getPostCommentsLazy = (
+    post: number,
     cursorObj: { cursor: number }
 ) => {
     const userStore = useUserStore()
@@ -12,11 +12,11 @@ export const getUserPostsLazy = (
     }
 
     return useLazyFetch(
-        `/api/user/${username}/posts${
+        `/api/post/${post}/comment${
             cursorObj.cursor ? `?cursor=${cursorObj.cursor}` : ""
         }`,
         {
-            key: `user/${username}/posts${
+            key: `post/${post}/comment${
                 cursorObj.cursor ? `?cursor=${cursorObj.cursor}` : ""
             }`,
             headers,
