@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import { useUserStore } from "@/stores/userStore"
 
+import type { Comment } from "@prisma/client"
+import type { PartialBy } from "~~/customTypes"
+
+type ReducedComment = PartialBy<Comment, "postId">
+
 const props = defineProps<{
     postId: number
 }>()
 
 const emits = defineEmits<{
-    (e: "newComment"): void
+    (e: "newComment", comment: ReducedComment): void
 }>()
 
 const textArea = ref(null as HTMLTextAreaElement | null)
@@ -29,7 +34,7 @@ const reset = () => {
     }
 }
 
-const submit = () => {
+const submit = async () => {
     if (
         textArea.value &&
         userStore.loggedIn &&
@@ -38,14 +43,19 @@ const submit = () => {
     ) {
         const comment = textArea.value.value
         if (comment.length > 0) {
-            createNewComment(
+            const data = await createNewComment(
                 comment,
                 userStore.user?.username,
                 props.postId,
                 userStore.token
             )
-            reset()
-            emits("newComment")
+            if (data?.status == 200 && data?.comment) {
+                reset()
+                const newComment = data.comment as ReducedComment
+                emits("newComment", newComment)
+            } else {
+                alert("Error creating comment")
+            }
         }
     }
 }
