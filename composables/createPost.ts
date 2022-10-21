@@ -1,5 +1,5 @@
 import { useUserStore } from "@/stores/userStore"
-import { FullPost } from "@/customTypes"
+import { ReducedPost } from "@/customTypes"
 
 /**
  *
@@ -46,7 +46,7 @@ export const createPost = async (options: {
     }
 
     try {
-        const post = await $fetch<FullPost>("/api/post", {
+        const post = await $fetch<ReducedPost>("/api/post", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${userStore.token}`,
