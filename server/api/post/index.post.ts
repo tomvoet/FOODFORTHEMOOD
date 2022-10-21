@@ -103,6 +103,30 @@ export default defineEventHandler(async (event) => {
             chosenFood: true,
             updatedAt: true,
             restaurantId: true,
+            author: {
+                select: {
+                    username: true,
+                },
+            },
+            restaurant: {
+                select: {
+                    name: true,
+                },
+            },
+            favorites: {
+                where: {
+                    username: user?.username || "",
+                },
+                select: {
+                    username: true,
+                },
+            },
+            _count: {
+                select: {
+                    favorites: true,
+                    comments: true,
+                },
+            },
         },
     })
 
