@@ -4,7 +4,8 @@ export default defineMiddleware(async (event) => {
     if (
         event.req.url?.includes("/api/") &&
         !event.req.method?.includes("GET") &&
-        !event.req.url?.includes("/api/auth")
+        !event.req.url?.includes("/api/auth") &&
+        !event.req.url?.includes("/api/user/userdata")
     ) {
         const token = event.req.headers["authorization"]?.split(" ")[1]
         if (!token) {
