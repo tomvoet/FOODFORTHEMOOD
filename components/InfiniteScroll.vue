@@ -3,14 +3,14 @@ const emits = defineEmits<{
     (e: "loadMorePosts"): void
 }>()
 
-defineProps<{
+const props = defineProps<{
     endOfFeed: boolean
 }>()
 
 const triggerElement = ref(null as HTMLElement | null)
 
 const loadMorePosts = () => {
-    emits("loadMorePosts")
+    if (!props.endOfFeed) emits("loadMorePosts")
 }
 
 onMounted(() => {
