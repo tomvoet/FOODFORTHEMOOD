@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import { ReducedPost } from "~~/customTypes"
 import { useUserStore } from "~~/stores/userStore"
+
+const { $bus } = useNuxtApp()
 
 const titleChunk = useState("titleChunk")
 const descriptionRaw = useState("description")
@@ -55,6 +58,12 @@ const meta = computed(() => {
             content: description.value,
         },
     ]
+})
+
+onMounted(() => {
+    $bus.$on("newPost", (post: unknown) => {
+        navigateTo(`/posts/${(post as ReducedPost).id}`)
+    })
 })
 
 useHead({
