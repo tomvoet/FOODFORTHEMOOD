@@ -10,19 +10,16 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-    (e: "reloadComments"): void
+    (e: "deletedComment", id: number): void
 }>()
 
 const pressDelete = async () => {
     if (userStore.loggedIn && userStore.user && userStore.token) {
         const response = await deleteComment(props.comment.id, userStore.token)
-        alert(
-            response.status == 200
-                ? "Comment deleted"
-                : "Error deleting comment"
-        )
         if (response.status == 200) {
-            emits("reloadComments")
+            emits("deletedComment", props.comment.id)
+        } else {
+            alert("Error deleting comment")
         }
     }
 }
@@ -49,6 +46,7 @@ const pressDelete = async () => {
         </div>
         <button
             v-if="comment.authorId == userStore.user?.username"
+            aria-label="Delete comment"
             class="absolute top-0 right-0"
             @click="pressDelete()"
         >

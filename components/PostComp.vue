@@ -8,7 +8,7 @@ const postMenuOpen = ref(false)
 
 const menuContainer = ref(null as HTMLElement | null)
 
-defineProps<{
+const props = defineProps<{
     post: Post
     author?: {
         username: string
@@ -26,12 +26,11 @@ defineProps<{
 }>()
 
 const emits = defineEmits<{
-    (e: "reloadPosts"): void
-    (e: "reloadFavorites"): void
+    (e: "deletePost", id: number): void
 }>()
 
 const reloadPosts = () => {
-    emits("reloadPosts")
+    emits("deletePost", props.post.id)
 }
 
 const submitDeletePost = async (id: number) => {
@@ -39,12 +38,10 @@ const submitDeletePost = async (id: number) => {
         if (confirm("Are you sure you want to delete this post?")) {
             const res = await deletePost(id)
             if (res.status.code === 204) {
-                alert("Post deleted")
                 reloadPosts()
             } else {
                 alert("Something went wrong")
             }
-            //router.push("/posts")
         }
     } else {
         alert("You must be logged in to delete a post")
@@ -78,6 +75,7 @@ const onLike = () => {
         </h3>
         <div ref="menuContainer" class="absolute top-3 right-3">
             <button
+                aria-label="Post menu"
                 class="w-8 h-8 hover:bg-gray-200 flex items-center justify-center rounded-md leading-1"
                 @click="postMenuOpen = !postMenuOpen"
             >
@@ -100,9 +98,10 @@ const onLike = () => {
                     <li
                         class="px-3 py-2 hover:bg-gray-100 rounded-t-md cursor-pointer"
                         :class="{
-                            'rounded-b-md':
+                            'rounded-b-md': !(
                                 userStore.loggedIn &&
-                                userStore.user?.username === author?.username,
+                                userStore.user?.username === author?.username
+                            ),
                         }"
                         @click="report(post.id)"
                     >
@@ -180,10 +179,7 @@ const onLike = () => {
         </div>
         <template v-if="comments">
             <Suspense>
-                <CommentSection
-                    :post-id="post.id"
-                    @reload-comments="reloadPosts"
-                />
+                <CommentSection :post-id="post.id" />
             </Suspense>
         </template>
     </article>
