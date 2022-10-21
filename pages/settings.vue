@@ -132,84 +132,93 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
+    <div class="flex flex-col p-6 items-center">
         <h1 class="text-2xl font-bold">Settings</h1>
-        <div class="p-3">
-            <label for="username" class="block">Username</label>
-            <input
-                id="username"
+        <div class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+            <TextInput
                 v-model="username"
+                field="Username"
                 type="text"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Username"
             />
         </div>
-        <div class="p-3">
-            <label for="email" class="block">Email</label>
-            <input
-                id="email"
+        <div class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+            <TextInput
                 v-model="email"
+                field="Email"
                 type="email"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Email"
             />
         </div>
-        <label
-            for="default-toggle"
-            class="inline-flex relative items-center cursor-pointer"
-        >
-            <input
-                id="default-toggle"
-                v-model="changePassword"
-                type="checkbox"
-                class="sr-only peer"
-            />
-            <div
-                class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-            ></div>
-            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-black"
-                >Change password</span
+        <div class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+            <label
+                for="default-toggle"
+                class="inline-flex relative items-center cursor-pointer"
             >
-        </label>
-        <div v-if="changePassword" class="p-3">
-            <label for="password" class="block">Password</label>
-            <input
-                id="password"
+                <input
+                    id="default-toggle"
+                    v-model="changePassword"
+                    type="checkbox"
+                    class="sr-only peer"
+                />
+                <div
+                    class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+                ></div>
+                <span
+                    class="ml-3 text-sm font-medium text-gray-900 dark:text-black"
+                    >Change password</span
+                >
+            </label>
+        </div>
+        <div
+            v-if="changePassword"
+            class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2"
+        >
+            <TextInput
                 v-model="password"
+                field="Password"
                 type="password"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Password"
             />
         </div>
-        <div v-if="changePassword" class="p-3">
-            <label for="passwordConfirm" class="block">Confirm Password</label>
-            <input
-                id="passwordConfirm"
+        <div
+            v-if="changePassword"
+            class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2"
+        >
+            <TextInput
                 v-model="passwordConfirm"
+                field="Confirm Password"
+                placeholder="Confirm Password"
                 type="password"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
         </div>
-        <div class="p-3">
-            <label for="bio" class="block">Bio</label>
-            <textarea
-                id="bio"
+        <div class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+            <TextAreaComp
                 v-model="bio"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
-        </div>
-        <div class="p-3">
-            <label for="profile-picture" class="block">Profile Picture</label>
-            <input
-                id="profile-picture"
-                ref="fileInput"
-                type="file"
-                accept=".png, .jpg, .jpeg"
-                class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                @change="changeProfilePicture"
+                field="Bio"
+                placeholder="Put a few sentences about you in here!"
             />
-            <img :src="profilePicture" class="w-20 h-20 rounded-full" />
+        </div>
+        <div class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+            <label for="profile-picture" class="block">Profile Picture</label>
+            <div class="flex flex-row items-center justify-start">
+                <input
+                    id="profile-picture"
+                    ref="fileInput"
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    class="border rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-2"
+                    @change="changeProfilePicture"
+                />
+                <img
+                    :src="profilePicture"
+                    class="w-20 h-20 rounded-full inline-block"
+                />
+            </div>
         </div>
         <button
             type="submit"
-            class="border p-1 float-right"
+            class="bg-primary p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 rounded-md font-bold border border-black border-2 shadow-lg my-4"
             @click.prevent="update"
         >
             Update
