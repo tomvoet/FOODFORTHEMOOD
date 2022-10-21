@@ -28,6 +28,14 @@ interface FullPost extends Post {
     }
 }
 
+interface ReducedPost extends Post {
+    favoriteAmount: number
+    commentAmount: number
+    restaurant: { name: string }
+    author: { username: string }
+    isFavorite: boolean
+}
+
 type simpleRestaurant = {
     name: string
     id: number
