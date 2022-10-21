@@ -235,13 +235,10 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                             <NuxtImg
                                 :src="profilePicture"
                                 :alt="userStore.user?.username"
-                                class="rounded-full w-16 h-16 md:w-10 md:h-10"
+                                class="rounded-full w-10 h-10 md:block hidden"
                                 width="40"
                                 height="40"
                             />
-                            <span class="ml-4 md:hidden text-lg font-semibold"
-                                >Profile</span
-                            >
                         </button>
                         <transition
                             enter-active-class="transition ease-out duration-100"
@@ -308,29 +305,52 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                     <ul class="md:hidden mt-4">
                         <li class="py-3">
                             <NuxtLink
+                                :to="userPath"
+                                class="flex flex-row items-center hover:text-white cursor-pointer"
+                                role="menuitem"
+                                @click="mobileMenuOpen = false"
+                            >
+                                <span class="md:hidden text-lg font-semibold"
+                                    >Profile</span
+                                >
+                                <NuxtImg
+                                    :src="profilePicture"
+                                    :alt="userStore.user?.username"
+                                    class="ml-4 rounded-full w-10 h-10"
+                                    width="40"
+                                    height="40"
+                                />
+                            </NuxtLink>
+                        </li>
+                        <li class="py-3">
+                            <NuxtLink
                                 to="/"
                                 class="block text-lg font-semibold hover:text-white"
+                                @click="mobileMenuOpen = false"
                                 >Home</NuxtLink
                             >
                         </li>
                         <li class="py-3">
                             <NuxtLink
                                 to="/settings"
-                                class="block text-lg font-semibold"
+                                class="block text-lg font-semibold hover:text-white"
+                                @click="mobileMenuOpen = false"
                                 >Settings</NuxtLink
                             >
                         </li>
                         <li class="py-3">
                             <NuxtLink
                                 to="/about"
-                                class="block text-lg font-semibold"
+                                class="block text-lg font-semibold hover:text-white"
+                                @click="mobileMenuOpen = false"
                                 >About</NuxtLink
                             >
                         </li>
                         <li class="py-3">
                             <NuxtLink
                                 to="/imprint"
-                                class="block text-lg font-semibold"
+                                class="block text-lg font-semibold hover:text-white"
+                                @click="mobileMenuOpen = false"
                                 >Imprint</NuxtLink
                             >
                         </li>
