@@ -12,6 +12,8 @@ const usernameField = ref(null as HTMLInputElement | null)
 
 const errorMessage = ref(false)
 
+const invalidUser = ref(null as HTMLInputElement | null)
+
 const login = async () => {
     const loginRes = await userStore.login(username.value, password.value)
     if (loginRes.success) {
@@ -76,7 +78,15 @@ setMetadata("Login", "Login to your account.")
             />
         </div>
         <div class="p-4">
-            <p v-show="errorMessage" id="errorMessage">
+            <p
+                ref="invalidUser"
+                class="text-sm text-red-400 max-h-0 overflow-hidden transition-all"
+                :style="{
+                    maxHeight: !errorMessage
+                        ? '0'
+                        : invalidUser?.scrollHeight + 'px',
+                }"
+            >
                 Your username or password is wrong.
             </p>
         </div>
