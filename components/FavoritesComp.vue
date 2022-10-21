@@ -17,7 +17,9 @@ const emitLike = () => emits("onLike")
 </script>
 
 <template>
-    <div class="max-w-max flex flex-row">
+    <div
+        class="w-1/2 inline-flex flex-row justify-center items-center shadow-inner p-3 bg-gray-50 hover:text-black hover:bg-gray-100"
+    >
         <svg
             v-if="isFavorite"
             xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +40,7 @@ const emitLike = () => emits("onLike")
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-6 h-6"
+            class="w-65 h-6"
             @click="emitLike()"
         >
             <path

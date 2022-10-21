@@ -127,11 +127,6 @@ const onLike = () => {
         </div>
         <div class="flex flex-row items-center">
             <StarRating :rating="post.rating" />
-            <FavoritesComp
-                :is-favorite="stats.isFavorite"
-                :amount="stats.favoriteAmount"
-                @on-like="onLike"
-            />&nbsp;{{ stats.commentAmount }}
         </div>
         <div class="font-bold">
             <NuxtLink :to="'/restaurants/' + post.restaurantId">
@@ -168,6 +163,20 @@ const onLike = () => {
                           )}`
                 }}
             </div>
+        </div>
+        <div class="w-full flex flex-row divide-x divide-gray-200">
+            <NuxtLink
+                :to="'/posts/' + post.id"
+                class="text-center inline-flex flex-row w-1/2 justify-center items-center p-3 bg-gray-50 hover:text-black hover:bg-gray-100 shadow-inner"
+            >
+                <IconWrapper icon="commentOutline" classes="h-5 w-5 mr-1" />
+                {{ stats.commentAmount }}
+            </NuxtLink>
+            <FavoritesComp
+                :is-favorite="stats.isFavorite"
+                :amount="stats.favoriteAmount"
+                @on-like="onLike"
+            />
         </div>
         <template v-if="comments">
             <Suspense>
