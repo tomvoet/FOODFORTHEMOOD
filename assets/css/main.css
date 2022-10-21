@@ -39,3 +39,16 @@ a:hover {
 a:active {
   color: red;
 }
+
+html {
+  overflow-y: overlay
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: #d8d8d8;
+}
