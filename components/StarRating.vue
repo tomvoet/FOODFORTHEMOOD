@@ -5,14 +5,19 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex flex-row items-center">
+    <div class="relative">
         <div
-            v-for="i in 5"
-            :key="i"
-            class="mr-2 text-xl"
-            :class="{ 'text-yellow-500': i <= rating }"
+            class="absolute z-10 top-0 left-0 overflow-hidden text-yellow-400"
+            :style="{ width: `${rating * 20}%` }"
         >
-            &#9733;
+            <span class="inline-block text-2xl">
+                &#9733;&#9733;&#9733;&#9733;&#9733;
+            </span>
+        </div>
+        <div>
+            <span class="inline-block text-2xl">
+                &#9733;&#9733;&#9733;&#9733;&#9733;
+            </span>
         </div>
     </div>
 </template>
