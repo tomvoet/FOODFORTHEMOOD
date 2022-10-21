@@ -1,18 +1,38 @@
-import { expect, describe, it } from "vitest"
-import { $fetch, setup } from "@nuxt/test-utils-edge"
+/*import { expect, describe, it, beforeEach } from "vitest"
+import { setup, $fetch } from "@nuxt/test-utils"
 import { Post, User } from "@prisma/client"
+import handlerPostGetAll from "../../server/api/post/index.get"
+import { PathMethodHandler, setupAPI } from "./utils"
+import type { SuperTest, Test } from "supertest"
 
+const endpointBasePath = "/api"
+const endpoints: PathMethodHandler[] = [
+    {
+        path: `${endpointBasePath}/post`,
+        method: "get",
+        handler: handlerPostGetAll,
+    },
+]
+
+let request: SuperTest<Test>
+beforeEach(async () => {
+    const testingUtils = await setupAPI(endpoints)
+
+    request = testingUtils.request
+})
+//https://github.com/sidestream-tech/sidebase/blob/main/tests/server/api/example.test.ts
 await setup({
     server: true,
 })
 
-describe("API - getPosts (homePage)", () => {
+describe("API - getPosts (homePage)", async () => {
     it("should return 200", async () => {
-        const response = await $fetch("/api/post")
-        expect(response.status).toBe(200)
+        const response = await request.get(`${endpointBasePath}/post`)
+        //const response = await $fetch("/api/post")
+        expect(response).toBeTruthy()
     })
-})
-    /*
+})*/
+/*
     it("should return posts", async () => {
         const res = await $fetch("/api/post")
         expect(res.status).toEqual(200)
