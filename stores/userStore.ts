@@ -49,7 +49,6 @@ export const useUserStore = defineStore("user", () => {
      * @license MIT
      * @see test
      * @todo test
-     * @deprecated test
      * @example test
      */
     const logout = async () => {
