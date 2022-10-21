@@ -4,6 +4,10 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
+const postMenuOpen = ref(false)
+
+const menuContainer = ref(null as HTMLElement | null)
+
 defineProps<{
     post: Post
     author?: {
@@ -47,6 +51,21 @@ const submitDeletePost = async (id: number) => {
     }
 }
 
+onMounted(() => {
+    document.addEventListener("click", (e) => {
+        if (
+            menuContainer.value &&
+            !menuContainer.value.contains(e.target as Node)
+        ) {
+            postMenuOpen.value = false
+        }
+    })
+})
+
+const report = (id: number) => {
+    alert("Reported " + id)
+}
+
 const onLike = () => {
     console.log("test")
 }
@@ -57,13 +76,55 @@ const onLike = () => {
         <h3 class="font-bold text-3xl">
             <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
         </h3>
-        <DeletePost
-            v-if="
-                userStore.loggedIn &&
-                userStore.user?.username === author?.username
-            "
-            @delete-post="submitDeletePost(post.id)"
-        />
+        <div ref="menuContainer" class="absolute top-3 right-3">
+            <button
+                class="w-8 h-8 hover:bg-gray-200 flex items-center justify-center rounded-md leading-1"
+                @click="postMenuOpen = !postMenuOpen"
+            >
+                <IconWrapper
+                    icon="ellipsisVertical"
+                    classes="h-6 w-6"
+                /></button
+            ><transition
+                enter-active-class="transition ease-out duration-100"
+                enter-from-class="transform opacity-0 scale-95"
+                enter-to-class="transform opacity-100 scale-100"
+                leave-active-class="transition ease-in duration-75"
+                leave-from-class="transform opacity-100 scale-100"
+                leave-to-class="transform opacity-0 scale-95"
+            >
+                <ul
+                    v-show="postMenuOpen"
+                    class="absolute right-0 w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-sm text-right"
+                >
+                    <li
+                        class="px-3 py-2 hover:bg-gray-100 rounded-t-md cursor-pointer"
+                        :class="{
+                            'rounded-b-md':
+                                userStore.loggedIn &&
+                                userStore.user?.username === author?.username,
+                        }"
+                        @click="report(post.id)"
+                    >
+                        Report
+                    </li>
+                    <li
+                        v-if="
+                            userStore.loggedIn &&
+                            userStore.user?.username === author?.username
+                        "
+                        class="px-3 py-2 hover:bg-gray-100 rounded-b-md flex flex-row justify-end items-center text-red-500 cursor-pointer"
+                        @click="submitDeletePost(post.id)"
+                    >
+                        <IconWrapper
+                            :icon="'deleteOutline'"
+                            classes="h-4 w-4 mr-1"
+                        />
+                        <span>Delete Post</span>
+                    </li>
+                </ul>
+            </transition>
+        </div>
         <div class="flex flex-row items-center">
             <StarRating :rating="post.rating" />
             <FavoritesComp
