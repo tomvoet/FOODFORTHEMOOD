@@ -2,8 +2,6 @@
 import { getAllPosts } from "@/composables/getAllPosts"
 import { ReducedPost } from "@/customTypes"
 
-const { $bus } = useNuxtApp()
-
 const posts = ref([] as ReducedPost[])
 const status = ref({} as { code: number; message: string })
 status.value = { code: 0, message: "" }
@@ -33,12 +31,6 @@ watch(cursorObj.value, () => {
             }
         })
     }
-})
-
-onMounted(() => {
-    $bus.$on("newPost", (post: unknown) => {
-        posts.value = [post as ReducedPost, ...posts.value]
-    })
 })
 
 const deletePost = (id: number) => {
