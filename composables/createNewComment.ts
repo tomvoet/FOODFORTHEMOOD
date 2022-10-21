@@ -15,20 +15,15 @@ export const createNewComment = async (
     postId: number,
     token: string
 ) => {
-    const { data } = await useFetch<{ status: 200; comment: Comment }>(
-        `/api/post/${postId}/comment`,
-        {
-            method: "POST",
-            body: JSON.stringify({ text, authorId, postId }),
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            initialCache: false,
-        }
-    )
+    const { data, error } = await useFetch(`/api/post/${postId}/comment`, {
+        method: "POST",
+        body: JSON.stringify({ text, authorId, postId }),
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        initialCache: false,
+    })
 
-    const status = data.value?.status
-    const comment = data.value?.comment
-
-    return { status, comment }
+    if (error.value) return { status: 400, comment: null as unknown as Comment }
+    else if (data.value) return { status: 200, comment: data.value as Comment }
 }
