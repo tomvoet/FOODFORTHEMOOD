@@ -30,5 +30,20 @@ export default defineMiddleware(async (event) => {
                 message: "Unauthorized, invalid Token",
             }
         }
+    } else {
+        const token = event.req.headers["authorization"]?.split(" ")[1]
+
+        if (token) {
+            try {
+                const decoded = jwt.verify(
+                    token,
+                    "testhilfeichwillkeinscretschreibenwassolldas"
+                )
+
+                if (typeof decoded === "object") {
+                    event.context.user = decoded.data
+                }
+            } catch (err) {}
+        }
     }
 })
