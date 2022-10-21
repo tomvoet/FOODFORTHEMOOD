@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { Post, Comment } from "@prisma/client"
-import type { PartialBy, singleLike } from "@/customTypes"
+import type { PartialBy } from "@/customTypes"
 import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
+
+const endOfFeed = ref(false)
 
 const props = defineProps<{
     post: Post
@@ -14,8 +16,12 @@ const props = defineProps<{
         name: string
         id: number
     }
-    favorites?: singleLike[]
-    comments?: PartialBy<Comment, "postId">[]
+    comments?: boolean
+    stats: {
+        isFavorite: boolean
+        favoriteAmount: number
+        commentAmount: number
+    }
 }>()
 
 const emits = defineEmits<{
@@ -26,10 +32,6 @@ const emits = defineEmits<{
 const reloadPosts = () => {
     emits("reloadPosts")
 }
-
-const commentList = ref(
-    props.comments || ([] as PartialBy<Comment, "postId">[])
-)
 
 const submitDeletePost = async (id: number) => {
     if (userStore.loggedIn && userStore.user?.username) {
@@ -51,19 +53,6 @@ const submitDeletePost = async (id: number) => {
 const onLike = () => {
     console.log("test")
 }
-
-const loadAdditionalComments = async () => {
-    const { data } = await useFetch<PartialBy<Comment, "postId">[]>(
-        `/api/post/${props.post.id}/comment?cursorId=${
-            commentList.value[commentList.value.length - 1].id
-        }`,
-        {
-            server: true,
-            initialCache: false,
-        }
-    )
-    commentList.value = commentList.value.concat(data.value || [])
-}
 </script>
 
 <template>
@@ -80,7 +69,11 @@ const loadAdditionalComments = async () => {
         />
         <div class="flex flex-row items-center">
             <StarRating :rating="post.rating" />
-            <FavoritesComp :favorites="favorites" @on-like="onLike" />
+            <FavoritesComp
+                :is-favorite="stats.isFavorite"
+                :amount="stats.favoriteAmount"
+                @on-like="onLike"
+            />&nbsp;{{ stats.commentAmount }}
         </div>
         <div class="font-bold">
             <NuxtLink :to="'/restaurants/' + post.restaurantId">
@@ -118,17 +111,13 @@ const loadAdditionalComments = async () => {
                 }}
             </div>
         </div>
-        <CommentSection
-            :comments="commentList"
-            :post-id="post.id"
-            @reload-comments="reloadPosts"
-        />
-        <button
-            v-if="comments && comments.length >= 10"
-            class="text-blue-600 underline mx-auto block w-max m-auto p-1 mt-1 hover:text-blue-800"
-            @click="loadAdditionalComments"
-        >
-            load mehr
-        </button>
+        <template v-if="comments">
+            <Suspense>
+                <CommentSection
+                    :post-id="post.id"
+                    @reload-comments="reloadPosts"
+                />
+            </Suspense>
+        </template>
     </article>
 </template>

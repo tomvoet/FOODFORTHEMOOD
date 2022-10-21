@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FullPost, PartialBy } from "@/customTypes"
+import type { ReducedPost } from "@/customTypes"
 
 const route = useRoute()
 
@@ -8,30 +8,29 @@ const username = computed(() => route.params.username as string)
 const cursorObj = ref({} as { cursor: number })
 const endOfFeed = ref(false)
 
-const favorites = ref([] as PartialBy<FullPost, "author">[])
+const favorites = ref([] as ReducedPost[])
 const favoritesStatus = ref(0)
 
-const { data: favData, pending } = useLazyFetch(
-    `/api/user/${username.value}/favorites${
-        cursorObj.value.cursor ? `?cursor=${cursorObj.value.cursor}` : ""
-    }`,
-    {
-        key: `user/${username.value}/favorites${
-            cursorObj.value.cursor ? `?cursor=${cursorObj.value.cursor}` : ""
-        }`,
-    }
-)
+const {
+    data: favData,
+    pending,
+    error,
+} = getUserFavoritesLazy(username.value, cursorObj.value)
 
-if (favData && favData.value?.favorites) {
-    favorites.value = favData.value?.favorites
-    favoritesStatus.value = favData.value?.status || 0
+if (!error.value && favData && favData.value) {
+    if (favData.value.length === 0) {
+        endOfFeed.value = true
+    }
+    favorites.value = favData.value
+    favoritesStatus.value = 200
 }
 
 watch(favData, (data) => {
-    favorites.value = data?.favorites
-        ? [...favorites.value, ...data.favorites]
-        : []
-    favoritesStatus.value = data?.status || 0
+    if (data?.length === 0) {
+        endOfFeed.value = true
+    }
+    favorites.value = data ? [...favorites.value, ...data] : []
+    favoritesStatus.value = !error.value ? 200 : 0
 })
 
 const reloadFavorites = () => {
@@ -44,27 +43,13 @@ const moveCursor = () => {
 }
 
 watch(cursorObj.value, () => {
-    useLazyFetch(
-        `/api/user/${username.value}/favorites${
-            cursorObj.value.cursor ? `?cursor=${cursorObj.value.cursor}` : ""
-        }`,
-        {
-            key: `user/${username.value}/favorites${
-                cursorObj.value.cursor
-                    ? `?cursor=${cursorObj.value.cursor}`
-                    : ""
-            }`,
-        }
-    ).then((res) => {
-        const data = res.data?.value as {
-            favorites: PartialBy<FullPost, "author">[]
-            status: number
-        }
-        if (!data || !data.favorites || data.favorites?.length === 0) {
+    getUserFavoritesLazy(username.value, cursorObj.value).then((res) => {
+        const data = res.data?.value as ReducedPost[]
+        if (!data || data.length === 0) {
             endOfFeed.value = true
-        } else if (data.favorites.length > 0) {
-            favorites.value = [...favorites.value, ...data.favorites]
-            favoritesStatus.value = data?.status || 0
+        } else if (data.length > 0) {
+            favorites.value = [...favorites.value, ...data]
+            favoritesStatus.value = !res.error.value ? 200 : 0
         }
     })
 })
@@ -80,10 +65,13 @@ watch(cursorObj.value, () => {
             v-for="post in favorites"
             :key="post.id"
             :post="post"
-            :author="{ username: username }"
+            :author="post.author"
+            :stats="{
+                favoriteAmount: post.favoriteAmount,
+                commentAmount: post.commentAmount,
+                isFavorite: post.isFavorite,
+            }"
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
-            :favorites="post.favorites"
-            :comments="post.comments"
             @reload-posts="reloadFavorites"
         />
         <InfiniteScroll

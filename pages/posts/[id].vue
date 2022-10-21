@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import type { ReducedPost, PartialBy } from "~~/customTypes"
+import type { Comment } from "@prisma/client"
+import type { Ref } from "vue"
+
 const route = useRoute()
 
 const { data, pending } = await useAsyncData(
@@ -12,12 +16,15 @@ const { data, pending } = await useAsyncData(
 )
 
 const status = data.value?.status
-const post = ref(data.value?.post)
+const post = useState<ReducedPost>(
+    `post/${route.params.id}`,
+    () => data.value?.post as ReducedPost
+)
 
 const reloadPosts = async () => {
     const updatedPost = await getPostById(route.params.id as string)
-    if (updatedPost.status.code === 200) {
-        post.value = updatedPost.post
+    if (updatedPost.status.code === 200 && updatedPost.post) {
+        post.value = updatedPost.post as ReducedPost
     } else {
         alert("Something went wrong")
     }
@@ -37,8 +44,12 @@ setMetadata(
                 :post="post"
                 :author="post.author"
                 :restaurant="{ ...post.restaurant, id: post.restaurantId }"
-                :favorites="post.favorites"
-                :comments="post.comments"
+                :stats="{
+                    favoriteAmount: post.favoriteAmount,
+                    commentAmount: post.commentAmount,
+                    isFavorite: post.isFavorite,
+                }"
+                comments
                 @reload-posts="reloadPosts"
             />
         </ClientOnly>

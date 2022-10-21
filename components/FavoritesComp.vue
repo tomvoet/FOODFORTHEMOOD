@@ -5,7 +5,8 @@ import { useUserStore } from "@/stores/userStore"
 const userStore = useUserStore()
 
 defineProps<{
-    favorites?: singleLike[]
+    amount: number
+    isFavorite: boolean
 }>()
 
 const emits = defineEmits<{
@@ -13,16 +14,12 @@ const emits = defineEmits<{
 }>()
 
 const emitLike = () => emits("onLike")
-
-const isLiked = (favorites: singleLike[] | undefined) =>
-    userStore.loggedIn &&
-    favorites?.some((favorite) => favorite.username == userStore.user?.username)
 </script>
 
 <template>
     <div class="max-w-max flex flex-row">
         <svg
-            v-if="isLiked(favorites)"
+            v-if="isFavorite"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
@@ -52,14 +49,15 @@ const isLiked = (favorites: singleLike[] | undefined) =>
         </svg>
         <ModalComp>
             <template #button>
-                <span class="ml-1">{{
-                    favorites ? String(favorites.length) : ""
-                }}</span>
+                <span class="ml-1">{{ amount }}</span>
             </template>
             <template #modalContent>
                 <h4 class="text-xl font-bold">People who like this</h4>
                 <NuxtLink
-                    v-for="favorite in favorites"
+                    v-for="favorite in [
+                        { username: 'tomvoet' },
+                        { username: 'eva' },
+                    ]"
                     :key="favorite.username + 'fav'"
                     :to="'/user/' + favorite.username"
                     class="block p-1 hover:bg-gray-200"

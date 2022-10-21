@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FullPost, PartialBy } from "@/customTypes"
+import type { ReducedPost } from "@/customTypes"
 
 const route = useRoute()
 
@@ -8,28 +8,29 @@ const username = computed(() => route.params.username as string)
 const cursorObj = ref({} as { cursor: number })
 const endOfFeed = ref(false)
 
-const posts = ref([] as PartialBy<FullPost, "author">[])
+const posts = ref([] as ReducedPost[])
 const postsStatus = ref(0)
 
-const { data: postsData, pending } = useLazyFetch(
-    `/api/user/${username.value}/posts${
-        cursorObj.value.cursor ? `?cursor=${cursorObj.value.cursor}` : ""
-    }`,
-    {
-        key: `user/${username.value}/posts${
-            cursorObj.value.cursor ? `?cursor=${cursorObj.value.cursor}` : ""
-        }`,
-    }
-)
+const {
+    data: postsData,
+    pending,
+    error,
+} = getUserPostsLazy(username.value, cursorObj.value)
 
-if (postsData && postsData.value?.posts) {
-    posts.value = postsData.value?.posts
-    postsStatus.value = postsData.value?.status || 0
+if (!error.value && postsData && postsData.value) {
+    if (postsData.value.length === 0) {
+        endOfFeed.value = true
+    }
+    posts.value = postsData.value
+    postsStatus.value = 200
 }
 
 watch(postsData, (data) => {
-    posts.value = data?.posts ? [...posts.value, ...data.posts] : []
-    postsStatus.value = data?.status || 0
+    if (data?.length === 0) {
+        endOfFeed.value = true
+    }
+    posts.value = data ? [...posts.value, ...data] : []
+    postsStatus.value = !error.value ? 200 : 0
 })
 
 const reloadPosts = () => {
@@ -42,27 +43,13 @@ const moveCursor = () => {
 }
 
 watch(cursorObj.value, () => {
-    useLazyFetch(
-        `/api/user/${username.value}/posts${
-            cursorObj.value.cursor ? `?cursor=${cursorObj.value.cursor}` : ""
-        }`,
-        {
-            key: `user/${username.value}/posts${
-                cursorObj.value.cursor
-                    ? `?cursor=${cursorObj.value.cursor}`
-                    : ""
-            }`,
-        }
-    ).then((res) => {
-        const data = res.data?.value as {
-            posts: PartialBy<FullPost, "author">[]
-            status: number
-        }
-        if (!data || !data.posts || data.posts?.length === 0) {
+    getUserPostsLazy(username.value, cursorObj.value).then((res) => {
+        const data = res.data?.value as ReducedPost[]
+        if (!data || data.length === 0) {
             endOfFeed.value = true
         } else {
-            posts.value = [...posts.value, ...data.posts]
-            postsStatus.value = data?.status || 0
+            posts.value = [...posts.value, ...data]
+            postsStatus.value = !res.error.value ? 200 : 0
         }
     })
 })
@@ -75,10 +62,13 @@ watch(cursorObj.value, () => {
             v-for="post in posts"
             :key="post.id"
             :post="post"
-            :author="{ username: username }"
+            :author="post.author"
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
-            :favorites="post.favorites"
-            :comments="post.comments"
+            :stats="{
+                favoriteAmount: post.favoriteAmount,
+                commentAmount: post.commentAmount,
+                isFavorite: post.isFavorite,
+            }"
             @reload-posts="reloadPosts"
         />
         <InfiniteScroll

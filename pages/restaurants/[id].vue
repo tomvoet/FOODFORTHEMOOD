@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FullPost, simpleRestaurant } from "@/customTypes"
+import type { ReducedPost, simpleRestaurant } from "@/customTypes"
 
 const route = useRoute()
 
@@ -19,36 +19,14 @@ if (!error.value && data.value) {
     restaurantStatus.value = 200
 }
 
-const reviews = ref([] as FullPost[] | undefined | null)
-const reviewsStatus = ref(0)
-
 const reloadReviews = () => {
     refreshNuxtData()
 }
-
-const loadReviews = () => {
-    const { data: reviewsData } = useFetch(
-        `/api/restaurant/${route.params.id}/posts`,
-        {
-            key: `restaurant/${route.params.id}/posts`,
-            server: false,
-        }
-    )
-
-    if (reviewsData) {
-        reviews.value = reviewsData.value?.posts
-        reviewsStatus.value = reviewsData.value?.status || 0
-    }
-
-    watch(reviewsData, (data) => {
-        reviews.value = data?.posts
-        reviewsStatus.value = data?.status || 0
-    })
-}
-
-if (!error.value) {
+/*
+if (!reviewError.value) {
     loadReviews()
 }
+*/
 
 setMetadata(
     restaurant.value?.name ? restaurant.value?.name : "404",
@@ -66,22 +44,7 @@ setMetadata(
             >
         </p>
         <p v-else>No Cuisines added yet</p>
-        <section
-            v-if="reviewsStatus === 200"
-            class="flex flex-col items-center"
-        >
-            <PostComp
-                v-for="review in reviews"
-                :key="review.id"
-                :post="review"
-                :author="review.author"
-                :restaurant="{ ...review.restaurant, id: review.restaurantId }"
-                :favorites="review.favorites"
-                :comments="review.comments"
-                @reload-posts="reloadReviews"
-            />
-        </section>
-        <StatusComp v-else :status="reviewsStatus" />
+        <NuxtPage />
     </div>
     <StatusComp v-else :status="restaurantStatus" />
 </template>

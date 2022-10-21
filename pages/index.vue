@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { getAllPosts } from "@/composables/getAllPosts"
-import { FullPost } from "@/customTypes"
+import { ReducedPost } from "@/customTypes"
 
-const posts = ref([] as FullPost[])
+const posts = ref([] as ReducedPost[])
 const status = ref({} as { code: number; message: string })
 status.value = { code: 0, message: "" }
 
@@ -51,8 +51,11 @@ watch(cursorObj.value, () => {
             :post="post"
             :author="post.author"
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
-            :favorites="post.favorites"
-            :comments="post.comments"
+            :stats="{
+                isFavorite: post.isFavorite,
+                favoriteAmount: post.favoriteAmount,
+                commentAmount: post.commentAmount,
+            }"
             @reload-posts="reloadPosts"
         />
         <InfiniteScroll
