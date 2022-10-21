@@ -53,6 +53,10 @@ watch(cursorObj.value, () => {
         }
     })
 })
+
+const deletePost = (id: number) => {
+    favorites.value = favorites.value.filter((post) => post.id !== id)
+}
 </script>
 
 <template>
@@ -72,7 +76,7 @@ watch(cursorObj.value, () => {
                 isFavorite: post.isFavorite,
             }"
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
-            @reload-posts="reloadFavorites"
+            @delete-post="deletePost"
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed || (!pending && favorites.length < 10)"

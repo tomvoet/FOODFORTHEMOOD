@@ -53,6 +53,10 @@ watch(cursorObj.value, () => {
         }
     })
 })
+
+const deletePost = (id: number) => {
+    posts.value = posts.value.filter((post) => post.id !== id)
+}
 </script>
 
 <template>
@@ -69,7 +73,7 @@ watch(cursorObj.value, () => {
                 commentAmount: post.commentAmount,
                 isFavorite: post.isFavorite,
             }"
-            @reload-posts="reloadPosts"
+            @delete-post="deletePost"
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed"
