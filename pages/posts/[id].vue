@@ -19,13 +19,8 @@ const post = useState<ReducedPost>(
     () => data.value?.post as ReducedPost
 )
 
-const reloadPosts = async () => {
-    const updatedPost = await getPostById(route.params.id as string)
-    if (updatedPost.status.code === 200 && updatedPost.post) {
-        post.value = updatedPost.post as ReducedPost
-    } else {
-        alert("Something went wrong")
-    }
+const deletePost = (id: number) => {
+    navigateTo("/")
 }
 
 setMetadata(
@@ -48,7 +43,7 @@ setMetadata(
                     isFavorite: post.isFavorite,
                 }"
                 comments
-                @reload-posts="reloadPosts"
+                @delete-post="deletePost"
             />
         </ClientOnly>
     </div>
