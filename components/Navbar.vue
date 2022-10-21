@@ -285,13 +285,13 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                                     class="px-4 py-3 hover:bg-gray-100 w-full"
                                     role="none"
                                 >
-                                    <a
+                                    <button
                                         class="block text-sm text-gray-700 cursor-pointer user-menu-button"
                                         role="menuitem"
                                         @click="logout"
                                     >
                                         Sign out
-                                    </a>
+                                    </button>
                                 </li>
                                 <li class="px-4 py-3" role="none">
                                     <div
