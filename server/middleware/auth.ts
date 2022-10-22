@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-export default defineMiddleware(async (event) => {
+export default defineEventHandler(async (event) => {
     if (
         event.req.url?.includes("/api/") &&
         !event.req.method?.includes("GET") &&
