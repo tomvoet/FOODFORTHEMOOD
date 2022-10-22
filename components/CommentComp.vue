@@ -5,6 +5,10 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 
+const commentMenuOpen = ref(false)
+
+const menuContainer = ref(null as HTMLElement | null)
+
 const props = defineProps<{
     comment: PartialBy<Comment, "postId">
 }>()
@@ -23,34 +27,80 @@ const pressDelete = async () => {
         }
     }
 }
+
+const report = (id: number) => {
+    alert("Reported " + id)
+}
+
+onMounted(() => {
+    document.addEventListener("click", (e) => {
+        if (
+            menuContainer.value &&
+            !menuContainer.value.contains(e.target as Node)
+        ) {
+            commentMenuOpen.value = false
+        }
+    })
+})
 </script>
 
 <template>
-    <div class="comment relative">
+    <div class="relative p-3 border rounded-lg mt-4">
         <div>
-            <NuxtLink :to="'/user/' + comment.authorId">
+            <NuxtLink :to="'/user/' + comment.authorId" class="font-semibold">
                 {{ comment.authorId }}
             </NuxtLink>
-            -
-            {{
-                `${new Date(comment.createdAt).toLocaleTimeString("de-DE", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                })} | ${new Date(comment.createdAt).toLocaleDateString(
-                    "de-DE"
-                )}`
-            }}
         </div>
         <div class="commentText">
             {{ comment.text }}
         </div>
-        <button
-            v-if="comment.authorId == userStore.user?.username"
-            aria-label="Delete comment"
-            class="absolute top-0 right-0"
-            @click="pressDelete()"
-        >
-            Delete
-        </button>
+        <div ref="menuContainer" class="absolute top-3 right-3">
+            <button
+                aria-label="Post menu"
+                class="w-8 h-8 hover:bg-gray-200 flex items-center justify-center rounded-md leading-1"
+                @click="commentMenuOpen = !commentMenuOpen"
+            >
+                <IconWrapper
+                    icon="ellipsisVertical"
+                    classes="h-6 w-6"
+                /></button
+            ><transition
+                enter-active-class="transition ease-out duration-100"
+                enter-from-class="transform opacity-0 scale-95"
+                enter-to-class="transform opacity-100 scale-100"
+                leave-active-class="transition ease-in duration-75"
+                leave-from-class="transform opacity-100 scale-100"
+                leave-to-class="transform opacity-0 scale-95"
+            >
+                <ul
+                    v-show="commentMenuOpen"
+                    class="absolute right-0 w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-sm text-right z-10"
+                >
+                    <li
+                        class="px-3 py-2 hover:bg-gray-100 rounded-t-md cursor-pointer"
+                        :class="{
+                            'rounded-b-md': !(
+                                comment.authorId == userStore.user?.username
+                            ),
+                        }"
+                        @click="report(comment.id)"
+                    >
+                        Report
+                    </li>
+                    <li
+                        v-if="comment.authorId == userStore.user?.username"
+                        class="px-3 py-2 hover:bg-gray-100 rounded-b-md flex flex-row justify-end items-center text-red-500 cursor-pointer"
+                        @click="pressDelete"
+                    >
+                        <IconWrapper
+                            :icon="'deleteOutline'"
+                            classes="h-4 w-4 mr-1"
+                        />
+                        <span>Delete Post</span>
+                    </li>
+                </ul>
+            </transition>
+        </div>
+        <span class="italic text-sm">{{ getTimeAgo(comment.createdAt) }}</span>
     </div>
 </template>

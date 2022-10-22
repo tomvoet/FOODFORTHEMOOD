@@ -20,8 +20,8 @@ const userStore = useUserStore()
 
 const onInput = () => {
     if (textArea.value) {
-        textArea.value.style.height = "3em"
-        if (textArea.value.scrollHeight > 3 * 16) {
+        textArea.value.style.height = "6em"
+        if (textArea.value.scrollHeight > 6 * 16 - 3) {
             textArea.value.style.height = textArea.value.scrollHeight + "px"
         }
     }
@@ -30,7 +30,7 @@ const onInput = () => {
 const reset = () => {
     if (textArea.value) {
         textArea.value.value = ""
-        textArea.value.style.height = "3em"
+        textArea.value.style.height = "6em"
     }
 }
 
@@ -62,10 +62,10 @@ const submit = async () => {
 </script>
 
 <template>
-    <form class="border border-gray-300 rounded-md relative">
+    <form class="border rounded-md relative h-min flex">
         <textarea
             ref="textArea"
-            class="w-full p-1 rounded-md resize-none overflow-hidden h-[3em] outline-none"
+            class="w-full p-1 pb-8 rounded-md resize-none overflow-hidden h-[6em] outline-none focus:ring focus:ring-primary"
             :disabled="!userStore.loggedIn"
             :placeholder="
                 userStore.loggedIn
@@ -77,7 +77,7 @@ const submit = async () => {
         <div class="absolute bottom-0 right-0 w-full flex justify-end">
             <button
                 :disabled="!userStore.loggedIn"
-                class="border-l border-t border-gray-300 py-1 px-2 cursor-pointer hover:bg-gray-100 disabled:opacity-50 disabled:cursor-default"
+                class="border-l border-t border-gray-300 py-1 px-2 cursor-pointer hover:bg-gray-100 disabled:opacity-50 disabled:cursor-default rounded-tl-md"
                 @click.prevent="reset()"
             >
                 Cancel

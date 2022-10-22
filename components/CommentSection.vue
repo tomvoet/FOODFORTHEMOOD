@@ -56,7 +56,6 @@ watch(cursorObj.value, () => {
     getPostCommentsLazy(Number(route.params.id), cursorObj.value).then(
         (res) => {
             const data = res.data?.value as ReducedComment[]
-            console.log(data)
             if (!data || data.length === 0) {
                 endOfFeed.value = true
             } else {
@@ -72,11 +71,10 @@ watch(cursorObj.value, () => {
 </script>
 
 <template>
-    <div class="commentSection">
+    <div class="absolute mt-4 left-0 w-full">
         <NewComment :post-id="postId" @new-comment="newComment" />
         <template v-if="comments">
             <div v-for="comment in comments" :key="comment.id">
-                <hr />
                 <CommentComp
                     :comment="comment"
                     @deleted-comment="deleteComment"
