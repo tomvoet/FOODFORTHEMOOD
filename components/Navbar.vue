@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { useUserStore } from "@/stores/userStore"
+import { get } from "http"
+
+const { $bus } = useNuxtApp()
 
 const userStore = useUserStore()
 
@@ -147,6 +150,10 @@ onMounted(() => {
     document.addEventListener("touchmove", handleTouchMove, false)
     document.addEventListener("touchend", handleTouchEnd, false)
     document.addEventListener("touchcancel", handleTouchEnd, false)
+
+    $bus.$on("userDataUpdated", () => {
+        getProfilePicture()
+    })
 
     if (userStore.loggedIn) getProfilePicture()
 })

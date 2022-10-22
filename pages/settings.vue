@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/userStore"
+import { set } from "nuxt/dist/app/compat/capi"
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -101,9 +102,12 @@ const update = async () => {
     })
 
     if (!newUserError.value && newUserData && newUserData.value) {
-        //console.log("hae")
-        //useState("userDataUpdated", () => true)
-        navigateTo(`/user/${newUserData.value.username}`)
+        useState("userDataUpdated", () => true)
+
+        clearNuxtData()
+        setTimeout(() => {
+            navigateTo(`/user/${userStore.user?.username}`)
+        }, 100)
     }
 }
 

@@ -3,17 +3,18 @@ const route = useRoute()
 
 const username = computed(() => route.params.username as string)
 
+const { $bus } = useNuxtApp()
+
 const userStatus = useState("userStatus", () => 0)
 const user = ref({} as { username: string; bio: string | null })
 
-const {
-    data: userData,
-    error,
-    refresh,
-} = await useFetch(`/api/user/${username.value}`, {
-    key: `user/${username.value}`,
-    server: true,
-})
+const { data: userData, error } = await useFetch(
+    `/api/user/${username.value}`,
+    {
+        key: `user/${username.value}`,
+        server: true,
+    }
+)
 
 if (!error.value && userData.value) {
     user.value = userData.value
@@ -41,11 +42,10 @@ let navBarHeight = ref(0)
 
 onMounted(() => {
     navBarHeight.value = document.getElementById("header")?.clientHeight || 0
-    //if (useState("userDataUpdated").value) {
-    //    refresh({
-    //        dedupe: true,
-    //    })
-    //}
+    if (useState("userDataUpdated").value) {
+        $bus.$emit("userDataUpdated")
+        useState("userDataUpdated").value = false
+    }
 })
 
 setMetadata(
