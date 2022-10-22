@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/userStore"
 
 const userStore = useUserStore()
 const router = useRouter()
+
 const username = ref("")
 const email = ref("")
 const password = ref("")
@@ -100,12 +101,9 @@ const update = async () => {
     })
 
     if (!newUserError.value && newUserData && newUserData.value) {
-        alert("Changes saved")
+        //console.log("hae")
+        //useState("userDataUpdated", () => true)
         navigateTo(`/user/${newUserData.value.username}`)
-        setTimeout(() => {
-            // suboptimal, but it works /////////////////////////////////////////
-            location.reload()
-        }, 0)
     }
 }
 
