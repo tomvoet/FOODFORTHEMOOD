@@ -1,3 +1,4 @@
+/*
 import { createApp, createRouter } from "h3"
 import type { CompatibilityEventHandler, RouterMethod } from "h3"
 import type { SuperTest, Test } from "supertest"
@@ -28,3 +29,4 @@ export const setupAPI = async (
         request: supertest(app),
     }
 }
+*/
