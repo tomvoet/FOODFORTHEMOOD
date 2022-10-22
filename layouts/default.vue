@@ -38,28 +38,6 @@ const description = computed(() => {
     }
 })
 
-const meta = computed(() => {
-    return [
-        { hid: "description", name: "description", content: description.value },
-        { hid: "og:title", property: "og:title", content: fullTitle.value },
-        {
-            hid: "og:description",
-            property: "og:description",
-            content: description.value,
-        },
-        {
-            hid: "twitter:title",
-            name: "twitter:title",
-            content: fullTitle.value,
-        },
-        {
-            hid: "twitter:description",
-            name: "twitter:description",
-            content: description.value,
-        },
-    ]
-})
-
 onMounted(() => {
     $bus.$on("newPost", (post: unknown) => {
         navigateTo(`/posts/${(post as ReducedPost).id}`)
@@ -71,7 +49,24 @@ useHead({
         lang: "en",
     },
     title: fullTitle,
-    meta,
+    meta: [
+        {
+            hid: "og:image",
+            property: "og:image",
+            content: "https://foodforthemood.com/og-image.png",
+        },
+        {
+            hid: "twitter:image",
+            name: "twitter:image",
+            content: "https://foodforthemood.com/og-image.png",
+        },
+        { hid: "og:title", property: "og:title", content: fullTitle.value },
+        {
+            hid: "twitter:title",
+            name: "twitter:title",
+            content: fullTitle.value,
+        },
+    ],
 })
 </script>
 
