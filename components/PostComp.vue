@@ -69,98 +69,107 @@ const onLike = () => {
 </script>
 
 <template>
-    <article class="relative m-4 p-4 border w-3/4 md:w-1/2 rounded-lg">
-        <h3 class="font-bold text-3xl">
-            <NuxtLink :to="'/posts/' + post.id">{{ post.title }}</NuxtLink>
-        </h3>
-        <div ref="menuContainer" class="absolute top-3 right-3">
-            <button
-                aria-label="Post menu"
-                class="w-8 h-8 hover:bg-gray-200 flex items-center justify-center rounded-md leading-1"
-                @click="postMenuOpen = !postMenuOpen"
-            >
-                <IconWrapper
-                    icon="ellipsisVertical"
-                    classes="h-6 w-6"
-                /></button
-            ><transition
-                enter-active-class="transition ease-out duration-100"
-                enter-from-class="transform opacity-0 scale-95"
-                enter-to-class="transform opacity-100 scale-100"
-                leave-active-class="transition ease-in duration-75"
-                leave-from-class="transform opacity-100 scale-100"
-                leave-to-class="transform opacity-0 scale-95"
-            >
-                <ul
-                    v-show="postMenuOpen"
-                    class="absolute right-0 w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-sm text-right"
+    <article class="relative m-4 border w-3/4 md:w-1/2 rounded-lg">
+        <div class="p-3">
+            <h3 class="font-bold text-3xl break-words">
+                <NuxtLink :to="'/posts/' + post.id">{{
+                    comments
+                        ? post.title
+                        : post.title.length > 150
+                        ? post.title.substring(0, 150) + "..."
+                        : post.title
+                }}</NuxtLink>
+            </h3>
+            <div ref="menuContainer" class="absolute top-3 right-3">
+                <button
+                    aria-label="Post menu"
+                    class="w-8 h-8 hover:bg-gray-200 flex items-center justify-center rounded-md leading-1"
+                    @click="postMenuOpen = !postMenuOpen"
                 >
-                    <li
-                        class="px-3 py-2 hover:bg-gray-100 rounded-t-md cursor-pointer"
-                        :class="{
-                            'rounded-b-md': !(
+                    <IconWrapper
+                        icon="ellipsisVertical"
+                        classes="h-6 w-6"
+                    /></button
+                ><transition
+                    enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-75"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95"
+                >
+                    <ul
+                        v-show="postMenuOpen"
+                        class="absolute right-0 w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-sm text-right"
+                    >
+                        <li
+                            class="px-3 py-2 hover:bg-gray-100 rounded-t-md cursor-pointer"
+                            :class="{
+                                'rounded-b-md': !(
+                                    userStore.loggedIn &&
+                                    userStore.user?.username ===
+                                        author?.username
+                                ),
+                            }"
+                            @click="report(post.id)"
+                        >
+                            Report
+                        </li>
+                        <li
+                            v-if="
                                 userStore.loggedIn &&
                                 userStore.user?.username === author?.username
-                            ),
-                        }"
-                        @click="report(post.id)"
-                    >
-                        Report
-                    </li>
-                    <li
-                        v-if="
-                            userStore.loggedIn &&
-                            userStore.user?.username === author?.username
-                        "
-                        class="px-3 py-2 hover:bg-gray-100 rounded-b-md flex flex-row justify-end items-center text-red-500 cursor-pointer"
-                        @click="submitDeletePost(post.id)"
-                    >
-                        <IconWrapper
-                            :icon="'deleteOutline'"
-                            classes="h-4 w-4 mr-1"
-                        />
-                        <span>Delete Post</span>
-                    </li>
-                </ul>
-            </transition>
-        </div>
-        <div class="flex flex-row items-center">
-            <StarRating :rating="post.rating" />
-        </div>
-        <div class="font-bold">
-            <NuxtLink :to="'/restaurants/' + post.restaurantId">
-                {{ restaurant?.name }}
-            </NuxtLink>
-        </div>
-        <p class="chosenFood">
-            {{ post.chosenFood }}
-        </p>
-        <p class="mt-4 break-words">
-            {{ post.text }}
-        </p>
-        <div class="flex space-between w-full flex-row">
-            <div v-if="author !== undefined" class="w-max">
-                <NuxtLink
-                    :to="'/user/' + author.username"
-                    class="italic font-bold"
-                    >{{ author.username }}</NuxtLink
-                >
+                            "
+                            class="px-3 py-2 hover:bg-gray-100 rounded-b-md flex flex-row justify-end items-center text-red-500 cursor-pointer"
+                            @click="submitDeletePost(post.id)"
+                        >
+                            <IconWrapper
+                                :icon="'deleteOutline'"
+                                classes="h-4 w-4 mr-1"
+                            />
+                            <span>Delete Post</span>
+                        </li>
+                    </ul>
+                </transition>
             </div>
-            <div class="text-gray-700 mt-1 text-sm w-max ml-auto">
-                {{
-                    post.updatedAt == post.createdAt
-                        ? "created: "
-                        : "updated: " +
-                          `${new Date(post.createdAt).toLocaleTimeString(
-                              "de-DE",
-                              {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                              }
-                          )} | ${new Date(post.createdAt).toLocaleDateString(
-                              "de-DE"
-                          )}`
-                }}
+            <div class="flex flex-row items-center">
+                <StarRating :rating="post.rating" />
+            </div>
+            <div class="font-bold">
+                <NuxtLink :to="'/restaurants/' + post.restaurantId">
+                    {{ restaurant?.name }}
+                </NuxtLink>
+            </div>
+            <p class="chosenFood">
+                {{ post.chosenFood }}
+            </p>
+            <p class="mt-4 break-words">
+                {{ post.text }}
+            </p>
+            <div class="flex space-between w-full flex-row">
+                <div v-if="author !== undefined" class="w-max">
+                    <NuxtLink
+                        :to="'/user/' + author.username"
+                        class="italic font-bold"
+                        >{{ author.username }}</NuxtLink
+                    >
+                </div>
+                <div class="text-gray-700 mt-1 text-sm w-max ml-auto">
+                    {{
+                        post.updatedAt == post.createdAt
+                            ? "created: "
+                            : "updated: " +
+                              `${new Date(post.createdAt).toLocaleTimeString(
+                                  "de-DE",
+                                  {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                  }
+                              )} | ${new Date(
+                                  post.createdAt
+                              ).toLocaleDateString("de-DE")}`
+                    }}
+                </div>
             </div>
         </div>
         <div class="w-full flex flex-row divide-x divide-gray-200">
