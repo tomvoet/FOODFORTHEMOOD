@@ -5,6 +5,8 @@ const props = defineProps<{
     field: string
 }>()
 
+const textArea = ref(null as HTMLTextAreaElement | null)
+
 const modelEmits = defineEmits<{
     (e: "update:modelValue", value: string): void
 }>()
@@ -17,10 +19,9 @@ const updateModel = (event: Event) => {
 }
 
 onMounted(() => {
-    const textarea = document.getElementById(
-        "textarea" + props.field
-    ) as HTMLTextAreaElement
-    textarea.style.height = textarea.scrollHeight + "px"
+    if (textArea.value && !props.modelValue) {
+        textArea.value.style.height = textArea.value.scrollHeight + "px"
+    }
 })
 </script>
 
@@ -30,7 +31,7 @@ onMounted(() => {
             field
         }}</label>
         <textarea
-            :id="'textarea' + field"
+            ref="textArea"
             rows="1"
             :name="field"
             :placeholder="placeholder"
