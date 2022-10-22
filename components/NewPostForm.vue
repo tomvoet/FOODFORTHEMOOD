@@ -57,7 +57,10 @@ const updateRating = (newRating: number) => {
     rating.value = newRating
 }
 
-const { data: restaurantData } = useFetch(`/api/restaurant`, {
+const { data: restaurantData } = useFetch<{
+    restaurants: minimalRestaurant[]
+    status: number
+}>(`/api/restaurant`, {
     key: `/api/restaurant`,
     server: false,
 })
