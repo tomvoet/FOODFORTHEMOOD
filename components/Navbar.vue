@@ -28,10 +28,6 @@ const logout = async () => {
     }
 }
 
-const goToLogin = () => navigateTo("/login")
-
-const goToRegister = () => navigateTo("/register")
-
 const userPath = computed(() => {
     if (userStore.user) {
         return `/user/${userStore.user.username}`
@@ -367,18 +363,20 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                     </button>
                 </div>
                 <div v-else class="flex flex-row">
-                    <button
+                    <NuxtLink
                         class="bg-red-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-red-400"
-                        @click="goToLogin"
+                        to="/login"
+                        @click="mobileMenuOpen = false"
                     >
                         Login
-                    </button>
-                    <button
+                    </NuxtLink>
+                    <NuxtLink
                         class="bg-green-300 rounded-md px-4 py-2 m-2 text-white font-semibold hover:bg-green-400"
-                        @click="goToRegister"
+                        to="/register"
+                        @click="mobileMenuOpen = false"
                     >
                         Sign Up
-                    </button>
+                    </NuxtLink>
                 </div>
             </ClientOnly>
         </nav>
