@@ -83,7 +83,7 @@ setMetadata(
                 :to="`/user/${username}`"
                 :class="
                     route.fullPath === `/user/${username}`
-                        ? 'text-blue-500 font-bold'
+                        ? 'text-blue-600 font-bold'
                         : ''
                 "
                 >Posts</NuxtLink

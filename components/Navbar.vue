@@ -238,7 +238,7 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                             <NuxtImg
                                 :src="profilePicture"
                                 :alt="userStore.user?.username"
-                                class="rounded-full w-10 h-10 md:block hidden"
+                                class="rounded-full w-10 h-10 md:block hidden object-cover"
                                 width="40"
                                 height="40"
                             />
@@ -319,7 +319,7 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                                 <NuxtImg
                                     :src="profilePicture"
                                     :alt="userStore.user?.username"
-                                    class="ml-4 rounded-full w-10 h-10"
+                                    class="ml-4 rounded-full w-10 h-10 object-cover"
                                     width="40"
                                     height="40"
                                 />

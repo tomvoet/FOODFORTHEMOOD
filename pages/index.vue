@@ -40,6 +40,7 @@ const deletePost = (id: number) => {
 
 <template>
     <section v-if="status.code === 200" class="flex flex-col items-center">
+        <h2 class="text-3xl mt-3 tracking-wider underline">Trending posts</h2>
         <PostComp
             v-for="post in posts"
             :key="post.id"
