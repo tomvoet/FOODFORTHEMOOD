@@ -6,6 +6,7 @@ export default defineNuxtPlugin(() => {
             bus: {
                 $on: emitter.on,
                 $emit: emitter.emit,
+                $off: emitter.off,
             },
         },
     }
