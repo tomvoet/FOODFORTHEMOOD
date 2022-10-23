@@ -1,5 +1,5 @@
-import { prisma } from "@/server/services/dbManager"
-import { reducePosts } from "~~/server/services/reducePost"
+import { prisma } from "../../services/dbManager"
+import { reducePosts } from "../../services/reducePost"
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event)
