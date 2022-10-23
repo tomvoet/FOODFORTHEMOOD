@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 401,
+                statusMessage: "Unauthorized",
                 message: "Invalid username or password",
             })
         )
@@ -29,6 +30,7 @@ export default defineEventHandler(async (event) => {
             event,
             createError({
                 statusCode: 401,
+                statusMessage: "Unauthorized",
                 message: "Invalid username or password",
             })
         )
