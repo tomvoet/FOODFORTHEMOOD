@@ -17,6 +17,7 @@ export default defineConfig({
                         "createError",
                         "useBody",
                         "setCookie",
+                        "parseCookies",
                     ],
                 },
             ],
