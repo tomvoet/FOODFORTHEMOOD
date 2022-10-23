@@ -7,6 +7,7 @@ const userStore = useUserStore()
 defineProps<{
     amount: number
     isFavorite: boolean
+    postId: number
 }>()
 
 const emits = defineEmits<{
@@ -55,17 +56,10 @@ const emitLike = () => emits("onLike")
             </template>
             <template #modalContent>
                 <h4 class="text-xl font-bold">People who like this</h4>
-                <NuxtLink
-                    v-for="favorite in [
-                        { username: 'tomvoet' },
-                        { username: 'eva' },
-                    ]"
-                    :key="favorite.username + 'fav'"
-                    :to="'/user/' + favorite.username"
-                    class="block p-1 hover:bg-gray-200"
-                    >{{ favorite.username }}</NuxtLink
-                ></template
-            >
+                <Suspense>
+                    <LikedBy :post-id="postId" />
+                </Suspense>
+            </template>
         </ModalComp>
     </div>
 </template>
