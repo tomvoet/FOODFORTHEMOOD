@@ -71,7 +71,7 @@ const onLike = () => {
 <template>
     <article class="relative m-4 border w-3/4 md:w-1/2 rounded-lg">
         <div class="p-3">
-            <h3 class="font-bold text-3xl break-words">
+            <h3 class="font-bold text-3xl break-words mr-6">
                 <NuxtLink :to="'/posts/' + post.id">{{
                     comments
                         ? post.title
@@ -183,6 +183,7 @@ const onLike = () => {
             <FavoritesComp
                 :is-favorite="stats.isFavorite"
                 :amount="stats.favoriteAmount"
+                :post-id="post.id"
                 @on-like="onLike"
             />
         </div>
