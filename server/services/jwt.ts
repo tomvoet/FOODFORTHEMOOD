@@ -38,5 +38,5 @@ export const generateRefreshToken = (username: string) => {
 }
 
 export const generateResetToken = (email: string) => {
-    return jwt.sign({ data: { email } }, RESET_SECRET, { expiresIn: "15m"})
+    return jwt.sign({ data: { email } }, RESET_SECRET, { expiresIn: "15m" })
 }
