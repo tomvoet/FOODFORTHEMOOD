@@ -1,8 +1,5 @@
 import jwt from "jsonwebtoken"
-import {
-    generateAccessToken,
-    generateRefreshToken,
-} from "~~/server/services/jwt"
+import { generateAccessToken, generateRefreshToken } from "../../services/jwt"
 
 export default defineEventHandler(async (event) => {
     const cookies = parseCookies(event)
