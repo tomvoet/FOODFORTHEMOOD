@@ -51,17 +51,7 @@ export const setupApiAndDatabase = async (
     const app = createApp()
     app.use(router)
 
-    // Reset database
-    // if (!AppDataSource.isInitialized) {
-    //  await AppDataSource.initialize()
-    // }
-    // await AppDataSource.synchronize(true)
-
-    const server = createServer(toNodeListener(app)).listen(
-        process.env.PORT || 3000
-    )
-
-    console.log(app)
+    const server = createServer(toNodeListener(app))
 
     // Return `request`, use like `await request.get('/some/path')`
     return { request: supertest(server) }
