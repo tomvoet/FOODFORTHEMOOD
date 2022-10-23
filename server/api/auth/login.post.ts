@@ -1,9 +1,6 @@
-import { prisma } from "@/server/services/dbManager"
+import { prisma } from "../../services/dbManager"
 import bcrypt from "bcrypt"
-import {
-    generateAccessToken,
-    generateRefreshToken,
-} from "@/server/services/jwt"
+import { generateAccessToken, generateRefreshToken } from "../../services/jwt"
 
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)

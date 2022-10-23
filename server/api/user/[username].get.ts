@@ -1,4 +1,4 @@
-import { prisma } from "@/server/services/dbManager"
+import { prisma } from "../../services/dbManager"
 
 export default defineEventHandler(async (event) => {
     const { username } = event.context.params
