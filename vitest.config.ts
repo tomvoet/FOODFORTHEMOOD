@@ -25,6 +25,32 @@ export default defineConfig({
         alias: {
             "@": path.resolve(__dirname, "./src"),
         },
+        environment: "jsdom",
+        coverage: {
+            enabled: true,
+            lines: 90,
+            functions: 90,
+            branches: 90,
+            all: true,
+            include: [
+                "assets",
+                "components",
+                "composables",
+                "layouts",
+                "middleware",
+                "pages",
+                "public",
+                "server",
+                "app.vue",
+            ],
+            exclude: [
+                "**/*.story.vue",
+                "**/*.test.ts",
+                "app.vue",
+                "pages/**/*.vue",
+                "server/database/index.ts",
+            ],
+        },
         setupFiles: ["./tests/setupTestUtils.ts"],
     },
 })
