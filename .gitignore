@@ -8,3 +8,4 @@ node_modules
 dist
 docs
 coverage
+auto-imports.d.ts
