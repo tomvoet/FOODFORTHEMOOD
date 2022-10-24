@@ -18,6 +18,11 @@ export default defineEventHandler(async (event) => {
                     name: true,
                 },
             },
+            street: true,
+            zip: true,
+            houseNum: true,
+            phone: true,
+            website: true,
         },
     })
 
