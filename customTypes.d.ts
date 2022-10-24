@@ -1,4 +1,4 @@
-import { Post } from "@prisma/client"
+import { Post, Restaurant } from "@prisma/client"
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
@@ -45,4 +45,11 @@ type simpleRestaurant = {
     }[]
     state: string
     city: string
+}
+
+interface ExtendedRestaurant extends Restaurant {
+    cuisines: {
+        id: number
+        name: string
+    }[]
 }
