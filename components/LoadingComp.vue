@@ -1,5 +1,5 @@
 <template>
-    <span class="text-3xl font-bold">
+    <div class="flex flex-col items-center justify-center mt-12">
         <svg
             id="svg2"
             version="1.1"
@@ -7,7 +7,7 @@
             width="554.66669"
             height="534.66669"
             alt="Loading..."
-            class="w-20 h-20 mr-3 animate-spin duration-1000 float-left"
+            class="w-20 h-20 animate-spin duration-1000"
             viewBox="0 0 554.66669 534.66669"
         >
             <defs id="defs6">
@@ -311,40 +311,7 @@
                         </g>
                     </g>
                 </g>
-            </g>
-        </svg>
-
-        <!--
-    <svg
-        class="animate-spin h-9 w-9 mr-3 float-left"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        width="200px"
-        height="200px"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="xMidYMid"
-    >
-        <circle
-            cx="50"
-            cy="50"
-            fill="none"
-            stroke="#ff7d7d"
-            stroke-width="10"
-            r="35"
-            stroke-dasharray="164.93361431346415 56.97787143782138"
-            transform="matrix(1,0,0,1,0,0)"
-        ></circle></svg
-    >-->Loading...<nuxt-picture
-            :src="'img/nudel.webp'"
-            alt="Loading..."
-            class="w-50 h-50 mr-3 animate-spin float-right"
-            sizes="sm:80vw md:7vw"
-        />
-        <nuxt-picture
-            :src="'img/nudelneu.webp'"
-            alt="Loading..."
-            class="w-20 h-20 mr-3 animate-spin float-right duration-1000"
-            sizes="sm:80vw md:7vw"
-        />
-    </span>
+            </g></svg
+        ><span class="text-4xl">Loading</span>
+    </div>
 </template>
