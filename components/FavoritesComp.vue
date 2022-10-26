@@ -48,11 +48,6 @@ const onLike = async () => {
     } else {
         alert("You must be logged in to like a post")
     }
-    console.log(
-        `${props.isFavorite ? "un" : ""}liked post ${props.postId} as user ${
-            userStore.user?.username
-        }`
-    )
 }
 </script>
 
