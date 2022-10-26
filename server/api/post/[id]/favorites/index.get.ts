@@ -5,30 +5,33 @@ export default defineEventHandler(async (event) => {
 
     const query = getQuery(event)
 
-    const { limit, offset, cursor } = query
+    const { limit, offset /*, cursor*/ } = query
 
     const params: {
         take: number
         skip: number
-        cursor?: {
-            username_postId: {
-                username: string
-                postId: number
-            }
-        }
+        //cursor?: {
+        //    username_postId: {
+        //        username: string
+        //        postId: number
+        //    }
+        //}
     } = {
         take: Number(limit) || 10,
-        skip: cursor && cursor !== "" ? Number(offset) || 0 : 1,
+        //skip: !Number(cursor) ? Number(offset) || 0 : 1,
+        skip: Number(offset) || 0,
     }
 
-    if (Number(cursor)) {
-        params.cursor = {
-            username_postId: {
-                username: cursor as string,
-                postId: Number(cursor),
-            },
-        }
-    }
+    //if (Number(cursor)) {
+    //    params.cursor = {
+    //        username_postId: {
+    //            username: cursor as string,
+    //            postId: Number(cursor),
+    //        },
+    //    }
+    //}
+
+    console.log(params)
 
     const favorites = await prisma.favorites.findMany({
         where: {
