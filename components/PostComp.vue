@@ -27,6 +27,8 @@ const props = defineProps<{
 
 const emits = defineEmits<{
     (e: "deletePost", id: number): void
+    (e: "favorite"): void
+    (e: "unfavorite"): void
 }>()
 
 const reloadPosts = () => {
@@ -61,10 +63,6 @@ onMounted(() => {
 
 const report = (id: number) => {
     alert("Reported " + id)
-}
-
-const onLike = () => {
-    console.log("test")
 }
 </script>
 
@@ -172,7 +170,7 @@ const onLike = () => {
                 </div>
             </div>
         </div>
-        <div class="w-full flex flex-row divide-x divide-gray-200">
+        <div class="w-full flex flex-row divide-x divide-gray-200 select-none">
             <NuxtLink
                 :to="'/posts/' + post.id"
                 class="text-center inline-flex flex-row w-1/2 justify-center items-center p-3 bg-gray-50 hover:text-black hover:bg-gray-100 shadow-inner"
@@ -184,7 +182,8 @@ const onLike = () => {
                 :is-favorite="stats.isFavorite"
                 :amount="stats.favoriteAmount"
                 :post-id="post.id"
-                @on-like="onLike"
+                @favorite="emits('favorite')"
+                @unfavorite="emits('unfavorite')"
             />
         </div>
         <template v-if="comments">
