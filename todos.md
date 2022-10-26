@@ -21,3 +21,6 @@ oder halt vue-styleguidist
 ### restaurant page comment usestate da ssr?? insgesamt was hab ich da gemacht ist das besser???
 ### add proper client side error handling (fetch) (userposts, user favs!!!!!!)
 ### fix get likes cursor
+### move delete comment to post??
+### post comment user restaurant plural?
+### endOfFeed alt text für keine posts / favs / etc
