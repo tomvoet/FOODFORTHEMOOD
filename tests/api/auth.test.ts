@@ -5,6 +5,8 @@ import loginHandler from "../../server/api/auth/login.post"
 import refreshTokenHandler from "../../server/api/auth/refresh_token"
 import resetPasswordHandler from "../../server/api/auth/reset_password.post"
 import logoutHandler from "../../server/api/auth/logout.post"
+import changePasswordHandler from "../../server/api/auth/change_password.post"
+import { generateResetToken } from "../../server/services/jwt"
 
 const endpointBasePath = "/auth"
 const endpoints: PathMethodHandler[] = [
@@ -28,23 +30,29 @@ const endpoints: PathMethodHandler[] = [
         method: "post",
         handler: resetPasswordHandler,
     },
+    {
+        path: `${endpointBasePath}/change_password`,
+        method: "post",
+        handler: changePasswordHandler,
+    },
 ]
 
 const testingUtils = await setupApiAndDatabase(endpoints)
 
 const request = testingUtils.request
 
-let refresh_token = ""
+let access_token: string
+let refresh_token: string
 
 describe(`/auth`, async () => {
+    // move out of describe to avoid errors due to multiple calls
+    const loginResp = await request.post(`${endpointBasePath}/login`).send({
+        username: "admin",
+        password: "AdminPw@123",
+    })
     describe("POST /login", async () => {
         describe("with valid credentials", async () => {
-            const response = await request
-                .post(`${endpointBasePath}/login`)
-                .send({
-                    username: "admin",
-                    password: "AdminPw@123",
-                })
+            const response = loginResp
             refresh_token = response.headers["set-cookie"][0]
                 .split(";")[0]
                 .split("=")[1]
@@ -69,7 +77,7 @@ describe(`/auth`, async () => {
                 )
             })
         })
-        describe("with invalid credentials", async () => {
+        describe("with valid username and invalid password", async () => {
             const response = await request
                 .post(`${endpointBasePath}/login`)
                 .send({
@@ -85,19 +93,45 @@ describe(`/auth`, async () => {
                 expect(response.body.statusMessage).toBe("Unauthorized")
             })
         })
+
+        describe("with invalid username", async () => {
+            const response = await request
+                .post(`${endpointBasePath}/login`)
+                .send({
+                    username: "a",
+                    password: "wrongpassword",
+                })
+
+            access_token = response.body.access_token
+
+            it("should have status 401", async () => {
+                expect(response.statusCode).toBe(401)
+            })
+            it("should return an error message", async () => {
+                expect(response.body).toHaveProperty("statusMessage")
+                expect(response.body.statusMessage).toBe("Unauthorized")
+            })
+        })
     })
 
     describe("POST /logout", async () => {
-        describe("with valid refresh token", async () => {
+        describe("with valid access token", async () => {
+            access_token = loginResp.body.access_token
             const response = await request
                 .post(`${endpointBasePath}/logout`)
-                .set("Cookie", `refresh_token=${refresh_token}`)
+                .set("authorization", `Bearer ${access_token}`)
+                .send({
+                    username: "admin",
+                })
+
+            console.log(response.body)
+
             it("should have status 200", async () => {
                 expect(response.statusCode).toBe(200)
             })
             it("should return a success message", async () => {
-                expect(response.body).toHaveProperty("statusMessage")
-                expect(response.body.statusMessage).toBe("Success")
+                expect(response.body).toHaveProperty("success")
+                expect(response.body.success).toBe(true)
             })
             it("should clear the refresh token cookie", async () => {
                 expect(response.headers["set-cookie"]).toBeDefined()
@@ -106,10 +140,13 @@ describe(`/auth`, async () => {
                 )
             })
         })
-        describe("with invalid refresh token", async () => {
+        describe("with invalid access token", async () => {
             const response = await request
                 .post(`${endpointBasePath}/logout`)
                 .set("Cookie", `refresh_token=invalidtoken`)
+                .send({
+                    username: "admin",
+                })
             it("should have status 401", async () => {
                 expect(response.statusCode).toBe(401)
             })
@@ -166,6 +203,42 @@ describe(`/auth`, async () => {
 
             it("should have status 404", async () => {
                 expect(response.statusCode).toBe(404)
+            })
+        })
+    })
+
+    describe("POST /change_password", async () => {
+        const token = await generateResetToken("foodforthemoodf4tm@gmail.com")
+
+        describe("with valid token", async () => {
+            const response = await request
+                .post(`${endpointBasePath}/change_password`)
+                .set({ authorization: `Bearer ${token}` })
+                .send({
+                    password: "AdminPw@123",
+                })
+
+            it("should have status 200", async () => {
+                expect(response.statusCode).toBe(200)
+            })
+
+            it("should return a user object", async () => {
+                expect(response.body).toHaveProperty("username")
+            })
+        })
+
+        describe("with invalid token", async () => {
+            const response = await request
+                .post(`${endpointBasePath}/change_password`)
+                .set({ authorization: `Bearer invalidtoken` })
+                .send({
+                    password: "newpassword",
+                })
+
+            it("should have status 401", async () => {
+                expect(response.statusCode).toBe(401)
+                expect(response.body).toHaveProperty("statusMessage")
+                expect(response.body.statusMessage).toBe("Unauthorized")
             })
         })
     })
