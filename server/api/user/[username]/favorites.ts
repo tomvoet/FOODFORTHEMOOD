@@ -79,7 +79,7 @@ export default defineEventHandler(async (event) => {
             },
         },
         orderBy: {
-            postId: "asc",
+            postId: "desc",
         },
     })
 
