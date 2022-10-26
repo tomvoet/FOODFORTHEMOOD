@@ -78,6 +78,9 @@ export default defineEventHandler(async (event) => {
                 },
             },
         },
+        orderBy: {
+            postId: "asc",
+        },
     })
 
     if (!favorites) {
