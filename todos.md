@@ -20,3 +20,4 @@ oder halt vue-styleguidist
 ### navigateTo for redirects
 ### restaurant page comment usestate da ssr?? insgesamt was hab ich da gemacht ist das besser???
 ### add proper client side error handling (fetch) (userposts, user favs!!!!!!)
+### fix get likes cursor
