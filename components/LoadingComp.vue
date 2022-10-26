@@ -194,15 +194,6 @@
                     />
                 </linearGradient>
             </defs>
-            <sodipodi:namedview
-                id="namedview4"
-                pagecolor="#ffffff"
-                bordercolor="#666666"
-                borderopacity="1.0"
-                inkscape:pageshadow="2"
-                inkscape:pageopacity="0.0"
-                inkscape:pagecheckerboard="0"
-            />
             <g
                 id="g8"
                 inkscape:groupmode="layer"
