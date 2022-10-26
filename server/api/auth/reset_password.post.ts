@@ -1,6 +1,6 @@
-import { prisma } from "@/server/services/dbManager"
+import { prisma } from "../../services/dbManager"
 import sgMail from "@sendgrid/mail"
-import { generateResetToken } from "@/server/services/jwt"
+import { generateResetToken } from "../../services/jwt"
 
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
                 console.log("Email sent")
             })
             .catch((error: unknown) => {
-                console.error(error)
+                console.error("sendmail error", error)
             })
         console.log("sent email")
     } else {
@@ -45,6 +45,7 @@ export default defineEventHandler(async (event) => {
         )
     }
 
-    console.log(user)
-    return null
+    return {
+        message: "Email sent",
+    }
 })
