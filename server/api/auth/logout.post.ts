@@ -7,10 +7,14 @@ export default defineEventHandler(async (event) => {
 
     const token = event.req.headers["authorization"]?.split(" ")[1]
     if (!token) {
-        return {
-            statusCode: 401,
-            message: "Unauthorized",
-        }
+        return sendError(
+            event,
+            createError({
+                statusCode: 401,
+                message: "Unauthorized, no token provided",
+                statusMessage: "Unauthorized",
+            })
+        )
     }
 
     try {
@@ -40,6 +44,7 @@ export default defineEventHandler(async (event) => {
                     createError({
                         statusCode: 401,
                         message: "Unauthorized, invalid Token",
+                        statusMessage: "Unauthorized",
                     })
                 )
             }
@@ -51,6 +56,7 @@ export default defineEventHandler(async (event) => {
             createError({
                 statusCode: 401,
                 message: "Unauthorized, invalid Token",
+                statusMessage: "Unauthorized",
             })
         )
     }
