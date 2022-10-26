@@ -5,10 +5,11 @@ const props = defineProps<{
     postId: number
 }>()
 
-const { data, pending, error } = await useFetch(
-    `/api/post/${props.postId}/likes`,
+const { data, pending, error } = await useFetch<singleLike[]>(
+    `/api/post/${props.postId}/favorites`,
     {
-        key: `post/${props.postId}/likes`,
+        key: `post/${props.postId}/favorites`,
+        method: "GET",
     }
 )
 
@@ -17,7 +18,7 @@ let favoritedBy = ref(data.value)
 const loadAdditional = async () => {
     if (!favoritedBy.value) return
     const { data: newData } = await useFetch<singleLike[]>(
-        `/api/post/${props.postId}/likes&offset=${favoritedBy.value.length}`,
+        `/api/post/${props.postId}/favorites&offset=${favoritedBy.value.length}`,
         {
             initialCache: false,
         }
