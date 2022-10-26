@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import type { ReducedPost } from "@/customTypes"
+import { useUserStore } from "~~/stores/userStore"
+
+const userStore = useUserStore()
 
 const route = useRoute()
 
@@ -33,10 +36,6 @@ watch(postsData, (data) => {
     postsStatus.value = !error.value ? 200 : 0
 })
 
-const reloadPosts = () => {
-    refreshNuxtData()
-}
-
 const moveCursor = () => {
     if (posts.value && posts.value.length)
         cursorObj.value.cursor = posts.value[posts.value.length - 1].id
@@ -57,6 +56,17 @@ watch(cursorObj.value, () => {
 const deletePost = (id: number) => {
     posts.value = posts.value.filter((post) => post.id !== id)
 }
+
+const unfavorite = (id: number) => {
+    ///////////////////////////////TODOOOOOOOOOO MACHT DAS SINN????????????????????
+    const postIndex = posts.value.findIndex((post) => post.id === id)
+
+    if (postIndex !== -1) {
+        posts.value[postIndex].isFavorite = false
+        posts.value[postIndex].favoriteAmount--
+        clearNuxtData(`/api/user/${userStore.user?.username}/favorites`)
+    }
+}
 </script>
 
 <template>
@@ -74,6 +84,13 @@ const deletePost = (id: number) => {
                 isFavorite: post.isFavorite,
             }"
             @delete-post="deletePost"
+            @favorite="
+                () => {
+                    post.isFavorite = true
+                    post.favoriteAmount++
+                }
+            "
+            @unfavorite="unfavorite(post.id)"
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed"

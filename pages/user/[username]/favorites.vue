@@ -33,10 +33,6 @@ watch(favData, (data) => {
     favoritesStatus.value = !error.value ? 200 : 0
 })
 
-const reloadFavorites = () => {
-    refreshNuxtData()
-}
-
 const moveCursor = () => {
     if (favorites.value && favorites.value.length)
         cursorObj.value.cursor = favorites.value[favorites.value.length - 1].id
@@ -77,6 +73,21 @@ const deletePost = (id: number) => {
             }"
             :restaurant="{ ...post.restaurant, id: post.restaurantId }"
             @delete-post="deletePost"
+            @favorite="
+                () => {
+                    post.isFavorite = true
+                    post.favoriteAmount++
+                }
+            "
+            @unfavorite="
+                () => {
+                    post.isFavorite = false
+                    post.favoriteAmount--
+                    favorites = favorites.filter(
+                        (favorite) => favorite.id !== post.id
+                    )
+                }
+            "
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed || (!pending && favorites.length < 10)"

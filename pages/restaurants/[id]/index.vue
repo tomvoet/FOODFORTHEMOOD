@@ -30,9 +30,6 @@ watch(reviewsData, (data) => {
     reviews.value = data ? [...reviews.value, ...data] : []
     reviewsStatus.value = !reviewError.value ? 200 : 0
 })
-const reloadReviews = () => {
-    refreshNuxtData()
-}
 
 const moveCursor = () => {
     if (reviews.value && reviews.value.length)
@@ -76,6 +73,18 @@ const deletePost = (id: number) => {
                 isFavorite: review.isFavorite,
             }"
             @delete-post="deletePost"
+            @favorite="
+                () => {
+                    review.isFavorite = true
+                    review.favoriteAmount++
+                }
+            "
+            @unfavorite="
+                () => {
+                    review.isFavorite = false
+                    review.favoriteAmount--
+                }
+            "
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed || (!pending && reviews.length < 10)"

@@ -44,6 +44,18 @@ setMetadata(
                 }"
                 comments
                 @delete-post="deletePost"
+                @favorite="
+                    () => {
+                        post.isFavorite = true
+                        post.favoriteAmount++
+                    }
+                "
+                @unfavorite="
+                    () => {
+                        post.isFavorite = false
+                        post.favoriteAmount--
+                    }
+                "
             />
         </ClientOnly>
     </div>

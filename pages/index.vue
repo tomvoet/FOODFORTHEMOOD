@@ -53,6 +53,18 @@ const deletePost = (id: number) => {
                 commentAmount: post.commentAmount,
             }"
             @delete-post="deletePost"
+            @favorite="
+                () => {
+                    post.isFavorite = true
+                    post.favoriteAmount++
+                }
+            "
+            @unfavorite="
+                () => {
+                    post.isFavorite = false
+                    post.favoriteAmount--
+                }
+            "
         />
         <InfiniteScroll
             :end-of-feed="endOfFeed"
