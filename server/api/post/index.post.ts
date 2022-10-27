@@ -1,3 +1,5 @@
+import { createZodError } from "~~/server/services/createZodError"
+import { postSchema } from "~~/utils/validation_schemas"
 import { prisma } from "../../services/dbManager"
 
 export default defineEventHandler(async (event) => {
@@ -84,15 +86,31 @@ export default defineEventHandler(async (event) => {
         )
     }
 
+    const data = {
+        authorId,
+        title,
+        text,
+        rating,
+        chosenFood,
+        restaurantId,
+    }
+
+    try {
+        postSchema.parse(data)
+    } catch (e) {
+        return sendError(
+            event,
+            createError({
+                statusCode: 400,
+                statusMessage: "Bad Request",
+                message: createZodError(e),
+                data: createZodError(e),
+            })
+        )
+    }
+
     const post = await prisma.post.create({
-        data: {
-            authorId,
-            title,
-            text,
-            rating,
-            chosenFood,
-            restaurantId,
-        },
+        data: data,
         select: {
             id: true,
             authorId: true,

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/userStore"
+import { userSchema } from "~~/utils/validation_schemas"
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -82,6 +83,13 @@ const update = async () => {
 
     if (Object.keys(changedData).length === 0) {
         alert("No changes made")
+        return
+    }
+
+    try {
+        userSchema.partial().parse(changedData)
+    } catch (e) {
+        displayValidationErrors(e)
         return
     }
 

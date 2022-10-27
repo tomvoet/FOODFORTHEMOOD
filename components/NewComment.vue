@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/userStore"
 
 import type { Comment } from "@prisma/client"
 import type { PartialBy } from "~~/customTypes"
+import { commentSchema } from "~~/utils/validation_schemas"
 
 type ReducedComment = PartialBy<Comment, "postId">
 
@@ -42,20 +43,26 @@ const submit = async () => {
         userStore.token
     ) {
         const comment = textArea.value.value
-        if (comment.length > 0) {
-            const data = await createNewComment(
-                comment,
-                userStore.user?.username,
-                props.postId,
-                userStore.token
-            )
-            if (data?.status == 200 && data?.comment) {
-                reset()
-                const newComment = data.comment as ReducedComment
-                emits("newComment", newComment)
-            } else {
-                alert("Error creating comment")
-            }
+
+        try {
+            commentSchema.partial().parse({ text: comment })
+        } catch (e) {
+            displayValidationErrors(e)
+            return
+        }
+
+        const data = await createNewComment(
+            comment,
+            userStore.user?.username,
+            props.postId,
+            userStore.token
+        )
+        if (data?.status == 200 && data?.comment) {
+            reset()
+            const newComment = data.comment as ReducedComment
+            emits("newComment", newComment)
+        } else {
+            alert("Error creating comment")
         }
     }
 }
@@ -73,6 +80,7 @@ const submit = async () => {
                     : 'Please log in to comment'
             "
             @input="onInput()"
+            @keydown.enter.prevent="submit()"
         ></textarea>
         <div class="absolute bottom-0 right-0 w-full flex justify-end">
             <button
@@ -85,6 +93,7 @@ const submit = async () => {
             <button
                 :disabled="!userStore.loggedIn"
                 class="border-l border-t border-gray-300 py-1 px-2 cursor-pointer hover:bg-gray-100 disabled:opacity-50 disabled:cursor- rounded-br-md"
+                type="submit"
                 @click.prevent="submit()"
             >
                 Submit

@@ -1,4 +1,6 @@
 import { prisma } from "@/server/services/dbManager"
+import { createZodError } from "~~/server/services/createZodError"
+import { commentSchema } from "~~/utils/validation_schemas"
 
 export default defineEventHandler(async (event) => {
     const body = await useBody(event)
@@ -45,12 +47,24 @@ export default defineEventHandler(async (event) => {
             })
         )
 
+    const data = { authorId, postId, text }
+
+    try {
+        commentSchema.parse(data)
+    } catch (e) {
+        return sendError(
+            event,
+            createError({
+                statusCode: 400,
+                statusMessage: "Bad Request",
+                message: createZodError(e),
+                data: createZodError(e),
+            })
+        )
+    }
+
     const comment = await prisma.comment.create({
-        data: {
-            authorId,
-            postId,
-            text,
-        },
+        data: data,
     })
 
     if (!comment)

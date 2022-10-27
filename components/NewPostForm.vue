@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { minimalRestaurant } from "@/customTypes"
 import { useUserStore } from "@/stores/userStore"
+import { postSchema } from "@/utils/validation_schemas"
 
 const title = ref("")
 const text = ref("")
@@ -32,14 +33,23 @@ const submitPost = async () => {
         return
     }
 
-    const res = await createPost({
+    const postData = {
         title: title.value,
         text: text.value,
         rating: rating.value,
-        restaurantId: restaurantChoice.value,
         chosenFood: chosenFood.value,
+        restaurantId: restaurantChoice.value,
         authorId: userStore.user?.username,
-    })
+    }
+
+    try {
+        postSchema.parse(postData)
+    } catch (e) {
+        displayValidationErrors(e)
+        return
+    }
+
+    const res = await createPost(postData)
 
     if (res.status.code === 203 && res.post) {
         title.value = ""
