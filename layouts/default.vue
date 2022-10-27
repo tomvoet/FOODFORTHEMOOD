@@ -90,6 +90,7 @@ useHead({
                     </div></template
                 ><template #modalContent><NewPostForm /></template></ModalComp
         ></ClientOnly>
+        <ToastContainer />
     </div>
 </template>
 

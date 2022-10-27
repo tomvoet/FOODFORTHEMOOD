@@ -15,3 +15,11 @@ export const setMetadata = (titleChunk: string, description: string) => {
     useTitleChunk().value = titleChunk
     useDescription().value = description
 }
+
+type Toast = {
+    message: string
+    type: "success" | "error" | "info"
+    start: Date
+}
+
+export const useToasts = () => useState<Toast[]>("toasts", () => [])

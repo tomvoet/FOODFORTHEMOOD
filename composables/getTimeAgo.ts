@@ -1,3 +1,9 @@
+/**
+ * @function getTimeAgo
+ * @description Returns a string of the time ago in words
+ * @param {Date} date
+ * @returns {string} String of the time ago in words
+ */
 export const getTimeAgo = (date: Date) => {
     const now = new Date()
     const dateFixed = new Date(date)
