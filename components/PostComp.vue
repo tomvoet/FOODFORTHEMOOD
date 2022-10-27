@@ -64,10 +64,6 @@ onMounted(() => {
 const report = (id: number) => {
     alert("Reported " + id)
 }
-
-const test = (date: any) => {
-    console.log(new Date(date))
-}
 </script>
 
 <template>
