@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useUserStore } from "@/stores/userStore"
-import { get } from "http"
 
 const { $bus } = useNuxtApp()
 
@@ -73,11 +72,6 @@ userStore.$subscribe(() => {
         getProfilePicture()
     }
 })
-
-const handleMenuClick = () => {
-    mobileMenuOpen.value = false
-    userMenuOpen.value = false
-}
 
 function getTouches(evt: TouchEvent) {
     return evt.touches
@@ -198,10 +192,14 @@ const pathContainsNavButton = (path: EventTarget[]) => {
     >
         <div class="md:hidden">mobile</div>
         <NuxtLink to="/"
-            ><h1 class="group text-3xl font-semibold hover:text-black md:mr-16">
-                F4TM
+            ><h1 class="group md:mr-16">
+                <NuxtPicture
+                    src="/img/logoSmall.webp"
+                    alt="logo"
+                    class="h-10"
+                />
                 <span
-                    class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black -mt-1"
+                    class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black"
                 ></span></h1
         ></NuxtLink>
         <div
