@@ -24,12 +24,20 @@ const submitPost = async () => {
         restaurantChoice.value == 0 ||
         chosenFood.value == ""
     ) {
-        alert("Please fill out all fields")
+        useToasts().value.push({
+            message: "Please fill out all fields",
+            type: "error",
+            start: new Date(),
+        })
         return
     }
 
     if (!userStore.loggedIn || !userStore.user?.username) {
-        alert("You must be logged in to create a post")
+        useToasts().value.push({
+            message: "You have to be logged in to post",
+            type: "error",
+            start: new Date(),
+        })
         return
     }
 
@@ -57,9 +65,18 @@ const submitPost = async () => {
         rating.value = 0
         restaurantChoice.value = 0
         chosenFood.value = ""
+        useToasts().value.push({
+            message: "Created new Post",
+            type: "success",
+            start: new Date(),
+        })
         $bus.$emit("newPost", res.post)
     } else {
-        alert(`Error: ${res.status.code} - ${res.status.message}`)
+        useToasts().value.push({
+            message: `Error: ${res.status.code} - ${res.status.message}`,
+            type: "error",
+            start: new Date(),
+        })
     }
 }
 

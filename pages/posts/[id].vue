@@ -19,8 +19,14 @@ const post = useState<ReducedPost>(
     () => data.value?.post as ReducedPost
 )
 
-const deletePost = (id: number) => {
+const deletePost = () => {
     navigateTo("/")
+
+    useToasts().value.push({
+        message: "Successfully deleted Post",
+        type: "success",
+        start: new Date(),
+    })
 }
 
 setMetadata(

@@ -61,8 +61,17 @@ const submit = async () => {
             reset()
             const newComment = data.comment as ReducedComment
             emits("newComment", newComment)
+            useToasts().value.push({
+                message: "Created Comment",
+                type: "success",
+                start: new Date(),
+            })
         } else {
-            alert("Error creating comment")
+            useToasts().value.push({
+                message: "Error creating comment",
+                type: "error",
+                start: new Date(),
+            })
         }
     }
 }

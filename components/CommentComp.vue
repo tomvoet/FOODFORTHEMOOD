@@ -23,13 +23,21 @@ const pressDelete = async () => {
         if (response.status == 200) {
             emits("deletedComment", props.comment.id)
         } else {
-            alert("Error deleting comment")
+            useToasts().value.push({
+                message: "Error deleting comment",
+                type: "error",
+                start: new Date(),
+            })
         }
     }
 }
 
-const report = (id: number) => {
-    alert("Reported " + id)
+const report = () => {
+    useToasts().value.push({
+        message: "Reported comment " + props.comment.id,
+        type: "info",
+        start: new Date(),
+    })
 }
 
 onMounted(() => {
@@ -83,7 +91,7 @@ onMounted(() => {
                                 comment.authorId == userStore.user?.username
                             ),
                         }"
-                        @click="report(comment.id)"
+                        @click="report"
                     >
                         Report
                     </li>

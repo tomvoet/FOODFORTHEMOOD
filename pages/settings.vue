@@ -68,7 +68,11 @@ const update = async () => {
 
     if (changePassword.value) {
         if (password.value !== passwordConfirm.value) {
-            alert("Passwords do not match")
+            useToasts().value.push({
+                message: "Passwords do not match",
+                type: "error",
+                start: new Date(),
+            })
             return
         }
         changedData.password = password.value
@@ -82,7 +86,11 @@ const update = async () => {
     }
 
     if (Object.keys(changedData).length === 0) {
-        alert("No changes made")
+        useToasts().value.push({
+            message: "No changes made",
+            type: "info",
+            start: new Date(),
+        })
         return
     }
 

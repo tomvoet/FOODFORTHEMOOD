@@ -42,11 +42,19 @@ const submitDeletePost = async (id: number) => {
             if (res.status.code === 204) {
                 reloadPosts()
             } else {
-                alert("Something went wrong")
+                useToasts().value.push({
+                    message: "Something went wrong",
+                    type: "error",
+                    start: new Date(),
+                })
             }
         }
     } else {
-        alert("You must be logged in to delete a post")
+        useToasts().value.push({
+            message: "You have to be logged in to delete a post",
+            type: "error",
+            start: new Date(),
+        })
     }
 }
 
@@ -61,8 +69,12 @@ onMounted(() => {
     })
 })
 
-const report = (id: number) => {
-    alert("Reported " + id)
+const report = () => {
+    useToasts().value.push({
+        message: "Reported " + props.post.title,
+        type: "info",
+        start: new Date(),
+    })
 }
 </script>
 
@@ -109,7 +121,7 @@ const report = (id: number) => {
                                         author?.username
                                 ),
                             }"
-                            @click="report(post.id)"
+                            @click="report"
                         >
                             Report
                         </li>

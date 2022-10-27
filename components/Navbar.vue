@@ -21,11 +21,26 @@ const logout = async () => {
         userStore.logout().then((logoutStatus) => {
             if (logoutStatus && logoutStatus.success) {
                 userMenuOpen.value = false
+
+                useToasts().value.push({
+                    message: "Successfully logged out",
+                    type: "success",
+                    start: new Date(),
+                })
+
                 navigateTo("/")
             } else if (logoutStatus && !logoutStatus.success) {
-                alert(logoutStatus.message)
+                useToasts().value.push({
+                    message: logoutStatus.message,
+                    type: "error",
+                    start: new Date(),
+                })
             } else {
-                alert("Something went wrong")
+                useToasts().value.push({
+                    message: "Something went wrong",
+                    type: "error",
+                    start: new Date(),
+                })
             }
         })
     }

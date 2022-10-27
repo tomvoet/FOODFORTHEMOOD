@@ -1,12 +1,29 @@
 import { ZodError } from "zod"
+import { useToasts } from "./states"
+
+type Toast = {
+    message: string
+    type: "success" | "error" | "info"
+    start: Date
+}
 
 export const displayValidationErrors = (e: unknown) => {
     if (e instanceof ZodError) {
-        let errorMessage = ""
+        const errors: string[] = []
         e.errors.forEach((error) => {
-            errorMessage += error.path.join(".") + ": " + error.message + "\n"
+            errors.push(error.path.join(".") + ": " + error.message)
         })
-        alert(errorMessage)
-        return
+
+        const toasts: Toast[] = []
+
+        errors.forEach((error) => {
+            toasts.push({
+                message: error,
+                type: "error",
+                start: new Date(),
+            })
+        })
+
+        useToasts().value.push(...toasts)
     }
 }

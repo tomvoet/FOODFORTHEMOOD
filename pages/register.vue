@@ -26,6 +26,11 @@ const register = async () => {
         },
     })
 
+    useToasts().value.push({
+        message: "Successfully registered",
+        type: "success",
+        start: new Date(),
+    })
     if (user) navigateTo("/login")
 }
 

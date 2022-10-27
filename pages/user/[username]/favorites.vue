@@ -52,6 +52,12 @@ watch(cursorObj.value, () => {
 
 const deletePost = (id: number) => {
     favorites.value = favorites.value.filter((post) => post.id !== id)
+
+    useToasts().value.push({
+        message: "Successfully deleted Post",
+        type: "success",
+        start: new Date(),
+    })
 }
 </script>
 

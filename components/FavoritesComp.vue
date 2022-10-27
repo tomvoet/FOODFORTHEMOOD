@@ -46,7 +46,11 @@ const onLike = async () => {
             })
         }
     } else {
-        alert("You must be logged in to like a post")
+        useToasts().value.push({
+            message: "You have to be logged in to favorite a post",
+            type: "error",
+            start: new Date(),
+        })
     }
 }
 </script>
