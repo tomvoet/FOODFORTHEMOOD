@@ -1,4 +1,4 @@
-import { ReducedPost } from "~~/customTypes"
+import { ReducedPost } from "~~/utils/customTypes"
 import { useUserStore } from "~~/stores/userStore"
 /**
  * synchronously returns all posts

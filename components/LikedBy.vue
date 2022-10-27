@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { singleLike } from "~~/customTypes"
+import type { singleLike } from "~~/utils/customTypes"
 
 const props = defineProps<{
     postId: number

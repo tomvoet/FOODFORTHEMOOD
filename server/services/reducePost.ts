@@ -1,4 +1,4 @@
-import { FullPost, PartialBy } from "@/customTypes"
+import { FullPost, PartialBy } from "@/utils/customTypes"
 
 interface dbPost extends PartialBy<FullPost, "comments"> {
     _count: {

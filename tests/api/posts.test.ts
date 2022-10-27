@@ -4,7 +4,7 @@ import { setupApiAndDatabase } from "../utils"
 import getAllPosts from "../../server/api/post/index.get"
 import getPostById from "../../server/api/post/[id].get"
 import createPost from "../../server/api/post/index.post"
-import type { ReducedPost } from "../../customTypes"
+import type { ReducedPost } from "../../utils/customTypes"
 
 const endpointBasePath = "/post"
 const endpoints: PathMethodHandler[] = [

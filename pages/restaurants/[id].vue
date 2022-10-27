@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ExtendedRestaurant } from "@/customTypes"
+import type { ExtendedRestaurant } from "~~/utils/customTypes"
 
 const route = useRoute()
 

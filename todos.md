@@ -24,3 +24,4 @@ oder halt vue-styleguidist
 ### move delete comment to post??
 ### post comment user restaurant plural?
 ### endOfFeed alt text für keine posts / favs / etc
+### cache state

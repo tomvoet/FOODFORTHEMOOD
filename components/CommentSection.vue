@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Comment } from "@prisma/client"
-import type { PartialBy } from "~~/customTypes"
+import type { PartialBy } from "~~/utils/customTypes"
 
 const route = useRoute()
 

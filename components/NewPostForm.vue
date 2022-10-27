@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { minimalRestaurant } from "@/customTypes"
+import type { minimalRestaurant } from "~~/utils/customTypes"
 import { useUserStore } from "@/stores/userStore"
 import { postSchema } from "@/utils/validation_schemas"
 

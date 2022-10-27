@@ -2,7 +2,7 @@
 import { useUserStore } from "@/stores/userStore"
 
 import type { Comment } from "@prisma/client"
-import type { PartialBy } from "~~/customTypes"
+import type { PartialBy } from "~~/utils/customTypes"
 import { commentSchema } from "~~/utils/validation_schemas"
 
 type ReducedComment = PartialBy<Comment, "postId">

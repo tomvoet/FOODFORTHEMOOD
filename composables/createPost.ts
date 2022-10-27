@@ -1,5 +1,5 @@
 import { useUserStore } from "@/stores/userStore"
-import { ReducedPost } from "@/customTypes"
+import { ReducedPost } from "~~/utils/customTypes"
 
 /**
  *

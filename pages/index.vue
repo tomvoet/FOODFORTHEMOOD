@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAllPosts } from "@/composables/getAllPosts"
-import { ReducedPost } from "@/customTypes"
+import { ReducedPost } from "~~/utils/customTypes"
 
 const posts = ref([] as ReducedPost[])
 const status = ref({} as { code: number; message: string })

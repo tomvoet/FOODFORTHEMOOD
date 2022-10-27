@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ReducedPost } from "~~/customTypes"
+import type { ReducedPost } from "~~/utils/customTypes"
 
 const route = useRoute()
 

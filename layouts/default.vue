@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ReducedPost } from "~~/customTypes"
+import { ReducedPost } from "~~/utils/customTypes"
 import { useUserStore } from "~~/stores/userStore"
 
 const { $bus } = useNuxtApp()
