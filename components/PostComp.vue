@@ -64,6 +64,10 @@ onMounted(() => {
 const report = (id: number) => {
     alert("Reported " + id)
 }
+
+const test = (date: any) => {
+    console.log(new Date(date))
+}
 </script>
 
 <template>
@@ -152,21 +156,11 @@ const report = (id: number) => {
                         >{{ author.username }}</NuxtLink
                     >
                 </div>
-                <div class="text-gray-700 mt-1 text-sm w-max ml-auto">
-                    {{
-                        post.updatedAt == post.createdAt
-                            ? "created: "
-                            : "updated: " +
-                              `${new Date(post.createdAt).toLocaleTimeString(
-                                  "de-DE",
-                                  {
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                  }
-                              )} | ${new Date(
-                                  post.createdAt
-                              ).toLocaleDateString("de-DE")}`
-                    }}
+                <div
+                    class="text-gray-700 mt-1 text-sm w-max ml-auto"
+                    @click="test(post.createdAt)"
+                >
+                    {{ getTimeAgo(new Date(post.createdAt)) }}
                 </div>
             </div>
         </div>
