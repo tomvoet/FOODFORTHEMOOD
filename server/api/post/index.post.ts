@@ -1,5 +1,5 @@
-import { createZodError } from "~~/server/services/createZodError"
-import { postSchema } from "~~/utils/validation_schemas"
+import { createZodError } from "../../services/createZodError"
+import { postSchema } from "../../../utils/validation_schemas"
 import { prisma } from "../../services/dbManager"
 
 export default defineEventHandler(async (event) => {
