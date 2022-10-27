@@ -27,8 +27,6 @@ const register = async () => {
     })
 
     if (user) navigateTo("/login")
-
-    console.log(user)
 }
 
 const validate = () => {

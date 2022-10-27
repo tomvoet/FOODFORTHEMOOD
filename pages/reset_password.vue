@@ -21,9 +21,6 @@ const resetPassword = async () => {
     if (user) {
         navigateTo("/login")
     }
-
-    console.log(user)
-    console.log("testreset")
 }
 
 const validate = () => {

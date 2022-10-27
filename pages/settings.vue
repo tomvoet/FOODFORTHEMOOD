@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/userStore"
-import { set } from "nuxt/dist/app/compat/capi"
 
 const userStore = useUserStore()
 const router = useRouter()
 
-const username = ref("")
 const email = ref("")
 const password = ref("")
 const passwordConfirm = ref("")
@@ -33,7 +31,6 @@ const { data: userData, error } = await useFetch<{
 })
 
 if (!error.value && userData && userData.value) {
-    username.value = userData.value.username
     email.value = userData.value.email
     bio.value = userData.value?.bio || ""
     profilePicture.value = userData.value?.image || "img/blankpicture.png"
@@ -128,7 +125,6 @@ onMounted(() => {
         router.push("/login")
         return
     }
-    username.value = userStore.user?.username
     getProfilePicture()
 })
 </script>
@@ -136,14 +132,6 @@ onMounted(() => {
 <template>
     <div class="flex flex-col p-6 items-center">
         <h1 class="text-2xl font-bold">Settings</h1>
-        <div class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
-            <TextInput
-                v-model="username"
-                field="Username"
-                type="text"
-                placeholder="Username"
-            />
-        </div>
         <div class="p-3 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
             <TextInput
                 v-model="email"

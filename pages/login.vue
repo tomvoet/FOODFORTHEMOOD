@@ -17,11 +17,9 @@ const invalidUser = ref(null as HTMLInputElement | null)
 const login = async () => {
     const loginRes = await userStore.login(username.value, password.value)
     if (loginRes.success) {
-        console.log(userStore.token)
         navigateTo("/")
     } else {
         errorMessage.value = true
-        console.log(loginRes.message)
     }
 }
 
