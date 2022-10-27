@@ -41,7 +41,7 @@ model Post {
 model Favorites {
   user      User     @relation(fields: [username], references: [username])
   username  String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
 
   @@id([username, postId])
@@ -52,7 +52,7 @@ model Comment {
   text      String
   author    User     @relation(fields: [authorId], references: [username])
   authorId  String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
   createdAt DateTime @default(now())
 }
