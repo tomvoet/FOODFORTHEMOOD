@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
 
     setCookie(event, "refresh_token", refresh_token, {
         httpOnly: true,
-        maxAge: 60 * 60 * 24,
+        maxAge: 60 * 60 * 24 * 7,
         sameSite: "strict",
         secure: true,
         path: "/api/auth/refresh_token",

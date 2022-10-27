@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
                 generateRefreshToken(user.username),
                 {
                     httpOnly: true,
-                    maxAge: 60 * 60 * 24,
+                    maxAge: 60 * 60 * 24 * 7,
                     sameSite: "strict",
                     secure: true,
                     path: "/api/auth/refresh_token",

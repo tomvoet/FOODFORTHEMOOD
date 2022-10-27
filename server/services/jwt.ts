@@ -26,14 +26,15 @@ function authenticateToken(req, res, next) {
 }
 */
 
+//nach auto refresh on fail wieder verkürzen
 export const generateAccessToken = (username: string) => {
-    return jwt.sign({ data: { username } }, TOKEN_SECRET, { expiresIn: "1h" })
+    return jwt.sign({ data: { username } }, TOKEN_SECRET, { expiresIn: "8h" })
 }
 
 //to be implemented, to prevent having to log in every hour
 export const generateRefreshToken = (username: string) => {
     return jwt.sign({ data: { username } }, TOKEN_SECRET_REFRESH, {
-        expiresIn: "1d",
+        expiresIn: "7d",
     })
 }
 
