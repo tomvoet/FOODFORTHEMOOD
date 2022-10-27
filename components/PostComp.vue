@@ -152,10 +152,7 @@ const report = (id: number) => {
                         >{{ author.username }}</NuxtLink
                     >
                 </div>
-                <div
-                    class="text-gray-700 mt-1 text-sm w-max ml-auto"
-                    @click="test(post.createdAt)"
-                >
+                <div class="text-gray-700 mt-1 text-sm w-max ml-auto">
                     {{ getTimeAgo(new Date(post.createdAt)) }}
                 </div>
             </div>
