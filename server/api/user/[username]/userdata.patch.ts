@@ -11,7 +11,7 @@ const hashPassword = (password: string) => {
 export default defineEventHandler(async (event) => {
     const { username } = event.context.params
 
-    const { email, bio, password, image } = await useBody(event)
+    const { email, bio, password, image } = await readBody(event)
 
     const { user }: { user?: { username: string } } = event.context
 

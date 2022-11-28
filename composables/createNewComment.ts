@@ -21,7 +21,6 @@ export const createNewComment = async (
         headers: {
             Authorization: `Bearer ${token}`,
         },
-        initialCache: false,
     })
 
     if (error.value) return { status: 400, comment: null as unknown as Comment }

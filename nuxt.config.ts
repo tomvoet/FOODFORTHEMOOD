@@ -5,12 +5,6 @@ export default defineNuxtConfig({
         strict: true,
     },
     css: ["~/assets/css/main.css"],
-    buildModules: ["@nuxtjs/google-fonts"],
-    googleFonts: {
-        families: {
-            Inter: true,
-        },
-    },
     nitro: {
         storage: {},
     },
@@ -18,6 +12,16 @@ export default defineNuxtConfig({
         "@nuxt/image-edge",
         "@nuxtjs/tailwindcss",
         "@kevinmarrec/nuxt-pwa",
+        [
+            "@nuxtjs/google-fonts",
+            {
+                googleFonts: {
+                    families: {
+                        Inter: true,
+                    },
+                },
+            },
+        ],
         [
             "@pinia/nuxt",
             {
@@ -29,9 +33,11 @@ export default defineNuxtConfig({
         dirs: ["@/stores"],
     },
     ssr: true,
-    head: {
-        htmlAttrs: {
-            lang: "en",
+    app: {
+        head: {
+            htmlAttrs: {
+                lang: "en",
+            },
         },
     },
     image: {},
@@ -48,4 +54,5 @@ export default defineNuxtConfig({
             ogSiteName: "Food For The Mood",
         },
     },
+    devServerHandlers: [],
 })

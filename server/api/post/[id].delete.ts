@@ -1,7 +1,7 @@
 import { prisma } from "@/server/services/dbManager"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
 
     const { id } = event.context.params
 

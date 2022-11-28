@@ -3,7 +3,7 @@ import { createZodError } from "~~/server/services/createZodError"
 import { commentSchema } from "~~/utils/validation_schemas"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
     const { authorId, postId, text } = body
     const { user } = event.context
 

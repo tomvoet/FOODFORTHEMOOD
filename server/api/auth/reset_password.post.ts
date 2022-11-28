@@ -3,7 +3,7 @@ import sgMail from "@sendgrid/mail"
 import { generateResetToken } from "../../services/jwt"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
     const { email } = body
 
     const user = await prisma.user.findUnique({

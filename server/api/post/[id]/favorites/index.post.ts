@@ -3,7 +3,7 @@ import { prisma } from "@/server/services/dbManager"
 export default defineEventHandler(async (event) => {
     const { id: postId } = event.context.params
 
-    const body = await useBody(event)
+    const body = await readBody(event)
     const { username } = body
 
     const { user } = event.context

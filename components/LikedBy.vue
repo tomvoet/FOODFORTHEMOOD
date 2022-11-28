@@ -18,10 +18,7 @@ let favoritedBy = ref(data.value)
 const loadAdditional = async () => {
     if (!favoritedBy.value) return
     const { data: newData } = await useFetch<singleLike[]>(
-        `/api/post/${props.postId}/favorites&offset=${favoritedBy.value.length}`,
-        {
-            initialCache: false,
-        }
+        `/api/post/${props.postId}/favorites&offset=${favoritedBy.value.length}`
     )
 
     if (newData.value && favoritedBy.value) {

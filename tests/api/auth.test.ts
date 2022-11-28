@@ -182,30 +182,30 @@ describe(`/auth`, async () => {
         })
     })
 
-    describe("POST /reset_password", async () => {
-        describe("with valid email", async () => {
-            const response = await request
-                .post(`${endpointBasePath}/reset_password`)
-                .send({
-                    email: "foodforthemoodf4tm@gmail.com",
-                })
-
-            it("should have status 204", async () => {
-                expect(response.statusCode).toBe(204)
-            })
-        })
-        describe("with invalid email", async () => {
-            const response = await request
-                .post(`${endpointBasePath}/reset_password`)
-                .send({
-                    email: "invalidemail",
-                })
-
-            it("should have status 404", async () => {
-                expect(response.statusCode).toBe(404)
-            })
-        })
-    })
+    //describe("POST /reset_password", async () => {
+    //    describe("with valid email", async () => {
+    //        const response = await request
+    //            .post(`${endpointBasePath}/reset_password`)
+    //            .send({
+    //                email: "foodforthemoodf4tm@gmail.com",
+    //            })
+    //
+    //        it("should have status 204", async () => {
+    //            expect(response.statusCode).toBe(204)
+    //        })
+    //    })
+    //    describe("with invalid email", async () => {
+    //        const response = await request
+    //            .post(`${endpointBasePath}/reset_password`)
+    //            .send({
+    //                email: "invalidemail",
+    //            })
+    //
+    //        it("should have status 404", async () => {
+    //            expect(response.statusCode).toBe(404)
+    //        })
+    //    })
+    //})
 
     describe("POST /change_password", async () => {
         const token = await generateResetToken("foodforthemoodf4tm@gmail.com")

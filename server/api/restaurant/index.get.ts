@@ -1,7 +1,7 @@
 import { prisma } from "@/server/services/dbManager"
 
 export default defineEventHandler(async (event) => {
-    const query = useQuery(event)
+    const query = getQuery(event)
 
     const limit = query.limit
     const offset = query.offset

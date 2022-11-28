@@ -8,7 +8,7 @@ const hashPassword = (password: string) => {
 }
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
     const { password } = body
     const token = event.req.headers["authorization"]?.split(" ")[1]
 

@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import { generateAccessToken, generateRefreshToken } from "../../services/jwt"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
     const { username, password } = body
 
     const user = await prisma.user.findUnique({

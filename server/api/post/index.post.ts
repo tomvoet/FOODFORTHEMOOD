@@ -3,7 +3,7 @@ import { postSchema } from "../../../utils/validation_schemas"
 import { prisma } from "../../services/dbManager"
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
 
     const { user } = event.context
 

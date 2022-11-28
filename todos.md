@@ -25,3 +25,5 @@ oder halt vue-styleguidist
 ### post comment user restaurant plural?
 ### endOfFeed alt text für keine posts / favs / etc
 ### cache state
+### on 404 oder so bei fetchs throwerror in child und dann in parent <NuxtErrorBoundary>
+### implement new caching strategy

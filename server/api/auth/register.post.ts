@@ -17,7 +17,7 @@ function validatePassword(password: string): boolean {
 }
 
 export default defineEventHandler(async (event) => {
-    const body = await useBody(event)
+    const body = await readBody(event)
     const { username, email, password } = body
 
     if (username === undefined) {
