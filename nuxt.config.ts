@@ -12,16 +12,7 @@ export default defineNuxtConfig({
         "@nuxt/image-edge",
         "@nuxtjs/tailwindcss",
         "@kevinmarrec/nuxt-pwa",
-        [
-            "@nuxtjs/google-fonts",
-            {
-                googleFonts: {
-                    families: {
-                        Inter: true,
-                    },
-                },
-            },
-        ],
+        "@nuxtjs/google-fonts",
         [
             "@pinia/nuxt",
             {
@@ -29,6 +20,11 @@ export default defineNuxtConfig({
             },
         ],
     ],
+    googleFonts: {
+        families: {
+            Inter: true,
+        },
+    },
     imports: {
         dirs: ["@/stores"],
     },
