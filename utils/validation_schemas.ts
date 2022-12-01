@@ -23,4 +23,21 @@ const commentSchema = z.object({
     postId: z.number().min(1),
 })
 
-export { postSchema, userSchema, commentSchema }
+const restaurantSchema = z.object({
+    name: z.string().min(3).max(100),
+    cuisines: z.array(
+        z.object({
+            name: z.string().min(3).max(100),
+            id: z.number(),
+        })
+    ),
+    state: z.string().min(3).max(100),
+    city: z.string().min(3).max(100),
+    zip: z.string().min(3).max(100),
+    street: z.string().min(3).max(100),
+    houseNum: z.string().min(1).max(100),
+    phone: z.string().min(0).max(100).nullable(),
+    website: z.string().min(0).max(100).nullable(),
+})
+
+export { postSchema, userSchema, commentSchema, restaurantSchema }
