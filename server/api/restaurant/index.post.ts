@@ -1,4 +1,6 @@
 import { prisma } from "@/server/services/dbManager"
+import { createZodError } from "~~/server/services/createZodError"
+import { restaurantSchema } from "~~/utils/validation_schemas"
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
@@ -108,6 +110,20 @@ export default defineEventHandler(async (event) => {
 
     if (website) {
         params.website = website
+    }
+
+    try {
+        restaurantSchema.partial().parse(params)
+    } catch (e) {
+        return sendError(
+            event,
+            createError({
+                statusCode: 400,
+                statusMessage: "Bad Request",
+                message: createZodError(e),
+                data: createZodError(e),
+            })
+        )
     }
 
     const restaurant = await prisma.restaurant.create({
