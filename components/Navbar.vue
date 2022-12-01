@@ -190,14 +190,10 @@ const pathContainsNavButton = (path: EventTarget[]) => {
             'bg-primary': !scrolled,
         }"
     >
-        <div class="md:hidden">mobile</div>
+        <div class="md:hidden"></div>
         <NuxtLink to="/"
             ><h1 class="group md:mr-16">
-                <NuxtPicture
-                    src="/img/logoSmall.webp"
-                    alt="logo"
-                    class="h-10"
-                />
+                <NuxtPicture src="/img/logoSmall.webp" alt="logo" class="h-9" />
                 <span
                     class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black"
                 ></span></h1
@@ -372,7 +368,7 @@ const pathContainsNavButton = (path: EventTarget[]) => {
                         </li>
                     </ul>
                     <button
-                        class="block flex flex-row justify-center items-center hover:font-semibold text-lg absolute bottom-0 left-0 w-full p-3 md:hidden shadow-inner"
+                        class="flex flex-row justify-center items-center hover:font-semibold text-lg absolute bottom-0 left-0 w-full p-3 md:hidden shadow-inner"
                         @click="logout"
                     >
                         <IconWrapper
