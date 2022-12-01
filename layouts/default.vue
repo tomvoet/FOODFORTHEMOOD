@@ -1,26 +1,11 @@
 <script lang="ts" setup>
+import { Restaurant } from "@prisma/client"
 import { ReducedPost } from "~~/utils/customTypes"
-import { useUserStore } from "~~/stores/userStore"
 
 const { $bus } = useNuxtApp()
 
 const titleChunk = useState("titleChunk")
 const descriptionRaw = useState("description")
-
-const route = useRoute()
-
-const userStore = useUserStore()
-
-const showFAB = computed(() => {
-    return (
-        route.path !== "/login" &&
-        route.path !== "/register" &&
-        route.path !== "/reset_password" &&
-        route.path !== "/settings" &&
-        route.path !== "/about" &&
-        userStore.loggedIn
-    )
-})
 
 const fullTitle = computed(() => {
     if (titleChunk.value) {
@@ -41,6 +26,9 @@ const description = computed(() => {
 onMounted(() => {
     $bus.$on("newPost", (post: unknown) => {
         navigateTo(`/posts/${(post as ReducedPost).id}`)
+    })
+    $bus.$on("newRestaurant", (restaurant: unknown) => {
+        navigateTo(`/restaurants/${(restaurant as Restaurant).id}`)
     })
 })
 
@@ -81,15 +69,8 @@ useHead({
             color="repeating-linear-gradient(to right,#FF7D7D 0%, #FFFFFF 100%)"
         />
         <ClientOnly>
-            <ModalComp v-if="showFAB">
-                <template #button
-                    ><div
-                        class="fixed bottom-3 right-3 h-16 w-16 md:h-10 md:w-10 md:text-2xl bg-green-400 rounded-full flex items-center justify-center text-5xl text-white"
-                    >
-                        <span class="mb-1 md:mb-0">+</span>
-                    </div></template
-                ><template #modalContent><NewPostForm /></template></ModalComp
-        ></ClientOnly>
+            <FloatingActionButton />
+        </ClientOnly>
         <ToastContainer />
     </div>
 </template>
