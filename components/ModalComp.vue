@@ -7,6 +7,9 @@ onMounted(() => {
     $bus.$on("newPost", (post: any) => {
         modalOpen.value = false
     })
+    $bus.$on("newRestaurant", (restaurant: any) => {
+        modalOpen.value = false
+    })
 })
 
 const openModal = () => {
@@ -25,7 +28,7 @@ const closeModal = () => {
     <Teleport to="body">
         <div
             v-if="modalOpen"
-            class="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex flex-col justify-center items-center z-50"
+            class="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex flex-col justify-center items-center z-[70]"
             @click.self="closeModal"
         >
             <aside class="bg-white rounded-lg p-6 relative">
