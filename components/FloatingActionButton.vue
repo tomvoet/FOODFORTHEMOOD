@@ -53,7 +53,7 @@ const showFAB = computed(() => {
                         }"
                         @click="fabOpen = false"
                     >
-                        <span class="mb-1 md:mb-0">Create Post</span>
+                        <span>Create Post</span>
                     </div></template
                 ><template #modalContent><NewPostForm /></template></ModalComp
             ><ModalComp>
@@ -69,7 +69,7 @@ const showFAB = computed(() => {
                         }"
                         @click="fabOpen = false"
                     >
-                        <span class="mb-1 md:mb-0">Create Restaurant</span>
+                        <span>Create Restaurant</span>
                     </div></template
                 ><template #modalContent><NewRestaurantForm /></template
             ></ModalComp>
