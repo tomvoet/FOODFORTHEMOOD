@@ -5,7 +5,7 @@
         "dev": "nuxt dev",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
-        "postinstall": "nuxt prepare",
+        "postinstall": "nuxt prepare && npx prisma generate",
         "lint": "eslint --ext .js,.ts,.vue --ignore-path .eslintignore . --ignore-pattern node_modules/",
         "lintfix": "eslint --ext --fix .js,.ts,.vue --ignore-path .eslintignore . --ignore-pattern node_modules/",
         "test": "npm-run-all postinstall && vitest --run --reporter verbose --globals",
