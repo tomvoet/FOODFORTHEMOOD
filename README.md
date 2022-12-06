@@ -1,23 +1,20 @@
-# Nuxt 3 Minimal Starter
+# FOODFORTHEMOOD
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+## Production
 
-## Setup
-
-Make sure to install the dependencies:
+Build the application for production:
 
 ```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
+docker compose up
 ```
 
 ## Development Server
+
+Dependencies installieren: 
+
+```bash
+npm install
+```
 
 Start the development server on http://localhost:3000
 
@@ -25,21 +22,26 @@ Start the development server on http://localhost:3000
 npm run dev
 ```
 
-## Production
-
-Build the application for production:
+### Run Tests:
 
 ```bash
-npm run build
+npm run test
 ```
 
-Locally preview production build:
+### Run Linter:
 
 ```bash
-npm run preview
+npm run lint
 ```
 
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+### Generate Documentation:
 
-https://v3.nuxtjs.org/api/commands/add/
-https://v3.nuxtjs.org/guide/features/server-routes
+**Code docs:**
+```bash
+npm run doc
+```
+
+**Component docs:**
+```bash
+npm run story:dev
+```
