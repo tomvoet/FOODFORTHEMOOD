@@ -45,3 +45,7 @@ npm run doc
 ```bash
 npm run story:dev
 ```
+
+## API Documentation:
+
+https://app.swaggerhub.com/apis/tomvoet/foodforthemood/1.0.0#/
