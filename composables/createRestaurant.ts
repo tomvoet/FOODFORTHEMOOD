@@ -2,7 +2,7 @@ import { useUserStore } from "@/stores/userStore"
 import { Cuisine, Restaurant } from "@prisma/client"
 
 /**
- *
+ * asynchronously creates a restaurant
  * @function createRestaurant
  * @param options options for the post
  * @param options.title title of the post

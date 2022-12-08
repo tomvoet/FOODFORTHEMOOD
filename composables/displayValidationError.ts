@@ -7,6 +7,11 @@ type Toast = {
     start: Date
 }
 
+/**
+ * displays validation errors in a toast
+ * @param e  error
+ * @returns void
+ */
 export const displayValidationErrors = (e: unknown) => {
     if (e instanceof ZodError) {
         const errors: string[] = []

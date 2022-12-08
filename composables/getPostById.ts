@@ -1,5 +1,11 @@
 import { useUserStore } from "~~/stores/userStore"
 
+/**
+ * asynchronously gets a post by id
+ * @param id id of the post
+ * @returns {Promise<{status: {code: number, message: string}, post: FullPost}>} status and post
+ * @async
+ */
 export const getPostById = async (id: string) => {
     const userStore = useUserStore()
 

@@ -1,5 +1,10 @@
 import { FetchError } from "ohmyfetch"
 
+/**
+ * returns the status code and message of an error
+ * @param error error object
+ * @returns {code: number, message: string} status code and message
+ */
 export const getErrorStatus = (
     error: unknown
 ): {

@@ -2,7 +2,7 @@ import { useUserStore } from "@/stores/userStore"
 import { ReducedPost } from "~~/utils/customTypes"
 
 /**
- *
+ * asynchronously creates a post
  * @function createPost
  * @param options options for the post
  * @param options.title title of the post

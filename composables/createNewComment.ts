@@ -1,12 +1,14 @@
 import type { Comment } from "@prisma/client"
 
 /**
- * synchronously create a new comment
+ * asynchronously creates a new comment
  * @function getAllPosts
  * @param {string} authorId username of the author
  * @param {number} postId id of the post
  * @param {string} text content of the comment
  * @param {string} token token of the user
+ * @returns {Promise<{status: number, comment: Comment}>} status and comment
+ * @async
  * @author Tom Voet
  */
 export const createNewComment = async (

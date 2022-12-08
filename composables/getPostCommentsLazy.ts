@@ -1,5 +1,12 @@
 import { useUserStore } from "~~/stores/userStore"
 
+/**
+ * asynchronously gets a comments of a post
+ * @param post id of the post
+ * @param cursorObj cursor object
+ * @returns {Promise<{status: {code: number, message: string}, comments: Comment[]}>} status and comments
+ * @async
+ */
 export const getPostCommentsLazy = (
     post: number,
     cursorObj: { cursor: number }
