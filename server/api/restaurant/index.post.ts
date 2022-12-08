@@ -1,4 +1,5 @@
 import { prisma } from "@/server/services/dbManager"
+import { Cuisine } from "@prisma/client"
 import { createZodError } from "~~/server/services/createZodError"
 import { restaurantSchema } from "~~/utils/validation_schemas"
 
@@ -7,7 +8,17 @@ export default defineEventHandler(async (event) => {
 
     const { user } = event.context
 
-    const { name, state, city, zip, street, houseNum, phone, website } = body
+    const {
+        name,
+        state,
+        city,
+        zip,
+        street,
+        houseNum,
+        phone,
+        website,
+        cuisines,
+    } = body
 
     if (name === undefined) {
         return sendError(
@@ -75,6 +86,17 @@ export default defineEventHandler(async (event) => {
         )
     }
 
+    if (cuisines === undefined || cuisines.length === 0) {
+        return sendError(
+            event,
+            createError({
+                statusCode: 400,
+                statusMessage: "Bad request",
+                message: "cuisine selection is required",
+            })
+        )
+    }
+
     if (!user.username) {
         return sendError(
             event,
@@ -129,6 +151,11 @@ export default defineEventHandler(async (event) => {
     const restaurant = await prisma.restaurant.create({
         data: {
             ...params,
+            cuisines: {
+                connect: cuisines.map((cuisine: Cuisine) => ({
+                    id: cuisine.id,
+                })),
+            },
         },
     })
 
