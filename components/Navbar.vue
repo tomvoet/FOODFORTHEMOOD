@@ -166,18 +166,6 @@ onMounted(() => {
 
     if (userStore.loggedIn) getProfilePicture()
 })
-
-const pathContainsNavButton = (path: EventTarget[]) => {
-    const help = path.some((element) => {
-        if (element instanceof HTMLButtonElement) {
-            return true
-        }
-    })
-
-    console.log(help)
-
-    return help
-}
 </script>
 
 <template>

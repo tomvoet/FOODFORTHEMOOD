@@ -22,15 +22,6 @@ if (!error.value && data.value) {
     restaurantStatus.value = 200
 }
 
-const reloadReviews = () => {
-    refreshNuxtData()
-}
-/*
-if (!reviewError.value) {
-    loadReviews()
-}
-*/
-
 const { data: statsData } = await useFetch(
     `/api/restaurant/${route.params.id}/stats`,
     {
@@ -57,7 +48,9 @@ setMetadata(
             </h2>
 
             <div class="w-full sm:w-1/2 md:w-1/4">
-                <StarRating :rating="stats?.rating || 0" />
+                <div class="flex flex-row">
+                    <StarRating :rating="stats?.rating || 0" />
+                </div>
                 <span>Reviews: {{ stats?.count || 0 }}</span>
             </div>
 

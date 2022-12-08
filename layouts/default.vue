@@ -5,19 +5,10 @@ import { ReducedPost } from "~~/utils/customTypes"
 const { $bus } = useNuxtApp()
 
 const titleChunk = useState("titleChunk")
-const descriptionRaw = useState("description")
 
 const fullTitle = computed(() => {
     if (titleChunk.value) {
         return titleChunk.value + " | " + "FOODFORTHEMOOD"
-    } else {
-        return "FOODFORTHEMOOD"
-    }
-})
-
-const description = computed(() => {
-    if (descriptionRaw.value) {
-        return descriptionRaw.value
     } else {
         return "FOODFORTHEMOOD"
     }
