@@ -2,6 +2,7 @@ import { prisma } from "@/server/services/dbManager"
 import bcrypt from "bcrypt"
 import { createZodError } from "~~/server/services/createZodError"
 import { userSchema } from "~~/utils/validation_schemas"
+import { readBody } from "h3"
 
 const hashPassword = (password: string) => {
     const salt = bcrypt.genSaltSync(10)

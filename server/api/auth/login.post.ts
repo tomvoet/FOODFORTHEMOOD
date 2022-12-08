@@ -1,6 +1,7 @@
 import { prisma } from "../../services/dbManager"
 import bcrypt from "bcrypt"
 import { generateAccessToken, generateRefreshToken } from "../../services/jwt"
+import { readBody } from "h3"
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)

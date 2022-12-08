@@ -5,7 +5,6 @@ import loginHandler from "../../server/api/auth/login.post"
 import refreshTokenHandler from "../../server/api/auth/refresh_token"
 import resetPasswordHandler from "../../server/api/auth/reset_password.post"
 import logoutHandler from "../../server/api/auth/logout.post"
-import changePasswordHandler from "../../server/api/auth/change_password.post"
 import { generateResetToken } from "../../server/services/jwt"
 
 const endpointBasePath = "/auth"
@@ -29,11 +28,6 @@ const endpoints: PathMethodHandler[] = [
         path: `${endpointBasePath}/reset_password`,
         method: "post",
         handler: resetPasswordHandler,
-    },
-    {
-        path: `${endpointBasePath}/change_password`,
-        method: "post",
-        handler: changePasswordHandler,
     },
 ]
 
@@ -206,42 +200,6 @@ describe(`/auth`, async () => {
     //        })
     //    })
     //})
-
-    describe("POST /change_password", async () => {
-        const token = await generateResetToken("foodforthemoodf4tm@gmail.com")
-
-        describe("with valid token", async () => {
-            const response = await request
-                .post(`${endpointBasePath}/change_password`)
-                .set({ authorization: `Bearer ${token}` })
-                .send({
-                    password: "AdminPw@123",
-                })
-
-            it("should have status 200", async () => {
-                expect(response.statusCode).toBe(200)
-            })
-
-            it("should return a user object", async () => {
-                expect(response.body).toHaveProperty("username")
-            })
-        })
-
-        describe("with invalid token", async () => {
-            const response = await request
-                .post(`${endpointBasePath}/change_password`)
-                .set({ authorization: `Bearer invalidtoken` })
-                .send({
-                    password: "newpassword",
-                })
-
-            it("should have status 401", async () => {
-                expect(response.statusCode).toBe(401)
-                expect(response.body).toHaveProperty("statusMessage")
-                expect(response.body.statusMessage).toBe("Unauthorized")
-            })
-        })
-    })
 })
 
 //todo register logout change password
