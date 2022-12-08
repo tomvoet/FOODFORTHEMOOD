@@ -35,7 +35,7 @@ const removeToast = (toast: Toast) => {
 <template>
     <Teleport to="body">
         <div
-            class="fixed bottom-0 left-0 w-full flex flex-col z-50 items-center"
+            class="fixed bottom-0 left-0 w-full flex flex-col z-[100] items-center"
         >
             <TransitionGroup
                 enter-active-class="transition ease-out duration-100"
